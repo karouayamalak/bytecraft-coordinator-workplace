@@ -11,7 +11,9 @@ import TasksPage from './pages/TasksPage';
 import DeadlinesPage from './pages/DeadlinesPage';
 import WorkloadPage from './pages/WorkloadPage';
 import DepartmentsPage from './pages/DepartmentsPage';
+import DepartmentDetailPage from './pages/DepartmentDetailPage';
 import TeamPage from './pages/TeamPage';
+import MemberProfilePage from './pages/MemberProfilePage';
 import EventsPage from './pages/EventsPage';
 import EventDetailPage from './pages/EventDetailPage';
 import AgendaPage from './pages/AgendaPage';
@@ -69,9 +71,9 @@ export default function App() {
             <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
             <Route path="/workload" element={<ProtectedRoute><WorkloadPage /></ProtectedRoute>} />
             <Route path="/departments" element={<ProtectedRoute><DepartmentsPage /></ProtectedRoute>} />
-            <Route path="/departments/:id" element={<ProtectedRoute><DepartmentsPage /></ProtectedRoute>} />
+            <Route path="/departments/:id" element={<ProtectedRoute><DepartmentDetailPage /></ProtectedRoute>} />
             <Route path="/team" element={<ProtectedRoute><TeamPage /></ProtectedRoute>} />
-            <Route path="/team/:id" element={<ProtectedRoute><TeamPage /></ProtectedRoute>} />
+            <Route path="/team/:id" element={<ProtectedRoute><MemberProfilePage /></ProtectedRoute>} />
             <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
             <Route path="/events/:id" element={<ProtectedRoute><EventDetailPage /></ProtectedRoute>} />
             <Route path="/agenda" element={<ProtectedRoute><AgendaPage /></ProtectedRoute>} />

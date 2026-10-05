@@ -51,7 +51,14 @@ export const eventController = {
     const departments = db.find('departments');
     const users = db.find('users');
     const tasks = db.find('tasks', t => t.eventId === id);
+    const sections = db.find('agendaSections', s => s.eventId === id).sort((a, b) => (a.order || 0) - (b.order || 0));
     const agendaItems = db.find('agendaItems', a => a.eventId === id).sort((a, b) => (a.order || 0) - (b.order || 0));
+    const enrichedSections = sections.map(sec => ({
+      ...sec,
+      items: agendaItems.filter(item => item.sectionId === sec.id).sort((a, b) => (a.order || 0) - (b.order || 0))
+    }));
+    const unsectionedAgenda = agendaItems.filter(item => !item.sectionId);
+
     const comPlan = db.findOne('communicationPlans', c => c.eventId === id);
     const comItems = comPlan ? db.find('communicationItems', ci => ci.communicationPlanId === comPlan.id) : [];
 
@@ -79,6 +86,8 @@ export const eventController = {
           responsibleMembers,
           progressPercent
         },
+        agendaSections: enrichedSections,
+        unsectionedAgenda,
         agenda: agendaItems,
         tasks,
         communicationPlan: comPlan ? { ...comPlan, items: comItems } : null,
@@ -218,23 +227,86 @@ export const eventController = {
     res.json({ success: true, message: 'Event deleted successfully' });
   },
 
-  // --- AGENDA MANAGEMENT ---
+  // --- AGENDA SECTION MANAGEMENT ---
+  addSection: (req, res) => {
+    const { id } = req.params;
+    const { title, description, order, timing, startTime, endTime, duration, responsiblePerson, notes } = req.body;
+    if (!title) {
+      return res.status(400).json({ success: false, message: 'Section title is required' });
+    }
+    const currentSections = db.find('agendaSections', s => s.eventId === id);
+    const secOrder = order ?? (currentSections.length + 1);
+
+    const newSection = db.insert('agendaSections', {
+      eventId: id,
+      title,
+      description: description || '',
+      timing: timing || '',
+      startTime: startTime || '',
+      endTime: endTime || '',
+      duration: duration || '',
+      responsiblePerson: responsiblePerson || '',
+      notes: notes || '',
+      order: secOrder
+    });
+
+    logActivity({
+      actor: req.user,
+      action: 'AGENDA_SECTION_ADDED',
+      entityType: 'EVENT',
+      entityId: id,
+      details: `Added agenda section "${title}"`
+    });
+
+    res.status(201).json({ success: true, data: { ...newSection, items: [] } });
+  },
+
+  updateSection: (req, res) => {
+    const { sectionId } = req.params;
+    const section = db.findById('agendaSections', sectionId);
+    if (!section) return res.status(404).json({ success: false, message: 'Agenda section not found' });
+
+    const updated = db.update('agendaSections', sectionId, req.body);
+    res.json({ success: true, data: updated });
+  },
+
+  deleteSection: (req, res) => {
+    const { sectionId } = req.params;
+    const items = db.find('agendaItems', i => i.sectionId === sectionId);
+    items.forEach(i => db.delete('agendaItems', i.id));
+    db.delete('agendaSections', sectionId);
+    res.json({ success: true, message: 'Section and items removed' });
+  },
+
+  reorderSections: (req, res) => {
+    const { id } = req.params;
+    const { sections } = req.body;
+    if (Array.isArray(sections)) {
+      sections.forEach(s => db.update('agendaSections', s.id, { order: s.order }));
+    }
+    const reordered = db.find('agendaSections', s => s.eventId === id).sort((a, b) => a.order - b.order);
+    res.json({ success: true, data: reordered });
+  },
+
+  // --- AGENDA ITEM MANAGEMENT ---
   addAgendaItem: (req, res) => {
     const { id } = req.params;
-    const { title, description, startTime, endTime, responsiblePerson, location, notes } = req.body;
-    if (!title || !startTime) {
-      return res.status(400).json({ success: false, message: 'Title and start time are required for agenda item' });
+    const { title, description, sectionId, startTime, endTime, duration, responsiblePerson, location, notes } = req.body;
+    if (!title) {
+      return res.status(400).json({ success: false, message: 'Title is required for agenda item' });
     }
 
-    const currentAgendas = db.find('agendaItems', a => a.eventId === id);
+    const currentAgendas = db.find('agendaItems', a => a.eventId === id && (sectionId ? a.sectionId === sectionId : true));
     const order = currentAgendas.length + 1;
 
     const item = db.insert('agendaItems', {
       eventId: id,
+      sectionId: sectionId || null,
       title,
       description: description || '',
-      startTime,
+      startTime: startTime || '',
       endTime: endTime || '',
+      duration: duration || '',
       responsiblePerson: responsiblePerson || '',
       location: location || '',
       notes: notes || '',

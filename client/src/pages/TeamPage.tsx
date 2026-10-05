@@ -39,7 +39,8 @@ async function uploadToCloudinary(file: File): Promise<string> {
 const EMPTY_FORM = {
   name: '',
   email: '',
-  role: 'MANAGER' as User['role'],
+  role: 'MEMBER' as User['role'],
+  position: '',
   departmentId: '',
   phone: '',
   avatarUrl: '',
@@ -89,6 +90,7 @@ export default function TeamPage() {
       name: member.name,
       email: member.email,
       role: member.role,
+      position: member.position || '',
       departmentId: member.departmentId || '',
       phone: member.phone || '',
       avatarUrl: member.avatarUrl || '',
@@ -163,17 +165,17 @@ export default function TeamPage() {
   const memberList = (members as User[]) || [];
 
   return (
-    <AppLayout title="Team" subtitle={`${memberList.filter(m => m.isActive).length} active managers`}>
+    <AppLayout title="Team" subtitle={`${memberList.filter(m => m.isActive).length} active team members`}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', flex: 1 }}>
-          <div className="search-container" style={{ maxWidth: 260 }}>
+          <div className="search-container" style={{ maxWidth: 280 }}>
             <Search size={14} className="search-icon" />
             <input
               id="team-search-input"
               type="text"
               className="search-input"
-              placeholder="Search managers…"
+              placeholder="Search by name, email, position…"
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
@@ -201,14 +203,14 @@ export default function TeamPage() {
           >
             <option value="">All Roles</option>
             <option value="COORDINATOR">Coordinator</option>
-            <option value="MANAGER">Manager</option>
-            <option value="DEPARTMENT_LEADER">Dept. Leader</option>
+            <option value="DEPARTMENT_LEADER">Department Leader</option>
+            <option value="MEMBER">Member</option>
           </select>
         </div>
 
         {isCoordinator && (
           <button id="add-member-btn" className="btn btn-primary" onClick={openCreate}>
-            <Plus size={16} /> Add Manager
+            <Plus size={16} /> Add Team Member
           </button>
         )}
       </div>
@@ -261,6 +263,9 @@ export default function TeamPage() {
                   <Avatar src={member.avatarUrl} name={member.name} size="lg" />
                   <div>
                     <div style={{ fontWeight: 700, fontSize: 15 }}>{member.name}</div>
+                    <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}>
+                      {member.position || 'Team Member'}
+                    </div>
                     <RoleBadge role={member.role} />
                   </div>
                 </div>
@@ -442,14 +447,25 @@ export default function TeamPage() {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="member-role">Role</label>
+            <label className="form-label" htmlFor="member-position">Position (Club Role)</label>
+            <input
+              id="member-position"
+              className="form-input"
+              placeholder="e.g. Designer, Developer, Animator"
+              value={formData.position}
+              onChange={e => setFormData(p => ({ ...p, position: e.target.value }))}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="member-role">Permission Role</label>
             <select
               id="member-role"
               className="form-select"
               value={formData.role}
               onChange={e => setFormData(p => ({ ...p, role: e.target.value as User['role'] }))}
             >
-              <option value="MANAGER">Manager</option>
+              <option value="MEMBER">Member</option>
               <option value="DEPARTMENT_LEADER">Department Leader</option>
               <option value="COORDINATOR">Coordinator</option>
             </select>

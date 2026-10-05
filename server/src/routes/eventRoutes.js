@@ -12,6 +12,11 @@ router.patch('/:id', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER
 router.delete('/:id', authenticate, requireRole('COORDINATOR'), eventController.delete);
 
 // Agenda endpoints
+router.post('/:id/sections', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER', 'MANAGER'), eventController.addSection);
+router.patch('/:id/sections/:sectionId', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER', 'MANAGER'), eventController.updateSection);
+router.delete('/:id/sections/:sectionId', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER', 'MANAGER'), eventController.deleteSection);
+router.put('/:id/sections/reorder', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER', 'MANAGER'), eventController.reorderSections);
+
 router.post('/:id/agenda', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER', 'MANAGER'), eventController.addAgendaItem);
 router.patch('/:id/agenda/:itemId', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER', 'MANAGER'), eventController.updateAgendaItem);
 router.put('/:id/agenda/reorder', authenticate, requireRole('COORDINATOR', 'DEPARTMENT_LEADER', 'MANAGER'), eventController.reorderAgenda);

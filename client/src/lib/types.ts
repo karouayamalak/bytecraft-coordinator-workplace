@@ -1,4 +1,4 @@
-export type UserRole = 'COORDINATOR' | 'MANAGER' | 'DEPARTMENT_LEADER';
+export type UserRole = 'COORDINATOR' | 'DEPARTMENT_LEADER' | 'MEMBER' | 'MANAGER';
 
 export interface VisibilitySettings {
   showAllDepartments: boolean;
@@ -142,17 +142,36 @@ export interface Event {
   progressPercent?: number;
 }
 
-export interface AgendaItem {
+export interface AgendaSection {
   id: string;
   eventId: string;
   title: string;
-  description: string;
-  startTime: string;
-  endTime: string;
-  responsiblePerson: string;
-  location: string;
   order: number;
-  notes: string;
+  description?: string;
+  timing?: string;
+  startTime?: string;
+  endTime?: string;
+  duration?: string;
+  responsiblePersonId?: string;
+  responsiblePerson?: string;
+  notes?: string;
+  items?: AgendaItem[];
+}
+
+export interface AgendaItem {
+  id: string;
+  eventId?: string;
+  sectionId?: string;
+  title: string;
+  description?: string;
+  startTime?: string;
+  endTime?: string;
+  duration?: string;
+  responsiblePersonId?: string;
+  responsiblePerson?: string;
+  location?: string;
+  order: number;
+  notes?: string;
 }
 
 export interface CommunicationPlan {

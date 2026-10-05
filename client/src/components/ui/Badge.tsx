@@ -28,15 +28,21 @@ export function PriorityBadge({ priority }: { priority: TaskPriority }) {
   );
 }
 
-export function RoleBadge({ role }: { role: UserRole }) {
-  const labels: Record<UserRole, string> = {
+export function RoleBadge({ role }: { role: UserRole | string }) {
+  const normalized = (role || '').toUpperCase();
+  const labels: Record<string, string> = {
     COORDINATOR: 'Coordinator',
     DEPARTMENT_LEADER: 'Dept. Lead',
-    MANAGER: 'Manager',
+    MANAGER: 'Dept. Lead',
+    MEMBER: 'Member',
   };
+  const key = normalized === 'COORDINATOR' ? 'coordinator'
+    : normalized === 'DEPARTMENT_LEADER' || normalized === 'MANAGER' ? 'department_leader'
+    : 'member';
+
   return (
-    <span className={`badge badge-${role.toLowerCase()}`}>
-      {labels[role]}
+    <span className={`badge badge-${key}`}>
+      {labels[normalized] || role}
     </span>
   );
 }

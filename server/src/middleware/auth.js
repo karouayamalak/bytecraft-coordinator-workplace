@@ -38,7 +38,10 @@ export function requireRole(...allowedRoles) {
     if (!req.user) {
       return res.status(401).json({ success: false, message: 'Authentication required' });
     }
-    if (!allowedRoles.includes(req.user.role)) {
+    const userRole = req.user.role === 'MANAGER' ? 'DEPARTMENT_LEADER' : req.user.role;
+    const expandedAllowed = allowedRoles.flatMap(r => r === 'DEPARTMENT_LEADER' ? ['DEPARTMENT_LEADER', 'MANAGER'] : [r]);
+
+    if (!expandedAllowed.includes(req.user.role) && !expandedAllowed.includes(userRole)) {
       return res.status(403).json({
         success: false,
         message: `Forbidden: requires one of [${allowedRoles.join(', ')}] role`

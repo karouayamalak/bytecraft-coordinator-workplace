@@ -12,6 +12,7 @@ class Database {
       tasks: [],
       responsibilities: [],
       events: [],
+      agendaSections: [],
       agendaItems: [],
       communicationPlans: [],
       communicationItems: [],
@@ -37,6 +38,7 @@ class Database {
       try {
         const raw = fs.readFileSync(CONFIG.DB_FILE, 'utf-8');
         this.data = JSON.parse(raw);
+        if (!this.data.agendaSections) this.data.agendaSections = [];
       } catch (err) {
         console.error('Error reading database file, re-seeding...', err);
         this.seedDemoData();
@@ -48,7 +50,9 @@ class Database {
 
   save() {
     try {
-      fs.writeFileSync(CONFIG.DB_FILE, JSON.stringify(this.data, null, 2), 'utf-8');
+      const tempPath = `${CONFIG.DB_FILE}.tmp`;
+      fs.writeFileSync(tempPath, JSON.stringify(this.data, null, 2), 'utf-8');
+      fs.renameSync(tempPath, CONFIG.DB_FILE);
     } catch (err) {
       console.error('Failed to persist database:', err);
     }
