@@ -90,7 +90,74 @@ export const dashboardController = {
     // Recent activity
     const recentActivity = (db.data.activityLogs || []).slice(0, 10);
 
-    // Return the complete executive view
+    // Enrich active tasks with assignee and department for attention display
+    const enrichTask = (t) => {
+      const assignee = users.find(u => u.id === t.assignedMemberId);
+      const dept = departments.find(d => d.id === t.departmentId);
+      return {
+        id: t.id,
+        title: t.title,
+        status: t.status,
+        priority: t.priority,
+        deadline: t.deadline,
+        assignee: assignee ? { id: assignee.id, name: assignee.name, avatarUrl: assignee.avatarUrl } : null,
+        department: dept ? { id: dept.id, name: dept.name, color: dept.color } : null
+      };
+    };
+
+    const overdueList = overdueTasks.map(enrichTask);
+    const dueTodayList = tasksDueToday.map(enrichTask);
+    const dueSoonList = activeTasks.filter(t => t.deadline > todayStr && t.deadline <= getOffsetDate(3)).map(enrichTask);
+    const blockedList = activeTasks.filter(t => t.status === 'BLOCKED').map(enrichTask);
+
+    // Enriched upcoming communication items (next 8 scheduled publications)
+    const sortedComms = [...communicationItems]
+      .filter(c => c.status !== 'CANCELLED')
+      .map(c => {
+        const responsible = users.find(u => u.id === c.responsiblePersonId);
+        const ev = events.find(e => e.id === c.eventId);
+        return {
+          id: c.id,
+          title: c.title,
+          contentType: c.contentType || 'POST',
+          platform: c.platform || c.channel || 'Instagram',
+          publicationDate: c.publicationDate,
+          publicationTime: c.publicationTime || '18:00',
+          status: c.status || 'PLANNED',
+          responsiblePerson: responsible ? { id: responsible.id, name: responsible.name, avatarUrl: responsible.avatarUrl } : null,
+          eventName: ev ? ev.name : null
+        };
+      })
+      .sort((a, b) => {
+        const dateA = `${a.publicationDate}T${a.publicationTime || '00:00'}`;
+        const dateB = `${b.publicationDate}T${b.publicationTime || '00:00'}`;
+        return dateA.localeCompare(dateB);
+      })
+      .slice(0, 8);
+
+    // Enriched upcoming events list
+    const enrichedEvents = upcomingEvents.slice(0, 5).map(e => {
+      const dept = departments.find(d => d.id === e.responsibleDepartmentId);
+      const organizer = users.find(u => u.id === e.organizerId);
+      const eventTasks = tasks.filter(t => t.eventId === e.id);
+      const completed = eventTasks.filter(t => t.status === 'COMPLETED').length;
+      const progressPercent = eventTasks.length > 0 ? Math.round((completed / eventTasks.length) * 100) : (e.status === 'COMPLETED' ? 100 : 0);
+      return {
+        id: e.id,
+        name: e.name,
+        date: e.date,
+        startTime: e.startTime || '14:00',
+        endTime: e.endTime || '17:00',
+        location: e.location || 'ESTIN Campus',
+        department: dept ? { id: dept.id, name: dept.name, color: dept.color } : null,
+        organizer: organizer ? { id: organizer.id, name: organizer.name, avatarUrl: organizer.avatarUrl } : null,
+        progressPercent,
+        tasksCount: eventTasks.length,
+        completedTasksCount: completed
+      };
+    });
+
+    // Return the complete executive view answering 'What needs my attention right now?'
     res.json({
       success: true,
       data: {
@@ -102,15 +169,19 @@ export const dashboardController = {
           overdueTasks: overdueTasks.length,
           upcomingEvents: upcomingEvents.length,
           tasksDueThisWeek: tasksDueThisWeek.length,
-          tasksDueToday: tasksDueToday.length
+          tasksDueToday: tasksDueToday.length,
+          upcomingPublications: pendingComms.length
         },
-        radar: {
-          tasksDueTodayCount: tasksDueToday.length,
-          overdueTasksCount: overdueTasks.length,
-          daysUntilNextEvent: nextEvent ? Math.ceil((new Date(nextEvent.date) - now) / (1000 * 60 * 60 * 24)) : null,
-          pendingCommunicationCount: pendingComms.length,
-          overloadedMembersCount: overloadedMembers.length
+        attention: {
+          overdueTasks: overdueList,
+          tasksDueToday: dueTodayList,
+          tasksDueSoon: dueSoonList,
+          blockedTasks: blockedList,
+          upcomingEvents: enrichedEvents.slice(0, 3),
+          upcomingPublications: sortedComms.slice(0, 5)
         },
+        upcomingEvents: enrichedEvents,
+        upcomingCommunication: sortedComms,
         nextEventPrep,
         departmentBreakdown: deptSummaries,
         overloadedMembers,

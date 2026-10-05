@@ -144,114 +144,6 @@
       "phone": "+213 561 23 45 67",
       "joinedDate": "2026-09-15",
       "isActive": true
-    },
-    {
-      "id": "user-aya-karou",
-      "name": "Aya Karou",
-      "email": "a_karou@estin.dz",
-      "role": "COORDINATOR",
-      "departmentId": "dept-dev",
-      "phone": "0555000001",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=AyaKarou",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-20"
-    },
-    {
-      "id": "user-elmouatez-ledjassa",
-      "name": "Elmouatez Ledjassa",
-      "email": "e_ledjassa@estin.dz",
-      "role": "COORDINATOR",
-      "departmentId": "dept-dev",
-      "phone": "0555000002",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=Elmouatez",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-20"
-    },
-    {
-      "id": "user-manel-lyazidi",
-      "name": "Manel Lyazidi",
-      "email": "m_lyazidi@estin.dz",
-      "role": "MANAGER",
-      "departmentId": "dept-com",
-      "phone": "0551393898",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=ManelLyazidi",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-22"
-    },
-    {
-      "id": "user-imene-bouchareb",
-      "name": "Imene Bouchareb",
-      "email": "i_bouchareb@estin.dz",
-      "role": "MANAGER",
-      "departmentId": "dept-com",
-      "phone": "0554009375",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=ImeneBouchareb",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-22"
-    },
-    {
-      "id": "user-imene-bouzena",
-      "name": "Imene Bouzena",
-      "email": "i_bouzena@estin.dz",
-      "role": "MANAGER",
-      "departmentId": "dept-design",
-      "phone": "0561783531",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=ImeneBouzena",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-22"
-    },
-    {
-      "id": "user-mohammed-benkerri",
-      "name": "Mohammed Benkerri",
-      "email": "mbenkerri44@gmail.com",
-      "role": "MANAGER",
-      "departmentId": "dept-multimedia",
-      "phone": "0563239114",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=MohammedBenkerri",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-22"
-    },
-    {
-      "id": "user-lina-zaouani",
-      "name": "Lina Zaouani",
-      "email": "l_zaouani@estin.dz",
-      "role": "MANAGER",
-      "departmentId": "dept-multimedia",
-      "phone": "0541038481",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=LinaZaouani",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-22"
-    },
-    {
-      "id": "user-rayane-alem",
-      "name": "Rayane Alem",
-      "email": "r_alem@estin.dz",
-      "role": "MANAGER",
-      "departmentId": "dept-logistics",
-      "phone": "+213563809022",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=RayaneAlem",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-22"
-    },
-    {
-      "id": "user-yassine-bouguerra",
-      "name": "Yassine Bouguerra",
-      "email": "y_bouguerra@estin.dz",
-      "role": "MANAGER",
-      "departmentId": "dept-dev",
-      "phone": "0555000003",
-      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=YassineBouguerra",
-      "passwordHash": "",
-      "isActive": true,
-      "joinedDate": "2026-08-22"
     }
   ],
   "departments": [
@@ -304,13 +196,6 @@
       "icon": "BookOpen",
       "isArchived": false,
       "createdAt": "2026-08-06"
-    },
-    {
-      "id": "dept-multimedia",
-      "name": "Multimedia",
-      "color": "#8b5cf6",
-      "description": "Video production, motion graphics, audio and podcast media",
-      "leaderId": "user-mohammed-benkerri"
     }
   ],
   "tasks": [
@@ -561,104 +446,6 @@
       "progressPercent": 60,
       "notes": "Node.js Discord.js v14 bot deployed on server.",
       "attachments": []
-    },
-    {
-      "id": "task-com-1",
-      "title": "Launch Instagram Teaser for ByteCraft Annual Hackathon",
-      "description": "Post teaser reel and countdown sticker on @bytecraft_estin account",
-      "departmentId": "dept-com",
-      "assignedMemberId": "user-manel-lyazidi",
-      "createdById": "user-aya-karou",
-      "priority": "HIGH",
-      "status": "TODO",
-      "startDate": "2026-10-04",
-      "deadline": "2026-10-06",
-      "progressPercent": 0,
-      "notes": "Approved by Coordinator council"
-    },
-    {
-      "id": "task-com-2",
-      "title": "Draft Partnership Pitch for Tech Sponsors",
-      "description": "Prepare presentation deck for potential sponsors and campus partners",
-      "departmentId": "dept-com",
-      "assignedMemberId": "user-imene-bouchareb",
-      "createdById": "user-aya-karou",
-      "priority": "MEDIUM",
-      "status": "TODO",
-      "startDate": "2026-10-04",
-      "deadline": "2026-10-08",
-      "progressPercent": 0,
-      "notes": "Include ByteCraft track records"
-    },
-    {
-      "id": "task-design-1",
-      "title": "Produce Stage Banners & Participant Badge Assets",
-      "description": "Export SVG vector badges and high-res printable backdrop rollup",
-      "departmentId": "dept-design",
-      "assignedMemberId": "user-imene-bouzena",
-      "createdById": "user-aya-karou",
-      "priority": "HIGH",
-      "status": "TODO",
-      "startDate": "2026-10-04",
-      "deadline": "2026-10-07",
-      "progressPercent": 0,
-      "notes": "Follow anime/sky design tokens"
-    },
-    {
-      "id": "task-multimedia-1",
-      "title": "Record & Edit ByteCast Episode 4 Preview",
-      "description": "Record audio intro and edit 45-second teaser for club YouTube & Spotify",
-      "departmentId": "dept-multimedia",
-      "assignedMemberId": "user-mohammed-benkerri",
-      "createdById": "user-aya-karou",
-      "priority": "MEDIUM",
-      "status": "TODO",
-      "startDate": "2026-10-04",
-      "deadline": "2026-10-09",
-      "progressPercent": 0,
-      "notes": "Guest speaker: senior ESTIN alumni"
-    },
-    {
-      "id": "task-multimedia-2",
-      "title": "Cover Photography & Recap Clip for Workshop",
-      "description": "Set up camera gear in amphi 2 and shoot 4K b-roll",
-      "departmentId": "dept-multimedia",
-      "assignedMemberId": "user-lina-zaouani",
-      "createdById": "user-aya-karou",
-      "priority": "LOW",
-      "status": "TODO",
-      "startDate": "2026-10-04",
-      "deadline": "2026-10-12",
-      "progressPercent": 0,
-      "notes": "SD cards pre-formatted"
-    },
-    {
-      "id": "task-logistics-1",
-      "title": "Reserve ESTIN Main Amphitheater & Sound Equipment",
-      "description": "Submit campus admin reservation letter and confirm sound system mic checks",
-      "departmentId": "dept-logistics",
-      "assignedMemberId": "user-rayane-alem",
-      "createdById": "user-aya-karou",
-      "priority": "URGENT",
-      "status": "TODO",
-      "startDate": "2026-10-04",
-      "deadline": "2026-10-05",
-      "progressPercent": 0,
-      "notes": "Letter stamped by administration"
-    },
-    {
-      "id": "task-dev-1",
-      "title": "Configure Discord Bot Team Matchmaking Pipeline",
-      "description": "Test automatic team role assignment and command triggers in ByteCraft server",
-      "departmentId": "dept-dev",
-      "assignedMemberId": "user-yassine-bouguerra",
-      "createdById": "user-aya-karou",
-      "priority": "HIGH",
-      "status": "TODO",
-      "startDate": "2026-10-04",
-      "deadline": "2026-10-07",
-      "progressPercent": 0,
-      "notes": "Node.js Discord.js v14"
     }
   ],
   "responsibilities": [
@@ -895,30 +682,6 @@
       "publicationDate": "2026-10-01",
       "status": "PUBLISHED",
       "notes": "Achieved 45 reposts across university circles."
-    },
-    {
-      "id": "comm-item-1",
-      "eventId": "9bb7fd8a-f4b7-4afd-b8d0-52af5a951c7e",
-      "phase": "BEFORE",
-      "title": "Annual Hackathon Registration Launch Post",
-      "channel": "INSTAGRAM",
-      "content": "Registration is officially LIVE! Build, create, and deploy your next big idea at ByteCraft.",
-      "responsiblePersonId": "user-manel-lyazidi",
-      "publicationDate": "2026-10-06",
-      "status": "PLANNED",
-      "notes": "Carousel with rules & tracks"
-    },
-    {
-      "id": "comm-item-2",
-      "eventId": "9bb7fd8a-f4b7-4afd-b8d0-52af5a951c7e",
-      "phase": "BEFORE",
-      "title": "Speaker Spotlight: Industry AI Engineer",
-      "channel": "LINKEDIN",
-      "content": "Welcoming our keynote speaker for the ByteCraft opening ceremony.",
-      "responsiblePersonId": "user-imene-bouchareb",
-      "publicationDate": "2026-10-08",
-      "status": "DRAFT",
-      "notes": "Photo approved by speaker"
     }
   ],
   "meetings": [
@@ -1041,6 +804,30 @@
     }
   ],
   "activityLogs": [
+    {
+      "id": "636d8290-0991-49f9-ac19-4af4b3ce127b",
+      "createdAt": "2026-10-05T02:13:53.902Z",
+      "updatedAt": "2026-10-05T02:13:53.902Z",
+      "actorId": "user-coord",
+      "actorName": "aya karou",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-coord",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-05T02:13:53.901Z"
+    },
+    {
+      "id": "3c2db8db-3f15-455a-9e36-0444dba1ac61",
+      "createdAt": "2026-10-05T02:10:59.954Z",
+      "updatedAt": "2026-10-05T02:10:59.954Z",
+      "actorId": "user-coord",
+      "actorName": "aya karou",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-coord",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-05T02:10:59.954Z"
+    },
     {
       "id": "8de0aed8-517b-4950-a974-3d8f7e7b5e1c",
       "createdAt": "2026-10-05T01:53:09.283Z",

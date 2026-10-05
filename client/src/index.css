@@ -1348,8 +1348,313 @@ select.adv-input { cursor: pointer; }
   .grid-cols-3, .grid-cols-4 { grid-template-columns: 1fr; }
 }
 
+
 @media (max-width: 600px) {
   .stat-grid-4, .stat-grid-3, .stat-grid-2 { grid-template-columns: 1fr !important; }
   .grid-cols-2, .grid-cols-3, .grid-cols-4 { grid-template-columns: 1fr; }
 }
 
+/* ============================================================
+   INNER PAGE DESIGN SYSTEM — Buttons, Forms, Cards, etc.
+   Required by Tasks, Events, Team, Departments, Communication
+   ============================================================ */
+
+/* CSS Variable aliases for inner page components */
+:root {
+  --color-primary:   #0284c7;
+  --color-danger:    #EF4444;
+  --color-success:   #10B981;
+  --color-warning:   #F59E0B;
+  --text-primary:    #0f172a;
+  --text-secondary:  #475569;
+  --border-subtle:   #e2e8f0;
+  --border-color:    #e2e8f0;
+  --bg-base:         #f8fafc;
+  --transition-fast: 0.15s ease;
+  --radius-full:     999px;
+  --cyan:            #0284c7;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-primary {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(2,132,199,0.25);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #0369a1;
+  box-shadow: 0 4px 12px rgba(2,132,199,0.35);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #f8fafc;
+  color: #334155;
+  border: 1.5px solid #e2e8f0;
+}
+.btn-secondary:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.btn-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1.5px solid #fecaca;
+}
+.btn-danger:hover:not(:disabled) { background: #fca5a5; }
+
+.btn-ghost {
+  background: transparent;
+  color: #64748b;
+  border: 1px solid transparent;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.btn-icon { padding: 6px; border-radius: 8px; }
+.btn-sm { padding: 5px 12px; font-size: 12px; border-radius: 8px; }
+
+/* ── Cards ── */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1.5px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+/* ── Form Elements ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 9px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2,132,199,0.12);
+  background: #ffffff;
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ── Search ── */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 34px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search-input:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2,132,199,0.10);
+  background: #ffffff;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.empty-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+}
+
+.empty-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.empty-desc {
+  font-size: 13px;
+  color: #64748b;
+  max-width: 340px;
+}
+
+/* ── Sidebar Badge ── */
+.sidebar-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #EF4444;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+/* ── Skeleton Loader ── */
+.skeleton {
+  background: linear-gradient(90deg, #f0f4f8 25%, #e4eaf0 50%, #f0f4f8 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Calendar day grid ── */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 0;
+}
+
+.calendar-day {
+  min-height: 72px;
+  padding: 6px 4px 4px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.1s;
+  overflow: hidden;
+  border: 1.5px solid transparent;
+}
+.calendar-day:hover  { background: #f0f9ff; }
+.calendar-day.today  { background: #eff6ff; border-color: #0284c7; }
+.calendar-day.other-month { opacity: 0.4; }
+
+.calendar-day-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+.calendar-day.today .calendar-day-num { background: #0284c7; color: white; }
+
+.cal-event-chip {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+/* ── Misc layout helpers ── */
+.justify-between { justify-content: space-between; }
+.mb-5  { margin-bottom: 20px; }
+
+/* Slide-down animation for filter panels */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Focus-visible outline for accessibility */
+.btn:focus-visible,
+.form-input:focus-visible,
+.form-select:focus-visible {
+  outline: 2px solid #0284c7;
+  outline-offset: 2px;
+}

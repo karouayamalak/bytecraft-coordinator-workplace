@@ -24,15 +24,22 @@ export const comPlanController = {
     const events = db.find('events');
     const plans = db.find('communicationPlans');
 
+    const tasks = db.find('tasks');
+
     const enriched = items.map(item => {
       const responsible = users.find(u => u.id === item.responsiblePersonId);
       const event = events.find(e => e.id === item.eventId);
       const plan = plans.find(p => p.id === item.communicationPlanId);
+      const task = item.relatedTaskId ? tasks.find(t => t.id === item.relatedTaskId) : null;
 
       return {
         ...item,
+        contentType: item.contentType || 'POST',
+        platform: item.platform || item.channel || 'Instagram',
+        publicationTime: item.publicationTime || '18:00',
         responsible: responsible ? { id: responsible.id, name: responsible.name, avatarUrl: responsible.avatarUrl } : null,
         event: event ? { id: event.id, name: event.name, date: event.date } : null,
+        task: task ? { id: task.id, title: task.title, status: task.status, deadline: task.deadline } : null,
         planTitle: plan ? plan.title : 'General Communication Plan'
       };
     });
@@ -55,15 +62,20 @@ export const comPlanController = {
         phase,
         title,
         channel,
+        platform,
+        contentType,
         content,
         responsiblePersonId,
         publicationDate,
+        publicationTime,
         status,
-        notes
+        notes,
+        relatedTaskId
       } = req.body;
 
-      if (!title || !publicationDate || !channel) {
-        return res.status(400).json({ success: false, message: 'Title, channel, and publication date are required' });
+      const chosenPlatform = platform || channel;
+      if (!title || !publicationDate || !chosenPlatform) {
+        return res.status(400).json({ success: false, message: 'Title, platform, and publication date are required' });
       }
 
       let planId = communicationPlanId;
@@ -83,12 +95,16 @@ export const comPlanController = {
       const item = db.insert('communicationItems', {
         communicationPlanId: planId || 'complan-general',
         eventId: eventId || null,
+        relatedTaskId: relatedTaskId || null,
         phase: phase || 'BEFORE',
         title,
-        channel,
+        channel: chosenPlatform.toUpperCase(),
+        platform: chosenPlatform,
+        contentType: (contentType || 'POST').toUpperCase(),
         content: content || '',
         responsiblePersonId: responsiblePersonId || req.user.id,
         publicationDate,
+        publicationTime: publicationTime || '18:00',
         status: status || 'PLANNED',
         notes: notes || ''
       });
@@ -98,17 +114,17 @@ export const comPlanController = {
         action: 'COMMUNICATION_ITEM_CREATED',
         entityType: 'COMMUNICATION',
         entityId: item.id,
-        details: `Scheduled ${channel} post "${title}" for ${publicationDate}`
+        details: `Scheduled ${chosenPlatform} ${contentType || 'post'} "${title}" for ${publicationDate} ${publicationTime || '18:00'}`
       });
 
       if (responsiblePersonId && responsiblePersonId !== req.user.id) {
         createNotification({
           userId: responsiblePersonId,
           title: 'Communication Action Assigned',
-          message: `You were assigned: "${title}" (${channel}) scheduled for ${publicationDate}`,
+          message: `You were assigned: "${title}" (${chosenPlatform}) scheduled for ${publicationDate} at ${publicationTime || '18:00'}`,
           type: 'COMMUNICATION',
           priority: 'INFO',
-          linkUrl: '/communication'
+          linkUrl: '/events'
         });
       }
 

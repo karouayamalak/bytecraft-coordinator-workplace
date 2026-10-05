@@ -4,7 +4,7 @@ import { logActivity, createNotification } from '../services/auditService.js';
 
 export const userController = {
   getAll: (req, res) => {
-    const { departmentId, role, search, status } = req.query;
+    const { departmentId, role, search, status, position } = req.query;
     let users = db.find('users');
 
     if (departmentId) {
@@ -13,21 +13,31 @@ export const userController = {
     if (role) {
       users = users.filter(u => u.role === role);
     }
-    if (status === 'active') {
+    if (position) {
+      users = users.filter(u => (u.position || '').toLowerCase().includes(position.toLowerCase()));
+    }
+    if (status === 'active' || status === 'ACTIVE') {
       users = users.filter(u => u.isActive);
-    } else if (status === 'inactive') {
+    } else if (status === 'inactive' || status === 'INACTIVE') {
       users = users.filter(u => !u.isActive);
     }
     if (search) {
-      const q = search.toLowerCase();
-      users = users.filter(u => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
+      const q = search.toLowerCase().trim();
+      users = users.filter(u => {
+        const nameMatch = (u.name || '').toLowerCase().includes(q);
+        const emailMatch = (u.email || '').toLowerCase().includes(q);
+        const phoneMatch = (u.phone || '').toLowerCase().includes(q) || (u.whatsapp || '').toLowerCase().includes(q);
+        const posMatch = (u.position || '').toLowerCase().includes(q);
+        return nameMatch || emailMatch || phoneMatch || posMatch;
+      });
     }
 
     const tasks = db.find('tasks');
     const departments = db.find('departments');
     const responsibilities = db.find('responsibilities');
+    const todayStr = new Date().toISOString().split('T')[0];
 
-    // Enrich users with active & completed task counts and department names
+    // Enrich users with active & completed task counts, current task, next deadline, and department details
     const enriched = users.map(u => {
       const safe = { ...u };
       delete safe.passwordHash;
@@ -37,13 +47,31 @@ export const userController = {
       const dept = departments.find(d => d.id === u.departmentId);
       const userResp = responsibilities.filter(r => r.memberId === u.id);
 
+      // Sort active tasks by deadline ascending to find current task & next deadline
+      activeTasks.sort((a, b) => {
+        if (!a.deadline) return 1;
+        if (!b.deadline) return -1;
+        return a.deadline.localeCompare(b.deadline);
+      });
+      const currentTask = activeTasks[0] || null;
+      const nextDeadline = currentTask?.deadline || null;
+
+      const positionName = u.position || (u.role === 'COORDINATOR' ? 'Club Coordinator' : 'Department Manager');
+
       return {
         ...safe,
+        position: positionName,
+        whatsapp: u.whatsapp || u.phone || '',
+        socialLinks: u.socialLinks || {},
+        status: u.isActive ? 'ACTIVE' : 'INACTIVE',
         departmentName: dept ? dept.name : 'Unassigned',
         departmentColor: dept ? dept.color : '#6B7280',
         activeTasksCount: activeTasks.length,
         completedTasksCount: completedTasks.length,
         responsibilitiesCount: userResp.length,
+        ongoingResponsibilities: userResp.map(r => r.title),
+        currentTask: currentTask ? { id: currentTask.id, title: currentTask.title, deadline: currentTask.deadline, priority: currentTask.priority, status: currentTask.status } : null,
+        nextDeadline,
         isOverloaded: activeTasks.length >= 4
       };
     });
@@ -60,19 +88,59 @@ export const userController = {
     delete safe.passwordHash;
 
     const department = safe.departmentId ? db.findById('departments', safe.departmentId) : null;
-    const tasks = db.find('tasks', t => t.assignedMemberId === user.id);
+    const allTasks = db.find('tasks', t => t.assignedMemberId === user.id);
     const responsibilities = db.find('responsibilities', r => r.memberId === user.id);
     const events = db.find('events', e => (e.responsibleMemberIds || []).includes(user.id) || e.organizerId === user.id);
     const activity = db.find('activityLogs', a => a.actorId === user.id).slice(0, 15);
+    const comItems = db.find('communicationItems', c => c.responsiblePersonId === user.id);
+
+    // Enforce task enrichment with event details
+    const allEvents = db.find('events');
+    const enrichedTasks = allTasks.map(t => {
+      const ev = t.eventId ? allEvents.find(e => e.id === t.eventId) : null;
+      return {
+        ...t,
+        eventName: ev ? ev.name : null
+      };
+    });
+
+    // Sort tasks by deadline ascending
+    enrichedTasks.sort((a, b) => {
+      if (!a.deadline) return 1;
+      if (!b.deadline) return -1;
+      return a.deadline.localeCompare(b.deadline);
+    });
+
+    // Enforce communication items enrichment
+    const enrichedComItems = comItems.map(ci => {
+      const ev = ci.eventId ? allEvents.find(e => e.id === ci.eventId) : null;
+      return {
+        ...ci,
+        contentType: ci.contentType || 'POST',
+        platform: ci.platform || ci.channel || 'Instagram',
+        publicationTime: ci.publicationTime || '18:00',
+        eventName: ev ? ev.name : null
+      };
+    });
+    enrichedComItems.sort((a, b) => (a.publicationDate || '').localeCompare(b.publicationDate || ''));
+
+    const positionName = safe.position || (safe.role === 'COORDINATOR' ? 'Club Coordinator' : 'Department Manager');
 
     res.json({
       success: true,
       data: {
-        user: safe,
+        user: {
+          ...safe,
+          position: positionName,
+          whatsapp: safe.whatsapp || safe.phone || '',
+          socialLinks: safe.socialLinks || {},
+          status: safe.isActive ? 'ACTIVE' : 'INACTIVE'
+        },
         department,
-        tasks,
+        tasks: enrichedTasks,
         responsibilities,
         events,
+        communicationItems: enrichedComItems,
         activity
       }
     });
@@ -80,7 +148,7 @@ export const userController = {
 
   create: (req, res, next) => {
     try {
-      const { name, email, role, departmentId, phone, avatarUrl, initialResponsibilities } = req.body;
+      const { name, email, role, departmentId, phone, whatsapp, position, avatarUrl, socialLinks, initialResponsibilities } = req.body;
       if (!name || !email) {
         return res.status(400).json({ success: false, message: 'Name and email are required' });
       }
@@ -97,8 +165,11 @@ export const userController = {
         passwordHash: bcrypt.hashSync('bytecraft2026', 10),
         role: role || 'MEMBER',
         departmentId: departmentId || null,
+        position: position || (role === 'COORDINATOR' ? 'Club Coordinator' : 'Department Manager'),
         phone: phone || '',
+        whatsapp: whatsapp || phone || '',
         avatarUrl: defaultAvatar,
+        socialLinks: socialLinks || {},
         joinedDate: new Date().toISOString().split('T')[0],
         isActive: true
       });
@@ -135,7 +206,7 @@ export const userController = {
   update: (req, res, next) => {
     try {
       const { id } = req.params;
-      const { name, email, role, departmentId, phone, avatarUrl, isActive } = req.body;
+      const { name, email, role, departmentId, phone, whatsapp, position, avatarUrl, socialLinks, isActive, status } = req.body;
 
       const user = db.findById('users', id);
       if (!user) {
@@ -148,8 +219,16 @@ export const userController = {
       if (role) updates.role = role;
       if (departmentId !== undefined) updates.departmentId = departmentId;
       if (phone !== undefined) updates.phone = phone;
+      if (whatsapp !== undefined) updates.whatsapp = whatsapp;
+      if (position !== undefined) updates.position = position;
       if (avatarUrl) updates.avatarUrl = avatarUrl;
-      if (typeof isActive === 'boolean') updates.isActive = isActive;
+      if (socialLinks !== undefined) updates.socialLinks = socialLinks;
+
+      if (typeof isActive === 'boolean') {
+        updates.isActive = isActive;
+      } else if (status !== undefined) {
+        updates.isActive = status === 'ACTIVE' || status === 'active';
+      }
 
       const updated = db.update('users', id, updates);
       const safe = { ...updated };

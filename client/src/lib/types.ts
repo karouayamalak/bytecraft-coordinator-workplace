@@ -16,7 +16,7 @@ export type EventType = 'WORKSHOP' | 'HACKATHON' | 'MEETUP' | 'COMPETITION' | 'C
 export type EventStatus = 'PLANNED' | 'ACTIVE' | 'UPCOMING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 export type CommChannel = 'INSTAGRAM' | 'WHATSAPP' | 'LINKEDIN' | 'DISCORD' | 'EMAIL' | 'POSTER' | 'TIKTOK';
 export type CommPhase = 'BEFORE' | 'DURING' | 'AFTER';
-export type CommStatus = 'PLANNED' | 'IN_PROGRESS' | 'READY' | 'PUBLISHED' | 'CANCELLED';
+export type CommStatus = 'PLANNED' | 'SCHEDULED' | 'IN_PROGRESS' | 'READY' | 'PUBLISHED' | 'CANCELLED';
 export type NotifPriority = 'INFO' | 'WARNING' | 'URGENT';
 
 export interface User {
@@ -27,6 +27,18 @@ export interface User {
   departmentId: string | null;
   avatarUrl: string;
   phone?: string;
+  whatsapp?: string;
+  position?: string;
+  status?: 'ACTIVE' | 'INACTIVE';
+  socialLinks?: {
+    linkedin?: string;
+    github?: string;
+    instagram?: string;
+    discord?: string;
+    facebook?: string;
+    tiktok?: string;
+    website?: string;
+  };
   joinedDate: string;
   isActive: boolean;
   createdAt?: string;
@@ -36,6 +48,9 @@ export interface User {
   activeTasksCount?: number;
   completedTasksCount?: number;
   responsibilitiesCount?: number;
+  ongoingResponsibilities?: string[];
+  currentTask?: { id: string; title: string; deadline: string; priority: TaskPriority; status: TaskStatus } | null;
+  nextDeadline?: string | null;
   isOverloaded?: boolean;
 }
 
@@ -150,20 +165,27 @@ export interface CommunicationPlan {
 
 export interface CommunicationItem {
   id: string;
-  communicationPlanId: string;
+  communicationPlanId?: string;
   eventId: string | null;
-  phase: CommPhase;
+  relatedTaskId?: string | null;
+  phase?: CommPhase;
   title: string;
-  channel: CommChannel;
+  channel?: CommChannel;
+  platform?: string;
+  contentType?: 'POST' | 'STORY' | 'VIDEO' | 'REEL' | 'CAROUSEL' | 'PHOTO' | 'ANNOUNCEMENT' | 'OTHER' | string;
   content: string;
   responsiblePersonId: string;
   publicationDate: string;
+  publicationTime?: string;
   status: CommStatus;
   notes: string;
   createdAt?: string;
   // Enriched
   responsible?: { id: string; name: string; avatarUrl: string } | null;
+  responsiblePerson?: { id: string; name: string; avatarUrl: string } | null;
   event?: { id: string; name: string; date: string } | null;
+  eventName?: string | null;
+  task?: { id: string; title: string; status: string; deadline: string } | null;
   planTitle?: string;
 }
 
@@ -227,6 +249,7 @@ export interface DashboardStats {
   upcomingEvents: number;
   tasksDueThisWeek: number;
   tasksDueToday: number;
+  upcomingPublications?: number;
 }
 
 export interface RadarData {
@@ -244,9 +267,44 @@ export interface MemberWorkload {
   isOverloaded: boolean;
 }
 
+export interface DashboardAttention {
+  overdueTasks: Task[];
+  tasksDueToday: Task[];
+  tasksDueSoon: Task[];
+  blockedTasks: Task[];
+  upcomingEvents: Array<{
+    id: string;
+    name: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    location: string;
+    department?: { id: string; name: string; color: string } | null;
+    progressPercent: number;
+    tasksCount: number;
+    completedTasksCount: number;
+  }>;
+  upcomingPublications: CommunicationItem[];
+}
+
 export interface DashboardData {
   stats: DashboardStats;
-  radar: RadarData;
+  radar?: RadarData;
+  attention?: DashboardAttention;
+  upcomingEvents?: Array<{
+    id: string;
+    name: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    location: string;
+    department?: { id: string; name: string; color: string } | null;
+    organizer?: { id: string; name: string; avatarUrl: string } | null;
+    progressPercent: number;
+    tasksCount: number;
+    completedTasksCount: number;
+  }>;
+  upcomingCommunication?: CommunicationItem[];
   nextEventPrep: {
     event: Event;
     totalTasks: number;

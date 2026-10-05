@@ -1,4 +1,4 @@
-import type { TaskStatus, TaskPriority, EventType, CommStatus, CommChannel, CommPhase } from './types';
+import type { TaskStatus, TaskPriority, CommStatus, CommChannel, CommPhase } from './types';
 
 export const STATUS_LABELS: Record<TaskStatus, string> = {
   TODO: 'To Do',
@@ -16,23 +16,26 @@ export const PRIORITY_LABELS: Record<TaskPriority, string> = {
   URGENT: 'Urgent',
 };
 
-export const EVENT_TYPE_LABELS: Record<EventType, string> = {
+export const EVENT_TYPE_LABELS: Record<string, string> = {
   WORKSHOP: 'Workshop',
   HACKATHON: 'Hackathon',
   MEETUP: 'Meetup',
   COMPETITION: 'Competition',
   CONFERENCE: 'Conference',
+  PRESENTATION: 'Presentation',
+  OTHER: 'Other',
 };
 
-export const COMM_STATUS_LABELS: Record<CommStatus, string> = {
+export const COMM_STATUS_LABELS: Record<string, string> = {
   PLANNED: 'Planned',
+  SCHEDULED: 'Scheduled',
   IN_PROGRESS: 'In Progress',
   READY: 'Ready',
   PUBLISHED: 'Published',
   CANCELLED: 'Cancelled',
 };
 
-export const COMM_CHANNEL_LABELS: Record<CommChannel, string> = {
+export const COMM_CHANNEL_LABELS: Record<string, string> = {
   INSTAGRAM: 'Instagram',
   WHATSAPP: 'WhatsApp',
   LINKEDIN: 'LinkedIn',
@@ -40,9 +43,13 @@ export const COMM_CHANNEL_LABELS: Record<CommChannel, string> = {
   EMAIL: 'Email',
   POSTER: 'Poster',
   TIKTOK: 'TikTok',
+  TWITTER: 'Twitter/X',
+  FACEBOOK: 'Facebook',
+  ANNOUNCEMENT: 'Announcement',
+  WEBSITE: 'Website',
 };
 
-export const COMM_CHANNEL_COLORS: Record<CommChannel, string> = {
+export const COMM_CHANNEL_COLORS: Record<string, string> = {
   INSTAGRAM: '#E1306C',
   WHATSAPP: '#25D366',
   LINKEDIN: '#0A66C2',
@@ -50,6 +57,10 @@ export const COMM_CHANNEL_COLORS: Record<CommChannel, string> = {
   EMAIL: '#06B6D4',
   POSTER: '#A855F7',
   TIKTOK: '#FF0050',
+  TWITTER: '#1DA1F2',
+  FACEBOOK: '#1877F2',
+  ANNOUNCEMENT: '#EA580C',
+  WEBSITE: '#64748B',
 };
 
 export const PHASE_LABELS: Record<CommPhase, string> = {
