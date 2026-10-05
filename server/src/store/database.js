@@ -416,11 +416,31 @@ class Database {
       }
     ];
 
-    // 5. EVENT AGENDA ITEMS (for ByteCraft Workshop)
+    // 5. EVENT AGENDA SECTIONS & ITEMS (for ByteCraft Workshop)
+    const agendaSections = [
+      {
+        id: 'sec-1',
+        eventId: 'event-workshop',
+        title: 'Morning / Welcome Session',
+        startTime: '13:30',
+        endTime: '14:25',
+        order: 1
+      },
+      {
+        id: 'sec-2',
+        eventId: 'event-workshop',
+        title: 'Main Keynotes & Technical Workshops',
+        startTime: '14:30',
+        endTime: '17:45',
+        order: 2
+      }
+    ];
+
     const agendaItems = [
       {
         id: 'ag-1',
         eventId: 'event-workshop',
+        sectionId: 'sec-1',
         title: 'Check-in & Badge Distribution',
         description: 'Verify registration QR codes and provide ByteCraft stickers.',
         startTime: '13:30',
@@ -433,6 +453,7 @@ class Database {
       {
         id: 'ag-2',
         eventId: 'event-workshop',
+        sectionId: 'sec-1',
         title: 'Opening Remarks & ByteCraft Vision',
         description: 'Welcome by the Coordinator and overview of the new academic season.',
         startTime: '14:00',
@@ -445,6 +466,7 @@ class Database {
       {
         id: 'ag-3',
         eventId: 'event-workshop',
+        sectionId: 'sec-2',
         title: 'Technical Session: Building Agentic Web Apps',
         description: 'Live coding session demonstrating modern architecture and real-time APIs.',
         startTime: '14:30',
@@ -457,6 +479,7 @@ class Database {
       {
         id: 'ag-4',
         eventId: 'event-workshop',
+        sectionId: 'sec-2',
         title: 'Coffee Break & Interactive Demo Booths',
         description: 'Refreshments, networking, and mini-booths for each department.',
         startTime: '15:45',
@@ -469,6 +492,7 @@ class Database {
       {
         id: 'ag-5',
         eventId: 'event-workshop',
+        sectionId: 'sec-2',
         title: 'Hands-on Challenge & Mentorship',
         description: 'Attendees build and test their own reactive microservice with team support.',
         startTime: '16:15',
@@ -481,6 +505,7 @@ class Database {
       {
         id: 'ag-6',
         eventId: 'event-workshop',
+        sectionId: 'sec-2',
         title: 'Showcase, Q&A & Next Steps',
         description: 'Student project spotlight, award distribution, and group photo.',
         startTime: '17:15',
@@ -1037,6 +1062,7 @@ class Database {
       tasks,
       responsibilities,
       events,
+      agendaSections,
       agendaItems,
       communicationPlans,
       communicationItems,
