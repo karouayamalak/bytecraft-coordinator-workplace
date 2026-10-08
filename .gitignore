@@ -16,10 +16,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment files
+# Environment files — keep local secrets ignored, allow production/dev URL configs
 .env
-.env.*
+.env.local
 !.env.example
+!.env.production
+!.env.development
 
 # OS / Editor files
 .DS_Store
