@@ -19,7 +19,7 @@ import EventDetailPage from './pages/EventDetailPage';
 import AgendaPage from './pages/AgendaPage';
 import CalendarPage from './pages/CalendarPage';
 import CommunicationPage from './pages/CommunicationPage';
-import MeetingsPage from './pages/MeetingsPage';
+import MeetingsPage from './pages/MeetingsPage'; // syncs & meetings
 import ReportsPage from './pages/ReportsPage';
 import ActivityPage from './pages/ActivityPage';
 import SettingsPage from './pages/SettingsPage';

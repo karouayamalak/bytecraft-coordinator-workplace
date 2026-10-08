@@ -194,7 +194,7 @@ export default function EventsPage() {
       {!loading && past.length > 0 && (
         <div>
           <h2 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 14 }}>
-            📚 Past Events
+            Past Events
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {past.map(event => (

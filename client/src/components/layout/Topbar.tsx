@@ -42,68 +42,61 @@ export default function Topbar({ title, subtitle }: TopbarProps) {
 
   return (
     <header style={{
-      height: 66,
-      background: 'rgba(255,255,255,0.88)',
-      backdropFilter: 'blur(16px)',
-      WebkitBackdropFilter: 'blur(16px)',
-      borderBottom: '1px solid #daeef9',
+      height: 64,
+      background: '#ffffff',
+      borderBottom: '1px solid #e2e8f0',
       display: 'flex',
       alignItems: 'center',
-      padding: '0 28px',
-      gap: 14,
+      padding: '0 32px',
+      gap: 16,
       position: 'sticky',
       top: 0,
       zIndex: 90,
-      boxShadow: '0 2px 12px rgba(11,78,120,0.07)',
     }}>
       {/* Page Title */}
       <div style={{ marginRight: 'auto' }}>
-        <div style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 22,
-          fontWeight: 800,
-          color: 'var(--text-dark)',
-          letterSpacing: '0.02em',
-          textTransform: 'uppercase',
-          lineHeight: 1
+        <h1 style={{
+          fontSize: 18,
+          fontWeight: 700,
+          color: '#0f172a',
+          lineHeight: 1.2,
+          margin: 0
         }}>
           {title}
-        </div>
+        </h1>
         {subtitle && (
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2, fontWeight: 500 }}>
+          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2, fontWeight: 400 }}>
             {subtitle}
           </div>
         )}
       </div>
 
-      {/* Search Input */}
+      {/* Clean Minimal Search Input */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         gap: 8,
-        background: '#f0f8fd',
-        border: '1.5px solid #cce8f6',
-        borderRadius: 999,
-        padding: '7px 16px',
-        width: 220,
-        transition: 'all 0.2s ease',
+        background: '#f8fafc',
+        border: '1px solid #e2e8f0',
+        borderRadius: 8,
+        padding: '6px 12px',
+        width: 240,
+        transition: 'all 0.15s ease',
       }}>
-        <Search size={15} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+        <Search size={15} style={{ color: '#94a3b8', flexShrink: 0 }} />
         <input
           type="text"
           value={searchVal}
           onChange={e => setSearchVal(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && navigate(`/tasks?q=${encodeURIComponent(searchVal)}`)}
-          placeholder="Search…"
+          onKeyDown={e => e.key === 'Enter' && navigate(`/tasks?search=${encodeURIComponent(searchVal)}`)}
+          placeholder="Quick search…"
           style={{
             border: 'none',
             outline: 'none',
             background: 'transparent',
             fontSize: 13,
-            color: 'var(--text-dark)',
-            fontFamily: 'var(--font-body)',
+            color: '#0f172a',
             width: '100%',
-            fontWeight: 500,
           }}
         />
       </div>
@@ -114,40 +107,31 @@ export default function Topbar({ title, subtitle }: TopbarProps) {
           id="quick-actions-btn"
           onClick={() => setShowQuickActions(prev => !prev)}
           aria-expanded={showQuickActions}
+          className="btn btn-primary btn-sm"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 7,
-            background: 'linear-gradient(135deg, #187db8, #38bdf8)',
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: 999,
-            padding: '8px 18px',
-            fontFamily: 'var(--font-display)',
-            fontSize: 14,
-            letterSpacing: '0.04em',
-            cursor: 'pointer',
-            boxShadow: '0 3px 10px rgba(24,125,184,0.3)',
-            transition: 'all 0.2s ease',
+            gap: 6,
+            borderRadius: 8,
+            padding: '7px 14px',
+            fontSize: 12.5,
           }}
         >
-          <Plus size={15} />
-          QUICK ADD
+          <Plus size={14} />
+          New Action
         </button>
 
         {showQuickActions && (
           <div style={{
             position: 'absolute',
-            top: 'calc(100% + 10px)',
+            top: 'calc(100% + 8px)',
             right: 0,
             background: '#ffffff',
-            borderRadius: 18,
-            boxShadow: '0 16px 40px rgba(11,78,120,0.2)',
-            border: '2px solid #e0f0fa',
-            minWidth: 200,
+            borderRadius: 10,
+            boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
+            border: '1px solid #e2e8f0',
+            minWidth: 190,
             zIndex: 300,
             overflow: 'hidden',
-            padding: '8px',
+            padding: '6px',
           }}>
             {visibleActions.map(action => (
               <button
@@ -158,22 +142,21 @@ export default function Topbar({ title, subtitle }: TopbarProps) {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 10,
-                  padding: '10px 14px',
-                  borderRadius: 12,
+                  padding: '8px 12px',
+                  borderRadius: 6,
                   border: 'none',
                   background: 'transparent',
                   cursor: 'pointer',
-                  fontSize: 13.5,
-                  fontWeight: 600,
-                  fontFamily: 'var(--font-body)',
-                  color: 'var(--text-dark)',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: '#0f172a',
                   textAlign: 'left',
                   transition: 'background 0.15s',
                 }}
-                onMouseEnter={e => (e.currentTarget.style.background = '#f0f8fd')}
+                onMouseEnter={e => (e.currentTarget.style.background = '#f1f5f9')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
-                <span style={{ color: 'var(--accent-primary)' }}>{action.icon}</span>
+                <span style={{ color: '#0284c7' }}>{action.icon}</span>
                 {action.label}
               </button>
             ))}
@@ -187,25 +170,25 @@ export default function Topbar({ title, subtitle }: TopbarProps) {
         onClick={toggleTheme}
         title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         style={{
-          width: 36,
-          height: 36,
-          borderRadius: '50%',
-          border: '1.5px solid #cce8f6',
-          background: '#f0f8fd',
+          width: 34,
+          height: 34,
+          borderRadius: 8,
+          border: '1px solid #e2e8f0',
+          background: '#ffffff',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'var(--text-sub)',
+          color: '#64748b',
           cursor: 'pointer',
           flexShrink: 0,
         }}
       >
-        {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+        {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
       </button>
 
       <NotificationBell />
 
-      {/* Avatar */}
+      {/* User Profile avatar */}
       {user && (
         <button
           id="topbar-profile-btn"

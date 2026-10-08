@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import { CONFIG } from '../config/index.js';
+import { realDepartments, realUsers } from './realClubSeeds.js';
 
 class Database {
   constructor() {
@@ -45,6 +46,18 @@ class Database {
       }
     } else {
       this.seedDemoData();
+    }
+  }
+
+  reloadFromFile() {
+    if (fs.existsSync(CONFIG.DB_FILE)) {
+      try {
+        const raw = fs.readFileSync(CONFIG.DB_FILE, 'utf-8');
+        this.data = JSON.parse(raw);
+        if (!this.data.agendaSections) this.data.agendaSections = [];
+      } catch (err) {
+        console.error('Error reloading database file:', err);
+      }
     }
   }
 
@@ -122,183 +135,9 @@ class Database {
 
     const passwordHash = bcrypt.hashSync('bytecraft2026', 10);
 
-    // 1. DEPARTMENTS
-    const departments = [
-      {
-        id: 'dept-com',
-        name: 'External Relations & Communication Department',
-        description: 'PR, external partnerships, communication strategy, and brand promotion.',
-        leaderId: 'user-manel-lyazidi',
-        color: '#8B5CF6',
-        icon: 'Megaphone',
-        isArchived: false,
-        createdAt: getOffsetDate(-60)
-      },
-      {
-        id: 'dept-design',
-        name: 'Design Department',
-        description: 'Brand identity, UI/UX design, visual assets, 3D mascots, and graphics.',
-        leaderId: 'user-imene-bouzena',
-        color: '#EC4899',
-        icon: 'Palette',
-        isArchived: false,
-        createdAt: getOffsetDate(-60)
-      },
-      {
-        id: 'dept-multimedia',
-        name: 'Multimedia Department',
-        description: 'Video production, photography, camera setup, and post-production editing.',
-        leaderId: 'user-mohammed-benkerri',
-        color: '#F43F5E',
-        icon: 'Video',
-        isArchived: false,
-        createdAt: getOffsetDate(-60)
-      },
-      {
-        id: 'dept-logistics',
-        name: 'Activities & Logistics Department',
-        description: 'Venue coordination, hardware setup, equipment, and event scheduling.',
-        leaderId: 'user-rayane-alem',
-        color: '#10B981',
-        icon: 'PackageCheck',
-        isArchived: false,
-        createdAt: getOffsetDate(-60)
-      },
-      {
-        id: 'dept-dev',
-        name: 'Development Department',
-        description: 'Web development, mobile engineering, infrastructure, and technical workshops.',
-        leaderId: 'user-yassine-bouguerra',
-        color: '#00F0FF',
-        icon: 'Code2',
-        isArchived: false,
-        createdAt: getOffsetDate(-60)
-      }
-    ];
-
-    // 2. USERS (Roles: COORDINATOR, MANAGER)
-    const users = [
-      {
-        id: 'user-aya-karou',
-        name: 'Aya Karou',
-        email: 'a_karou@estin.dz',
-        passwordHash,
-        role: 'COORDINATOR',
-        departmentId: null,
-        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-        phone: '+213 550 00 00 01',
-        joinedDate: getOffsetDate(-180),
-        isActive: true
-      },
-      {
-        id: 'user-elmouatez-ledjassa',
-        name: 'Elmouatez Ledjassa',
-        email: 'e_ledjassa@estin.dz',
-        passwordHash,
-        role: 'COORDINATOR',
-        departmentId: null,
-        avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-        phone: '+213 550 00 00 02',
-        joinedDate: getOffsetDate(-180),
-        isActive: true
-      },
-      {
-        id: 'user-coord',
-        name: 'Amine Benali',
-        email: 'coordinator@bytecraft.club',
-        passwordHash,
-        role: 'COORDINATOR',
-        departmentId: 'dept-dev',
-        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-        phone: '+213 550 12 34 56',
-        joinedDate: getOffsetDate(-180),
-        isActive: true
-      },
-      {
-        id: 'user-manel-lyazidi',
-        name: 'Manel Lyazidi',
-        email: 'm_lyazidi@estin.dz',
-        passwordHash,
-        role: 'MANAGER',
-        departmentId: 'dept-com',
-        avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-        phone: '0551393898',
-        joinedDate: getOffsetDate(-120),
-        isActive: true
-      },
-      {
-        id: 'user-imene-bouchareb',
-        name: 'Imene Bouchareb',
-        email: 'i_bouchareb@estin.dz',
-        passwordHash,
-        role: 'MANAGER',
-        departmentId: 'dept-com',
-        avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
-        phone: '0554009375',
-        joinedDate: getOffsetDate(-115),
-        isActive: true
-      },
-      {
-        id: 'user-imene-bouzena',
-        name: 'Imene Bouzena',
-        email: 'i_bouzena@estin.dz',
-        passwordHash,
-        role: 'MANAGER',
-        departmentId: 'dept-design',
-        avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-        phone: '0561 78 35 31',
-        joinedDate: getOffsetDate(-110),
-        isActive: true
-      },
-      {
-        id: 'user-mohammed-benkerri',
-        name: 'Mohammed Benkerri',
-        email: 'mbenkerri44@gmail.com',
-        passwordHash,
-        role: 'MANAGER',
-        departmentId: 'dept-multimedia',
-        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-        phone: '0563239114',
-        joinedDate: getOffsetDate(-105),
-        isActive: true
-      },
-      {
-        id: 'user-lina-zaouani',
-        name: 'Lina Zaouani',
-        email: 'l_zaouani@estin.dz',
-        passwordHash,
-        role: 'MANAGER',
-        departmentId: 'dept-multimedia',
-        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-        phone: '0541038481',
-        joinedDate: getOffsetDate(-100),
-        isActive: true
-      },
-      {
-        id: 'user-rayane-alem',
-        name: 'Rayane Alem',
-        email: 'r_alem@estin.dz',
-        passwordHash,
-        role: 'MANAGER',
-        departmentId: 'dept-logistics',
-        avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
-        phone: '+213563809022',
-        joinedDate: getOffsetDate(-95),
-        isActive: true
-      },
-      {
-        id: 'user-yassine-bouguerra',
-        name: 'Yassine Bouguerra',
-        email: 'y_bouguerra@estin.dz',
-        passwordHash,
-        role: 'MANAGER',
-        departmentId: 'dept-dev',
-        avatarUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80',
-        phone: '+213 552 34 56 78',
-        joinedDate: getOffsetDate(-90),
-        isActive: true
-      }
-    ];
+    // 1. DEPARTMENTS & 2. USERS (Full real club directory)
+    const departments = realDepartments;
+    const users = realUsers;
 
     // 3. RESPONSIBILITIES (Ongoing roles)
     const responsibilities = [

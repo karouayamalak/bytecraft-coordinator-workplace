@@ -12,6 +12,7 @@ import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import Avatar from '../components/ui/Avatar';
+import TaskItem from '../components/common/TaskItem';
 import { StatusBadge, PriorityBadge, RoleBadge } from '../components/ui/Badge';
 import ProgressBar from '../components/ui/ProgressBar';
 import Modal from '../components/ui/Modal';
@@ -106,21 +107,6 @@ export default function EventDetailPage() {
   const comItems = comPlan?.items || [];
   const responsibleMembers = event?.responsibleMembers || [];
 
-  // Mascot selector
-  const getMascot = (type?: string, deptName?: string) => {
-    const t = (type || '').toLowerCase();
-    const d = (deptName || '').toLowerCase();
-    if (d.includes('tech') || t.includes('hack') || t.includes('code') || t.includes('dev')) {
-      return '/mascots/tech.png';
-    }
-    if (d.includes('media') || t.includes('photo') || t.includes('design') || t.includes('creative')) {
-      return '/mascots/media.png';
-    }
-    if (d.includes('pr') || d.includes('comm') || t.includes('welcome') || t.includes('network')) {
-      return '/mascots/pr.png';
-    }
-    return '/mascots/executive.png';
-  };
 
   // Section Handlers
   const handleAddSection = async (e: React.FormEvent) => {
@@ -358,17 +344,6 @@ export default function EventDetailPage() {
               )}
             </div>
           </div>
-
-          <div style={{
-            background: 'rgba(255,255,255,0.06)', borderRadius: 20, padding: 12,
-            border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }}>
-            <img
-              src={getMascot(event.eventType, event.department?.name)}
-              alt="ByteCraft Mascot"
-              style={{ width: 110, height: 110, objectFit: 'contain' }}
-            />
-          </div>
         </div>
 
         {/* Readiness Bar */}
@@ -395,60 +370,60 @@ export default function EventDetailPage() {
           style={{
             padding: '8px 16px', borderRadius: 8, border: 'none',
             background: activeTab === 'overview' ? 'var(--bg-elevated)' : 'transparent',
-            color: activeTab === 'overview' ? 'var(--cyan)' : 'var(--text-secondary)',
+            color: activeTab === 'overview' ? 'var(--accent)' : 'var(--text-secondary)',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
-            borderBottom: activeTab === 'overview' ? '2px solid var(--cyan)' : 'none'
+            borderBottom: activeTab === 'overview' ? '2px solid var(--accent)' : 'none'
           }}
         >
-          📌 Overview
+          Overview
         </button>
         <button
           onClick={() => setActiveTab('agenda')}
           style={{
             padding: '8px 16px', borderRadius: 8, border: 'none',
             background: activeTab === 'agenda' ? 'var(--bg-elevated)' : 'transparent',
-            color: activeTab === 'agenda' ? 'var(--cyan)' : 'var(--text-secondary)',
+            color: activeTab === 'agenda' ? 'var(--accent)' : 'var(--text-secondary)',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
-            borderBottom: activeTab === 'agenda' ? '2px solid var(--cyan)' : 'none'
+            borderBottom: activeTab === 'agenda' ? '2px solid var(--accent)' : 'none'
           }}
         >
-          ⏱️ Run-of-Show Agenda ({sections.length} sections)
+          Agenda ({sections.length})
         </button>
         <button
           onClick={() => setActiveTab('preparation')}
           style={{
             padding: '8px 16px', borderRadius: 8, border: 'none',
             background: activeTab === 'preparation' ? 'var(--bg-elevated)' : 'transparent',
-            color: activeTab === 'preparation' ? 'var(--cyan)' : 'var(--text-secondary)',
+            color: activeTab === 'preparation' ? 'var(--accent)' : 'var(--text-secondary)',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
-            borderBottom: activeTab === 'preparation' ? '2px solid var(--cyan)' : 'none'
+            borderBottom: activeTab === 'preparation' ? '2px solid var(--accent)' : 'none'
           }}
         >
-          ☑️ Preparation Tasks ({tasks.length})
+          Tasks ({tasks.length})
         </button>
         <button
           onClick={() => setActiveTab('communication')}
           style={{
             padding: '8px 16px', borderRadius: 8, border: 'none',
             background: activeTab === 'communication' ? 'var(--bg-elevated)' : 'transparent',
-            color: activeTab === 'communication' ? 'var(--cyan)' : 'var(--text-secondary)',
+            color: activeTab === 'communication' ? 'var(--accent)' : 'var(--text-secondary)',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
-            borderBottom: activeTab === 'communication' ? '2px solid var(--cyan)' : 'none'
+            borderBottom: activeTab === 'communication' ? '2px solid var(--accent)' : 'none'
           }}
         >
-          📢 Communication Plan ({comItems.length})
+          Communication ({comItems.length})
         </button>
         <button
           onClick={() => setActiveTab('people')}
           style={{
             padding: '8px 16px', borderRadius: 8, border: 'none',
             background: activeTab === 'people' ? 'var(--bg-elevated)' : 'transparent',
-            color: activeTab === 'people' ? 'var(--cyan)' : 'var(--text-secondary)',
+            color: activeTab === 'people' ? 'var(--accent)' : 'var(--text-secondary)',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
-            borderBottom: activeTab === 'people' ? '2px solid var(--cyan)' : 'none'
+            borderBottom: activeTab === 'people' ? '2px solid var(--accent)' : 'none'
           }}
         >
-          👥 People & Roles ({responsibleMembers.length})
+          Team & Roles ({responsibleMembers.length})
         </button>
       </div>
 
@@ -570,8 +545,8 @@ export default function EventDetailPage() {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       {sec.timing && (
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#F59E0B', background: 'rgba(245,158,11,0.12)', padding: '3px 8px', borderRadius: 6 }}>
-                          ⏱️ {sec.timing}
+                        <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', background: 'var(--bg-subtle)', border: '1px solid var(--border)', padding: '3px 8px', borderRadius: 6 }}>
+                          {sec.timing}
                         </span>
                       )}
                       {sec.responsiblePerson && (
@@ -716,60 +691,18 @@ export default function EventDetailPage() {
               )}
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {tasks.map(t => {
-                const isCompleted = t.status === 'COMPLETED';
-                return (
-                  <div
-                    key={t.id}
-                    className="card"
-                    style={{
-                      padding: '12px 18px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 14,
-                      background: isCompleted ? 'rgba(16,185,129,0.04)' : '#ffffff',
-                      borderLeft: isCompleted ? '4px solid #10B981' : '4px solid #F59E0B'
-                    }}
-                  >
-                    <button
-                      onClick={() => handleToggleTask(t)}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-                      title={isCompleted ? 'Mark not completed' : 'Mark completed'}
-                    >
-                      {isCompleted ? (
-                        <CheckCircle2 size={20} style={{ color: '#10B981' }} />
-                      ) : (
-                        <Circle size={20} style={{ color: '#94A3B8' }} />
-                      )}
-                    </button>
-
-                    <div style={{ flex: 1, minWidth: 200 }}>
-                      <div style={{
-                        fontWeight: 600, fontSize: 14,
-                        textDecoration: isCompleted ? 'line-through' : 'none',
-                        color: isCompleted ? 'var(--text-muted)' : 'var(--text-primary)'
-                      }}>
-                        {t.title}
-                      </div>
-                      {t.description && (
-                        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-                          {t.description}
-                        </div>
-                      )}
-                    </div>
-
-                    {t.deadline && (
-                      <span style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <Clock size={12} /> Due: {t.deadline}
-                      </span>
-                    )}
-
-                    <PriorityBadge priority={t.priority} />
-                    <StatusBadge status={t.status} />
-                  </div>
-                );
-              })}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {tasks.map(t => (
+                <TaskItem
+                  key={t.id}
+                  task={t}
+                  onToggleDone={handleToggleTask}
+                  canToggle={canEdit}
+                  showAssignee={true}
+                  showDepartment={false}
+                  showDeadline={true}
+                />
+              ))}
             </div>
           )}
         </div>
@@ -836,8 +769,8 @@ export default function EventDetailPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
           {/* Organizer */}
           {event.organizer && (
-            <div className="card" style={{ padding: '16px 18px', borderLeft: '4px solid #0284c7' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--cyan)', textTransform: 'uppercase', marginBottom: 8 }}>
+            <div className="card" style={{ padding: '16px 18px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 8 }}>
                 Lead Organizer
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -852,8 +785,8 @@ export default function EventDetailPage() {
 
           {/* Department */}
           {event.department && (
-            <div className="card" style={{ padding: '16px 18px', borderLeft: `4px solid ${event.department.color}` }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: event.department.color, textTransform: 'uppercase', marginBottom: 8 }}>
+            <div className="card" style={{ padding: '16px 18px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 8 }}>
                 Responsible Department
               </div>
               <div style={{ fontWeight: 700, fontSize: 14 }}>{event.department.name}</div>

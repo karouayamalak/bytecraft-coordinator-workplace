@@ -1,4 +1,4 @@
-export type UserRole = 'COORDINATOR' | 'DEPARTMENT_LEADER' | 'MEMBER' | 'MANAGER';
+export type UserRole = 'COORDINATOR' | 'PRESIDENT' | 'VICE_PRESIDENT' | 'HR' | 'SECRETARY' | 'MANAGER' | 'DEPARTMENT_LEADER' | 'MEMBER';
 
 export interface VisibilitySettings {
   showAllDepartments: boolean;
@@ -86,7 +86,9 @@ export interface Task {
   title: string;
   description: string;
   departmentId: string;
+  departmentIds?: string[];
   assignedMemberId: string | null;
+  assignedMemberIds?: string[];
   createdById: string;
   eventId: string | null;
   priority: TaskPriority;
@@ -99,9 +101,11 @@ export interface Task {
   createdAt: string;
   updatedAt: string;
   // Enriched
-  assignee?: { id: string; name: string; email: string; avatarUrl: string } | null;
+  assignee?: { id: string; name: string; email?: string; avatarUrl: string } | null;
+  assignees?: Array<{ id: string; name: string; email?: string; avatarUrl: string }>;
   creator?: { id: string; name: string } | null;
   department?: { id: string; name: string; color: string } | null;
+  departments?: Array<{ id: string; name: string; color: string }>;
   event?: { id: string; name: string; date: string } | null;
   isPastDue?: boolean;
   isDueToday?: boolean;
@@ -338,4 +342,20 @@ export interface DashboardData {
   }>;
   overloadedMembers: MemberWorkload[];
   recentActivity: ActivityLog[];
+  managerView?: {
+    department: { id: string; name: string; color: string; description: string } | null;
+    managers: Array<{ id: string; name: string; position?: string; avatarUrl: string; email?: string }>;
+    personal: {
+      activeCount: number;
+      completedCount: number;
+      overdueCount: number;
+      upcomingDeadlines: Array<any>;
+    };
+    departmentStats: {
+      activeCount: number;
+      completedCount: number;
+      overdueCount: number;
+      upcomingDeadlines: Array<any>;
+    };
+  } | null;
 }

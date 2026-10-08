@@ -4,6 +4,7 @@ import { authenticate, requireRole } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// COORDINATOR in requireRole() automatically expands to all board roles (see auth.js)
 router.get('/', authenticate, userController.getAll);
 router.get('/:id', authenticate, userController.getById);
 router.post('/', authenticate, requireRole('COORDINATOR'), userController.create);

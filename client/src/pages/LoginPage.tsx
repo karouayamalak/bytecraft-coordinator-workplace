@@ -1,340 +1,465 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, ChevronRight } from 'lucide-react';
+import { Mail, ArrowRight, AlertCircle, Search, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import Avatar from '../components/ui/Avatar';
+
+// Real ByteCraft team members with their registered Google accounts
+const REGISTERED_GOOGLE_ACCOUNTS = [
+  {
+    name: 'Aya Malak Karou',
+    email: 'a_karou@estin.dz',
+    role: 'Coordinator',
+    position: 'Club Coordinator',
+    avatarUrl: '/avatars/aya-karou.jpg',
+  },
+  {
+    name: 'Elmouatez Billah Ledjassa',
+    email: 'e_ledjassa@estin.dz',
+    role: 'President',
+    position: 'Club President',
+    avatarUrl: '/avatars/elmouatez-ledjassa.jpeg',
+  },
+  {
+    name: 'Sadjed Louahouah',
+    email: 's_louahouah@estin.dz',
+    role: 'Vice President',
+    position: 'Vice President',
+    avatarUrl: '/avatars/sadjed-louahouah.jpeg',
+  },
+  {
+    name: 'Ines Ben Ferhat',
+    email: 'b_ines@estin.dz',
+    role: 'Secretary',
+    position: 'General Secretary',
+    avatarUrl: '/avatars/secretary-ines.jpeg',
+  },
+  {
+    name: 'Imene Bouzena',
+    email: 'i_bouzena@estin.dz',
+    role: 'Design Manager',
+    position: 'Design Manager',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=85&crop=faces',
+  },
+  {
+    name: 'Mohammed Benkerri',
+    email: 'mbenkerri44@gmail.com',
+    role: 'Multimedia Manager',
+    position: 'Multimedia Manager',
+    avatarUrl: '/avatars/mohammed-benkerri.jpg',
+  },
+  {
+    name: 'Israa Chiheb',
+    email: 'i_chiheb@estin.dz',
+    role: 'Dev & Tech Manager',
+    position: 'Development & Tech Manager',
+    avatarUrl: '/avatars/israa-chiheb.jpeg',
+  },
+  {
+    name: 'Rayane Alem',
+    email: 'r_alem@estin.dz',
+    role: 'Logistics Manager',
+    position: 'Logistics & Activities Manager',
+    avatarUrl: '/avatars/rayane-alem.jpg',
+  },
+  {
+    name: 'Manel Lyazidi',
+    email: 'm_lyazidi@estin.dz',
+    role: 'Comms Manager',
+    position: 'Communication Manager',
+    avatarUrl: '/avatars/manel-lyazidi.jpg',
+  },
+  {
+    name: 'Tamer Khalfa',
+    email: 't_khalfa@estin.dz',
+    role: 'ER Manager',
+    position: 'External Relations Manager',
+    avatarUrl: '/avatars/tamer-khalfa.jpeg',
+  },
+];
+
+function GoogleIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24">
+      <path
+        fill="#4285F4"
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+      />
+    </svg>
+  );
+}
 
 export default function LoginPage() {
-  const { login, switchDemoUser } = useAuth();
+  const { loginWithGoogle, login } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail]           = useState('coordinator@bytecraft.club');
-  const [password, setPassword]     = useState('bytecraft2026');
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading]       = useState(false);
-  const [error, setError]           = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const [inputEmail, setInputEmail] = useState('');
+  const [searchMember, setSearchMember] = useState('');
+  const [loadingEmail, setLoadingEmail] = useState<string | null>(null);
+  const [error, setError] = useState('');
+  const [showManualPassword, setShowManualPassword] = useState(false);
+  const [manualPassword, setManualPassword] = useState('');
+
+  const handleGoogleLogin = async (email: string) => {
+    if (!email) {
+      setError('Please enter or select your Google account email.');
+      return;
+    }
+    setLoadingEmail(email);
     setError('');
     try {
-      await login(email, password);
+      await loginWithGoogle(email);
       navigate('/');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed. Please check your credentials.');
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message ||
+        err?.message ||
+        `Google account "${email}" is not registered in ByteCraft.`
+      );
     } finally {
-      setLoading(false);
+      setLoadingEmail(null);
     }
   };
 
-  const handleDemoLogin = async (userId: string) => {
-    setLoading(true);
+  const handleManualPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputEmail || !manualPassword) {
+      setError('Please fill in both email and password.');
+      return;
+    }
+    setLoadingEmail(inputEmail);
+    setError('');
     try {
-      await switchDemoUser(userId);
+      await login(inputEmail, manualPassword);
       navigate('/');
-    } catch {
-      setError('Failed to switch demo user.');
+    } catch (err: any) {
+      setError(err?.response?.data?.message || err?.message || 'Invalid credentials.');
     } finally {
-      setLoading(false);
+      setLoadingEmail(null);
     }
   };
 
-  const DEMO_OPTIONS = [
-    {
-      id:      'user-aya-karou',
-      label:   'Club Coordinator',
-      name:    'Aya Karou',
-      desc:    'Full Executive & Visibility Control',
-      mascot:  '/mascots/executive.png',
-      accent:  '#187db8',
-      bg:      '#e7f5fd',
-    },
-    {
-      id:      'user-manel-lyazidi',
-      label:   'Communication Manager',
-      name:    'Manel Lyazidi',
-      desc:    'External Relations & PR Manager',
-      mascot:  '/mascots/pr.png',
-      accent:  '#0d9488',
-      bg:      '#ecfdf5',
-    },
-    {
-      id:      'user-imene-bouzena',
-      label:   'Design Manager',
-      name:    'Imene Bouzena',
-      desc:    'Design Department Manager',
-      mascot:  '/mascots/media.png',
-      accent:  '#7c3aed',
-      bg:      '#f5f3ff',
-    },
-  ];
+  const filteredMembers = REGISTERED_GOOGLE_ACCOUNTS.filter(m =>
+    !searchMember ||
+    m.name.toLowerCase().includes(searchMember.toLowerCase()) ||
+    m.email.toLowerCase().includes(searchMember.toLowerCase()) ||
+    m.role.toLowerCase().includes(searchMember.toLowerCase())
+  );
 
   return (
-    /* Full-screen sky background — matches Dashboard hero */
     <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(180deg, #08476e 0%, #116c9e 18%, #2192cf 42%, #69c7f4 65%, #bfe8fa 82%, #edf7fd 93%, #ffffff 100%)',
+      minHeight: '100dvh',
+      background: '#0a0a0a',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '24px 16px',
-      position: 'relative',
-      overflow: 'hidden',
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
     }}>
-      {/* Exactly Two Simple Static Anime Clouds (No Floating, Completely Uncut) */}
-      <img
-        src="/clouds/cloud_pure_1.png"
-        alt=""
-        style={{
-          position: 'absolute',
-          top: 30,
-          left: '4%',
-          width: 360,
-          pointerEvents: 'none',
-          zIndex: 1,
-          filter: 'drop-shadow(0 10px 24px rgba(0,35,70,0.15))',
-        }}
-      />
-      <img
-        src="/clouds/cloud_pure_2.png"
-        alt=""
-        style={{
-          position: 'absolute',
-          top: 40,
-          right: '5%',
-          width: 380,
-          pointerEvents: 'none',
-          zIndex: 1,
-          filter: 'drop-shadow(0 10px 24px rgba(0,35,70,0.15))',
-        }}
-      />
+      <div style={{ width: '100%', maxWidth: 440 }}>
 
-      {/* Hero character — floats up on the left at larger screens */}
-      <img
-        src="/mascot-hero.png"
-        alt="ByteCraft Expedition Mascot"
-        style={{
-          position: 'absolute',
-          left: 'calc(50% - 520px)',
-          bottom: 80,
-          width: 320,
-          objectFit: 'contain',
-          pointerEvents: 'none',
-          filter: 'drop-shadow(0 16px 32px rgba(0,48,80,0.3))',
-
-          display: 'block',
-        }}
-      />
-
-      {/* Giant White Cloud Island Login Card */}
-      <div style={{
-        width: '100%',
-        maxWidth: 460,
-        background: '#ffffff',
-        borderRadius: 36,
-        boxShadow: '0 20px 56px rgba(9,64,99,0.20)',
-        padding: '40px 36px 36px',
-        position: 'relative',
-        zIndex: 10,
-        border: '3px solid #ffffff',
-      }}>
-        {/* Scalloped cloud top */}
-        <div style={{
-          position: 'absolute',
-          top: -28,
-          left: '16%',
-          width: 130,
-          height: 56,
-          background: '#ffffff',
-          borderRadius: 999,
-          boxShadow: '0 -6px 16px rgba(9,64,99,0.06)',
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: -34,
-          right: '20%',
-          width: 160,
-          height: 68,
-          background: '#ffffff',
-          borderRadius: 999,
-          boxShadow: '0 -6px 16px rgba(9,64,99,0.06)',
-        }} />
-
-        {/* Logo only - no name */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+        {/* Brand Header */}
+        <div style={{ marginBottom: 28, textAlign: 'center' }}>
           <img
             src="/bytecraft-logo.png"
-            alt="Logo"
-            style={{ height: 84, width: 'auto', objectFit: 'contain', margin: '0 auto 12px', display: 'block' }}
+            alt="ByteCraft"
+            style={{
+              height: 58,
+              width: 'auto',
+              objectFit: 'contain',
+              margin: '0 auto 16px',
+              display: 'block',
+              filter: 'brightness(1.15) drop-shadow(0 4px 12px rgba(0,0,0,0.6))'
+            }}
           />
-          <p style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 600 }}>
-            Club Coordination & Operations Platform
+          <h1 style={{ fontSize: 20, fontWeight: 600, color: '#f4f4f5', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+            ByteCraft Operations
+          </h1>
+          <p style={{ fontSize: 13, color: '#71717a', margin: 0 }}>
+            Sign in with your registered Google account
           </p>
         </div>
 
-        {/* Error */}
+        {/* Error Alert */}
         {error && (
           <div style={{
-            display: 'flex', alignItems: 'center', gap: 8,
-            background: '#fee2e2', border: '1.5px solid #fca5a5',
-            borderRadius: 14, padding: '10px 14px',
-            color: '#b91c1c', fontSize: 13, fontWeight: 600,
-            marginBottom: 18,
+            display: 'flex', alignItems: 'flex-start', gap: 10,
+            background: 'rgba(239, 68, 68, 0.08)',
+            border: '1px solid rgba(239, 68, 68, 0.25)',
+            borderRadius: 10, padding: '12px 14px',
+            color: '#f87171', fontSize: 13, marginBottom: 18,
+            lineHeight: 1.45,
           }}>
-            <AlertCircle size={16} style={{ flexShrink: 0 }} />
-            {error}
+            <AlertCircle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
+            <div>{error}</div>
           </div>
         )}
 
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {/* Email */}
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: 'var(--text-sub)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
-              Email Address
-            </label>
-            <div style={{ position: 'relative' }}>
-              <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="your@bytecraft.club"
-                required
-                autoComplete="email"
-                style={{
-                  width: '100%',
-                  paddingLeft: 42,
-                  paddingRight: 14,
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 14,
-                  color: 'var(--text-dark)',
-                  background: '#f4fafe',
-                  border: '2px solid #c8dff0',
-                  borderRadius: 14,
-                  outline: 'none',
-                  transition: 'border 0.2s',
-                }}
-                onFocus={e => (e.target.style.borderColor = '#e87823')}
-                onBlur={e => (e.target.style.borderColor = '#c8dff0')}
-              />
-            </div>
-          </div>
+        {/* Main Card: Google Sign-In */}
+        <div style={{
+          background: '#121214',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: 14,
+          padding: '20px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+        }}>
 
-          {/* Password */}
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: 'var(--text-sub)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
-              Password
+          {/* Quick Email Entry */}
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 500, color: '#a1a1aa', marginBottom: 8 }}>
+              Google Account Email
             </label>
-            <div style={{ position: 'relative' }}>
-              <Lock size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                autoComplete="current-password"
-                style={{
-                  width: '100%',
-                  paddingLeft: 42,
-                  paddingRight: 44,
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 14,
-                  color: 'var(--text-dark)',
-                  background: '#f4fafe',
-                  border: '2px solid #c8dff0',
-                  borderRadius: 14,
-                  outline: 'none',
-                  transition: 'border 0.2s',
-                }}
-                onFocus={e => (e.target.style.borderColor = '#e87823')}
-                onBlur={e => (e.target.style.borderColor = '#c8dff0')}
-              />
+            <div style={{ display: 'flex', gap: 8 }}>
+              <div style={{ position: 'relative', flex: 1 }}>
+                <Mail size={15} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#71717a', pointerEvents: 'none' }} />
+                <input
+                  type="email"
+                  value={inputEmail}
+                  onChange={e => setInputEmail(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleGoogleLogin(inputEmail); }}
+                  placeholder="name@estin.dz"
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px 10px 36px',
+                    borderRadius: 8,
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    background: '#18181b',
+                    color: '#f4f4f5',
+                    fontSize: 13.5,
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 4 }}
+                disabled={!inputEmail || !!loadingEmail}
+                onClick={() => handleGoogleLogin(inputEmail)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '10px 16px',
+                  borderRadius: 8,
+                  border: 'none',
+                  background: '#2563eb',
+                  color: '#ffffff',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: (!inputEmail || !!loadingEmail) ? 'not-allowed' : 'pointer',
+                  opacity: (!inputEmail || !!loadingEmail) ? 0.6 : 1,
+                  transition: 'background 0.15s ease',
+                  flexShrink: 0,
+                }}
               >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {loadingEmail === inputEmail ? 'Verifying…' : (
+                  <>
+                    <GoogleIcon />
+                    <span>Sign In</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
 
-          {/* Sign In Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              marginTop: 6,
-              background: 'linear-gradient(135deg, #e87823 0%, #f48a37 100%)',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: 999,
-              padding: '13px 24px',
-              fontFamily: 'var(--font-display)',
-              fontSize: 20,
-              letterSpacing: '0.05em',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.75 : 1,
-              boxShadow: '0 4px 0px #c45f12, 0 6px 16px rgba(232,120,35,0.35)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={e => { if (!loading) e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
-          >
-            {loading ? 'SIGNING IN…' : 'ENTER THE GUILD'}
-          </button>
-        </form>
+          {/* Divider */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '20px 0 16px' }}>
+            <div style={{ flex: 1, height: 1, background: 'rgba(255, 255, 255, 0.08)' }} />
+            <span style={{ fontSize: 11, fontWeight: 500, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Or choose your club Google account
+            </span>
+            <div style={{ flex: 1, height: 1, background: 'rgba(255, 255, 255, 0.08)' }} />
+          </div>
 
-        {/* Divider */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '24px 0 16px' }}>
-          <div style={{ flex: 1, height: 1, background: '#e0eff9' }} />
-          <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-            Quick Demo Access
-          </span>
-          <div style={{ flex: 1, height: 1, background: '#e0eff9' }} />
+          {/* Member Search filter */}
+          <div style={{ position: 'relative', marginBottom: 10 }}>
+            <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#71717a', pointerEvents: 'none' }} />
+            <input
+              type="text"
+              placeholder="Search member by name or role…"
+              value={searchMember}
+              onChange={e => setSearchMember(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '7px 10px 7px 32px',
+                borderRadius: 7,
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: '#161618',
+                color: '#e4e4e7',
+                fontSize: 12.5,
+                outline: 'none',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+
+          {/* Google Accounts List */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 6,
+            maxHeight: 280,
+            overflowY: 'auto',
+            paddingRight: 2,
+          }}>
+            {filteredMembers.map(item => {
+              const isLoading = loadingEmail === item.email;
+              return (
+                <button
+                  key={item.email}
+                  type="button"
+                  disabled={!!loadingEmail}
+                  onClick={() => handleGoogleLogin(item.email)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    padding: '9px 12px',
+                    borderRadius: 8,
+                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                    background: isLoading ? 'rgba(37, 99, 235, 0.1)' : '#161619',
+                    cursor: loadingEmail ? 'not-allowed' : 'pointer',
+                    textAlign: 'left',
+                    width: '100%',
+                    transition: 'all 0.12s ease',
+                  }}
+                  onMouseEnter={e => {
+                    if (!loadingEmail) {
+                      e.currentTarget.style.background = '#1a1a1f';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.14)';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (!loadingEmail) {
+                      e.currentTarget.style.background = '#161619';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)';
+                    }
+                  }}
+                >
+                  <Avatar src={item.avatarUrl} name={item.name} size="sm" />
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#f4f4f5', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {item.name}
+                    </div>
+                    <div style={{ fontSize: 11, color: '#71717a', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {item.email} · <span style={{ color: '#a1a1aa' }}>{item.role}</span>
+                    </div>
+                  </div>
+
+                  {isLoading ? (
+                    <div style={{
+                      width: 14, height: 14,
+                      border: '2px solid rgba(255,255,255,0.2)',
+                      borderTopColor: '#2563eb',
+                      borderRadius: '50%',
+                      animation: 'spin 0.6s linear infinite',
+                      flexShrink: 0
+                    }} />
+                  ) : (
+                    <GoogleIcon />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Security Note */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            marginTop: 18,
+            paddingTop: 14,
+            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+            fontSize: 11.5,
+            color: '#71717a',
+            justifyContent: 'center',
+          }}>
+            <ShieldCheck size={13} style={{ color: '#16a34a' }} />
+            <span>Authenticated via ByteCraft verified Google accounts</span>
+          </div>
         </div>
 
-        {/* Demo Login Buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {DEMO_OPTIONS.map(d => (
-            <button
-              key={d.id}
-              onClick={() => handleDemoLogin(d.id)}
-              disabled={loading}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 14,
-                padding: '10px 16px',
-                borderRadius: 16,
-                border: `2px solid ${d.bg}`,
-                background: d.bg,
-                cursor: loading ? 'not-allowed' : 'pointer',
-                textAlign: 'left',
-                transition: 'all 0.2s cubic-bezier(0.34,1.56,0.64,1)',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.08)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
-            >
-              <img src={d.mascot} alt={d.label} style={{ width: 40, height: 40, objectFit: 'contain', flexShrink: 0 }} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 17, color: d.accent, letterSpacing: '0.03em' }}>
-                  {d.label}
-                </div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500 }}>
-                  {d.name} — {d.desc}
-                </div>
-              </div>
-              <ChevronRight size={16} style={{ color: d.accent, flexShrink: 0 }} />
-            </button>
-          ))}
+        {/* Collapsible Manual Password Fallback */}
+        <div style={{ marginTop: 16, textAlign: 'center' }}>
+          <button
+            type="button"
+            onClick={() => setShowManualPassword(v => !v)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#71717a',
+              fontSize: 11.5,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+            }}
+          >
+            <span>Emergency password access</span>
+            {showManualPassword ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          </button>
+
+          {showManualPassword && (
+            <form onSubmit={handleManualPasswordSubmit} style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 10, textAlign: 'left' }}>
+              <input
+                type="password"
+                placeholder="Password (default: bytecraft2026)"
+                value={manualPassword}
+                onChange={e => setManualPassword(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '9px 12px',
+                  borderRadius: 8,
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: '#141416',
+                  color: '#ededed',
+                  fontSize: 13,
+                  boxSizing: 'border-box',
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!!loadingEmail}
+                style={{
+                  padding: '9px',
+                  borderRadius: 8,
+                  border: 'none',
+                  background: '#27272a',
+                  color: '#ededed',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
+              >
+                Sign In with Password
+              </button>
+            </form>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div style={{ marginTop: 24, textAlign: 'center', fontSize: 11, color: '#3f3f46' }}>
+          ByteCraft Club · Internal Operations · ESTIN
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }

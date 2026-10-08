@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 import {
   Save, RefreshCw, CheckCircle2
 } from 'lucide-react';
@@ -7,7 +9,6 @@ import { useFetch } from '../hooks/useFetch';
 import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { useWebSocket } from '../hooks/useWebSocket';
-import confetti from 'canvas-confetti';
 
 interface ClubSettings {
   clubName?: string;
@@ -18,10 +19,17 @@ interface ClubSettings {
   alertBeforeDays?: number;
 }
 
+const BOARD_ROLES = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'];
+
 export default function SettingsPage() {
   const { user } = useAuth();
+  const isBoard = user ? BOARD_ROLES.includes(user.role) : false;
   const isCoordinator = user?.role === 'COORDINATOR';
   const { isConnected } = useWebSocket();
+
+  if (!isBoard) {
+    return <Navigate to="/" replace />;
+  }
 
   const { data: initialSettings, refetch } = useFetch<ClubSettings>('/system/settings');
   const [settings, setSettings] = useState<ClubSettings>({
@@ -63,17 +71,17 @@ export default function SettingsPage() {
   };
 
   const handleResetDemo = async () => {
-    if (!confirm('Are you sure you want to reset all data back to the clean ByteCraft baseline state? This resets tasks, events, and audit logs.')) {
+    if (!confirm('Re-synchronize database with the official ByteCraft members, departments, and baseline data?')) {
       return;
     }
     setResetting(true);
     try {
       await api.post('/system/reset-demo');
       confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
-      alert('Baseline demo data restored successfully!');
+      alert('Club directory & baseline synchronized successfully!');
       window.location.reload();
     } catch (err: any) {
-      alert(err.message || 'Failed to reset demo data');
+      alert(err.message || 'Failed to sync directory');
     } finally {
       setResetting(false);
     }
@@ -82,69 +90,10 @@ export default function SettingsPage() {
   return (
     <AppLayout
       title="Club Settings & Brand Assets"
-      subtitle="Configure club profile, workload thresholds, and inspect mascot branding"
+      subtitle="Configure club profile, workload thresholds, and coordination rules"
       breadcrumbs={[{ label: 'Settings' }]}
     >
       <form onSubmit={handleSave}>
-        {/* Brand Mascot Showcase */}
-        <div className="glass-card" style={{ padding: 24, marginBottom: 24 }}>
-          <h3 style={{ margin: '0 0 8px', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
-            ByteCraft Brand & Department Mascots
-          </h3>
-          <p style={{ margin: '0 0 20px', color: 'var(--text-muted)', fontSize: 13 }}>
-            Official ByteCraft club avatars and 3D mascots representing our key departments.
-          </p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-            <div style={{
-              padding: 16,
-              background: 'var(--bg-elevated)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid rgba(139, 92, 246, 0.3)',
-              textAlign: 'center'
-            }}>
-              <img src="/mascots/executive.png" alt="Executive Mascot" style={{ width: 100, height: 100, objectFit: 'contain', margin: '0 auto 10px' }} />
-              <div style={{ fontWeight: 700, fontSize: 14, color: '#A78BFA' }}>Executive & Leadership</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Coordination & Strategy</div>
-            </div>
-
-            <div style={{
-              padding: 16,
-              background: 'var(--bg-elevated)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid rgba(0, 212, 255, 0.3)',
-              textAlign: 'center'
-            }}>
-              <img src="/mascots/tech.png" alt="Technical Mascot" style={{ width: 100, height: 100, objectFit: 'contain', margin: '0 auto 10px' }} />
-              <div style={{ fontWeight: 700, fontSize: 14, color: '#38BDF8' }}>Technical & Dev</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Engineering & Hackathons</div>
-            </div>
-
-            <div style={{
-              padding: 16,
-              background: 'var(--bg-elevated)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid rgba(236, 72, 153, 0.3)',
-              textAlign: 'center'
-            }}>
-              <img src="/mascots/media.png" alt="Media Mascot" style={{ width: 100, height: 100, objectFit: 'contain', margin: '0 auto 10px' }} />
-              <div style={{ fontWeight: 700, fontSize: 14, color: '#F472B6' }}>Media & Design</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Photography & Visuals</div>
-            </div>
-
-            <div style={{
-              padding: 16,
-              background: 'var(--bg-elevated)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid rgba(52, 211, 153, 0.3)',
-              textAlign: 'center'
-            }}>
-              <img src="/mascots/pr.png" alt="PR Mascot" style={{ width: 100, height: 100, objectFit: 'contain', margin: '0 auto 10px' }} />
-              <div style={{ fontWeight: 700, fontSize: 14, color: '#34D399' }}>Communications & PR</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Outreach & Welcoming</div>
-            </div>
-          </div>
-        </div>
 
         {/* Club Profile & Operational Rules */}
         <div className="glass-card" style={{ padding: 24, marginBottom: 24 }}>
@@ -286,24 +235,24 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Danger Zone: Demo Reset */}
+        {/* Maintenance Zone */}
         {isCoordinator && (
-          <div className="glass-card" style={{ padding: 24, border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-            <h3 style={{ margin: '0 0 8px', fontSize: 18, fontWeight: 700, color: '#F87171' }}>
-              Maintenance & Reset Baseline
+          <div className="glass-card" style={{ padding: 24, border: '1px solid rgba(24, 125, 184, 0.25)' }}>
+            <h3 style={{ margin: '0 0 8px', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
+              Directory Sync & Database Maintenance
             </h3>
             <p style={{ margin: '0 0 16px', color: 'var(--text-muted)', fontSize: 13 }}>
-              Reset database store to original seeded ByteCraft members, departments, sample tasks, and events.
+              Synchronize the database store with the official ByteCraft club directory, departments, and seed data.
             </p>
             <button
               type="button"
               className="btn btn-secondary"
               onClick={handleResetDemo}
               disabled={resetting}
-              style={{ color: '#F87171', borderColor: 'rgba(239, 68, 68, 0.4)' }}
+              style={{ color: 'var(--accent-primary)', borderColor: 'rgba(24, 125, 184, 0.3)' }}
             >
               <RefreshCw size={14} className={resetting ? 'animate-spin' : ''} />
-              {resetting ? 'Resetting Baseline...' : 'Reset Demo Data to Initial State'}
+              {resetting ? 'Synchronizing...' : 'Re-sync Club Directory & Baseline'}
             </button>
           </div>
         )}

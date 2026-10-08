@@ -55,6 +55,77 @@ export const authController = {
     }
   },
 
+  googleLogin: (req, res, next) => {
+    try {
+      const { email, credential } = req.body;
+      let targetEmail = (email || '').trim().toLowerCase();
+
+      // If a Google ID token credential was provided, extract the email from payload
+      if (credential && typeof credential === 'string') {
+        try {
+          const parts = credential.split('.');
+          if (parts.length === 3) {
+            const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
+            if (payload && payload.email) {
+              targetEmail = payload.email.trim().toLowerCase();
+            }
+          }
+        } catch (e) {
+          console.warn('Failed to parse Google JWT payload:', e);
+        }
+      }
+
+      if (!targetEmail) {
+        return res.status(400).json({
+          success: false,
+          message: 'Google account email is required'
+        });
+      }
+
+      const user = db.findOne('users', u => u.email.toLowerCase() === targetEmail);
+      if (!user) {
+        return res.status(403).json({
+          success: false,
+          message: `The Google account "${targetEmail}" is not registered in ByteCraft members directory. Please sign in with your club email.`
+        });
+      }
+
+      if (!user.isActive) {
+        return res.status(403).json({
+          success: false,
+          message: 'Account is deactivated. Please contact the executive board.'
+        });
+      }
+
+      const token = jwt.sign(
+        { id: user.id, email: user.email, role: user.role },
+        CONFIG.JWT_SECRET,
+        { expiresIn: CONFIG.JWT_EXPIRY }
+      );
+
+      const safeUser = { ...user };
+      delete safeUser.passwordHash;
+
+      logActivity({
+        actor: user,
+        action: 'USER_LOGIN_GOOGLE',
+        entityType: 'USER',
+        entityId: user.id,
+        details: `Signed in via Google (${targetEmail})`
+      });
+
+      res.json({
+        success: true,
+        data: {
+          token,
+          user: safeUser
+        }
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   me: (req, res) => {
     const user = { ...req.user };
     delete user.passwordHash;

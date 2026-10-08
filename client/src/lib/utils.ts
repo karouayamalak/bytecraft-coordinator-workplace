@@ -1,5 +1,9 @@
 import type { TaskStatus, TaskPriority, CommStatus, CommChannel, CommPhase } from './types';
 
+export const BOARD_ROLES = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'];
+export const isBoardRole = (role?: string) => BOARD_ROLES.includes((role || '').toUpperCase());
+export const isManagerRole = (role?: string) => ['MANAGER', 'DEPARTMENT_LEADER'].includes((role || '').toUpperCase());
+
 export const STATUS_LABELS: Record<TaskStatus, string> = {
   TODO: 'To Do',
   IN_PROGRESS: 'In Progress',
@@ -70,12 +74,12 @@ export const PHASE_LABELS: Record<CommPhase, string> = {
 };
 
 export const DEPT_ICON_MAP: Record<string, string> = {
-  Code2: '💻',
-  Megaphone: '📣',
-  Palette: '🎨',
-  PackageCheck: '📦',
-  BookOpen: '📚',
-  Briefcase: '💼',
+  Code2: 'dev',
+  Megaphone: 'comm',
+  Palette: 'design',
+  PackageCheck: 'logistics',
+  BookOpen: 'relations',
+  Briefcase: 'ops',
 };
 
 // Utility helpers
@@ -116,8 +120,8 @@ export function getDeadlineUrgency(deadline: string, status: string): 'overdue' 
   return 'upcoming';
 }
 
-export function getDeadlineEmoji(urgency: ReturnType<typeof getDeadlineUrgency>): string {
-  const map = { overdue: '🔴', today: '🟠', soon: '🟡', upcoming: '🟢', done: '✅' };
+export function getDeadlineLabel(urgency: ReturnType<typeof getDeadlineUrgency>): string {
+  const map = { overdue: 'Overdue', today: 'Due today', soon: 'Due soon', upcoming: 'Upcoming', done: 'Done' };
   return map[urgency];
 }
 

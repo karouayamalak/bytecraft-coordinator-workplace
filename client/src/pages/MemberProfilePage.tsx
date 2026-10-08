@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import Avatar from '../components/ui/Avatar';
-import { RoleBadge, PriorityBadge, StatusBadge } from '../components/ui/Badge';
+import TaskItem from '../components/common/TaskItem';
 import ProgressBar from '../components/ui/ProgressBar';
 import Modal from '../components/ui/Modal';
 import { useFetch } from '../hooks/useFetch';
@@ -65,7 +65,7 @@ export default function MemberProfilePage() {
   const events = data?.events || [];
   const comItems = data?.communicationItems || [];
 
-  const isCoordinator = me?.role === 'COORDINATOR';
+  const isCoordinator = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'].includes(me?.role || '');
   const isSelf = me?.id === member?.id;
   const isDeptLeader = (me?.role === 'DEPARTMENT_LEADER' || me?.role === 'MANAGER') && me?.departmentId === member?.departmentId;
   const canManage = isCoordinator || isDeptLeader;
@@ -207,7 +207,7 @@ export default function MemberProfilePage() {
       </div>
 
       {/* Profile Header Card */}
-      <div className="card" style={{ padding: '24px 28px', marginBottom: 24, borderTop: `4px solid ${dept?.color || '#0284c7'}` }}>
+      <div className="card" style={{ padding: '24px 28px', marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 18 }}>
           <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
             <Avatar src={member.avatarUrl} name={member.name} size="xl" />
@@ -216,15 +216,6 @@ export default function MemberProfilePage() {
                 <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: 'var(--text-primary)' }}>
                   {member.name}
                 </h2>
-                <RoleBadge role={member.role} />
-                <span style={{
-                  fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-                  background: member.isActive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)',
-                  color: member.isActive ? '#10B981' : '#EF4444',
-                  border: `1px solid ${member.isActive ? 'rgba(16,185,129,0.25)' : 'rgba(239,68,68,0.25)'}`
-                }}>
-                  {member.isActive ? 'ACTIVE' : 'INACTIVE'}
-                </span>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', color: 'var(--text-secondary)', fontSize: 13 }}>
@@ -337,6 +328,15 @@ export default function MemberProfilePage() {
               <ExternalLink size={14} /> Instagram
             </a>
           )}
+          {social.discord && (
+            <span
+              className="btn btn-ghost btn-sm"
+              style={{ color: '#5865F2' }}
+              title="Discord Handle"
+            >
+              <MessageSquare size={14} /> Discord: {social.discord}
+            </span>
+          )}
         </div>
       </div>
 
@@ -381,7 +381,7 @@ export default function MemberProfilePage() {
             borderBottom: activeTab === 'tasks' ? '2px solid var(--cyan)' : 'none'
           }}
         >
-          📋 Tasks & Deadlines ({tasks.length})
+          Tasks & Deadlines ({tasks.length})
         </button>
         <button
           onClick={() => setActiveTab('responsibilities')}
@@ -393,7 +393,7 @@ export default function MemberProfilePage() {
             borderBottom: activeTab === 'responsibilities' ? '2px solid var(--cyan)' : 'none'
           }}
         >
-          🎖️ Responsibilities ({responsibilities.length})
+          Responsibilities ({responsibilities.length})
         </button>
         <button
           onClick={() => setActiveTab('events')}
@@ -405,7 +405,7 @@ export default function MemberProfilePage() {
             borderBottom: activeTab === 'events' ? '2px solid var(--cyan)' : 'none'
           }}
         >
-          📅 Related Events ({events.length})
+          Related Events ({events.length})
         </button>
         {comItems.length > 0 && (
           <button
@@ -418,7 +418,7 @@ export default function MemberProfilePage() {
               borderBottom: activeTab === 'communication' ? '2px solid var(--cyan)' : 'none'
             }}
           >
-            📢 Publications ({comItems.length})
+            Publications ({comItems.length})
           </button>
         )}
       </div>
@@ -433,46 +433,17 @@ export default function MemberProfilePage() {
               <div className="empty-desc">This member currently has no tasks on their plate.</div>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {tasks.map(t => {
-                const isOverdue = t.status !== 'COMPLETED' && t.status !== 'CANCELLED' && t.deadline && t.deadline < todayStr;
-                return (
-                  <div
-                    key={t.id}
-                    className="card"
-                    style={{
-                      padding: '14px 18px', display: 'flex', alignItems: 'center',
-                      gap: 14, flexWrap: 'wrap',
-                      borderLeft: isOverdue ? '4px solid #EF4444' : undefined
-                    }}
-                  >
-                    <div style={{ flex: 1, minWidth: 200 }}>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--text-primary)', marginBottom: 4 }}>
-                        {t.title}
-                      </div>
-                      <div style={{ display: 'flex', gap: 12, alignItems: 'center', fontSize: 12, color: 'var(--text-secondary)' }}>
-                        {t.deadline && (
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: isOverdue ? '#EF4444' : 'inherit', fontWeight: isOverdue ? 700 : 500 }}>
-                            <Clock size={12} /> Due: {t.deadline} {isOverdue && '(Overdue)'}
-                          </span>
-                        )}
-                        {(t as any).eventName && (
-                          <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>
-                            • {(t as any).eventName}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div style={{ minWidth: 100 }}>
-                      <ProgressBar value={t.progressPercent ?? 0} showLabel />
-                    </div>
-
-                    <PriorityBadge priority={t.priority} />
-                    <StatusBadge status={t.status} />
-                  </div>
-                );
-              })}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {tasks.map(t => (
+                <TaskItem
+                  key={t.id}
+                  task={t}
+                  showAssignee={false}
+                  showDepartment={true}
+                  showDeadline={true}
+                  canToggle={false}
+                />
+              ))}
             </div>
           )}
         </div>
@@ -556,7 +527,7 @@ export default function MemberProfilePage() {
                 >
                   <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{e.name}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 10 }}>
-                    📅 {e.date} • 📍 {e.location}
+                    {e.date} • {e.location}
                   </div>
                   <span style={{
                     fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
@@ -645,9 +616,13 @@ export default function MemberProfilePage() {
               onChange={e => setEditForm(p => ({ ...p, role: e.target.value as any }))}
               disabled={!isCoordinator}
             >
-              <option value="MEMBER">Member</option>
-              <option value="DEPARTMENT_LEADER">Department Leader</option>
+              <option value="PRESIDENT">President</option>
+              <option value="VICE_PRESIDENT">Vice President</option>
               <option value="COORDINATOR">Coordinator</option>
+              <option value="HR">HR</option>
+              <option value="SECRETARY">Secretary</option>
+              <option value="MANAGER">Manager</option>
+              <option value="MEMBER">Member</option>
             </select>
           </div>
 

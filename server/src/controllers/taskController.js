@@ -19,26 +19,43 @@ export const taskController = {
     const todayStr = new Date().toISOString().split('T')[0];
     const { role, departmentId: userDeptId, id: userId } = req.user;
 
-    // Role-based scoping: MANAGER/DEPARTMENT_LEADER see only their department tasks
+    // Board roles: full access to all tasks across all departments
+    const BOARD_ROLES = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'];
+    const isCoordinator = BOARD_ROLES.includes(role);
+
+    // Helpers to check multi-assignee and cross-department
+    const isAssigned = (t, uId) => {
+      if (t.assignedMemberId === uId) return true;
+      if (Array.isArray(t.assignedMemberIds) && t.assignedMemberIds.includes(uId)) return true;
+      return false;
+    };
+
+    const isDeptMatch = (t, dId) => {
+      if (t.departmentId === dId) return true;
+      if (Array.isArray(t.departmentIds) && t.departmentIds.includes(dId)) return true;
+      return false;
+    };
+
+    // Role-based scoping:
     if (role === 'MANAGER' || role === 'DEPARTMENT_LEADER') {
       if (view === 'mine') {
-        // 'mine' mode: only tasks assigned to this specific user
-        tasks = tasks.filter(t => t.assignedMemberId === userId);
+        // 'mine' mode: strictly tasks specifically assigned to this manager
+        tasks = tasks.filter(t => isAssigned(t, userId));
       } else {
-        // Default: show their department tasks
-        tasks = tasks.filter(t => t.departmentId === userDeptId);
+        // Department mode: all tasks belonging to their department OR assigned to this manager (cross-department)
+        tasks = tasks.filter(t => isDeptMatch(t, userDeptId) || isAssigned(t, userId));
       }
-    } else if (role !== 'COORDINATOR') {
-      // Any other role: only see own assigned tasks
-      tasks = tasks.filter(t => t.assignedMemberId === userId);
+    } else if (!isCoordinator) {
+      // Regular members: only see own assigned tasks
+      tasks = tasks.filter(t => isAssigned(t, userId));
     }
 
-    // Additional optional filters (only applied if they don't conflict with role scope)
-    if (departmentId && (role === 'COORDINATOR')) {
-      tasks = tasks.filter(t => t.departmentId === departmentId);
+    // Additional optional filters
+    if (departmentId && (isCoordinator || departmentId === userDeptId)) {
+      tasks = tasks.filter(t => isDeptMatch(t, departmentId));
     }
     if (assignedMemberId) {
-      tasks = tasks.filter(t => t.assignedMemberId === assignedMemberId);
+      tasks = tasks.filter(t => isAssigned(t, assignedMemberId));
     }
     if (status) {
       tasks = tasks.filter(t => t.status === status);
@@ -65,18 +82,39 @@ export const taskController = {
     const events = db.find('events');
 
     const enriched = tasks.map(t => {
-      const assignee = users.find(u => u.id === t.assignedMemberId);
+      const assigneeIds = Array.isArray(t.assignedMemberIds) && t.assignedMemberIds.length > 0
+        ? t.assignedMemberIds
+        : (t.assignedMemberId ? [t.assignedMemberId] : []);
+      const deptIds = Array.isArray(t.departmentIds) && t.departmentIds.length > 0
+        ? t.departmentIds
+        : (t.departmentId ? [t.departmentId] : []);
+
+      const assignees = users.filter(u => assigneeIds.includes(u.id)).map(u => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        avatarUrl: u.avatarUrl
+      }));
+      const deptList = departments.filter(d => deptIds.includes(d.id)).map(d => ({
+        id: d.id,
+        name: d.name,
+        color: d.color
+      }));
+
+      const primaryAssignee = assignees[0] || (t.assignedMemberId ? users.find(u => u.id === t.assignedMemberId) : null);
       const creator = users.find(u => u.id === t.createdById);
-      const dept = departments.find(d => d.id === t.departmentId);
+      const primaryDept = deptList[0] || (t.departmentId ? departments.find(d => d.id === t.departmentId) : null);
       const event = t.eventId ? events.find(e => e.id === t.eventId) : null;
       const isPastDue = t.status !== 'COMPLETED' && t.status !== 'CANCELLED' && t.deadline < todayStr;
       const isDueToday = t.status !== 'COMPLETED' && t.status !== 'CANCELLED' && t.deadline === todayStr;
 
       return {
         ...t,
-        assignee: assignee ? { id: assignee.id, name: assignee.name, email: assignee.email, avatarUrl: assignee.avatarUrl } : null,
+        assignee: primaryAssignee ? { id: primaryAssignee.id, name: primaryAssignee.name, email: primaryAssignee.email, avatarUrl: primaryAssignee.avatarUrl } : null,
+        assignees,
         creator: creator ? { id: creator.id, name: creator.name } : null,
-        department: dept ? { id: dept.id, name: dept.name, color: dept.color } : null,
+        department: primaryDept ? { id: primaryDept.id, name: primaryDept.name, color: primaryDept.color } : null,
+        departments: deptList,
         event: event ? { id: event.id, name: event.name, date: event.date } : null,
         isPastDue,
         isDueToday
@@ -90,6 +128,7 @@ export const taskController = {
     const now = new Date();
     const todayStr = now.toISOString().split('T')[0];
     const { role, departmentId: userDeptId, id: userId } = req.user;
+    const { view, departmentId } = req.query;
 
     const getOffsetDate = (days) => {
       const d = new Date(now);
@@ -105,20 +144,66 @@ export const taskController = {
     const users = db.find('users');
     const departments = db.find('departments');
 
+    const BOARD_ROLES = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'];
+    const isCoordinator = BOARD_ROLES.includes(role);
+
+    const isAssigned = (t, uId) => {
+      if (t.assignedMemberId === uId) return true;
+      if (Array.isArray(t.assignedMemberIds) && t.assignedMemberIds.includes(uId)) return true;
+      return false;
+    };
+
+    const isDeptMatch = (t, dId) => {
+      if (t.departmentId === dId) return true;
+      if (Array.isArray(t.departmentIds) && t.departmentIds.includes(dId)) return true;
+      return false;
+    };
+
     // Role-based scoping for deadlines
     if (role === 'MANAGER' || role === 'DEPARTMENT_LEADER') {
-      tasks = tasks.filter(t => t.departmentId === userDeptId);
-    } else if (role !== 'COORDINATOR') {
-      tasks = tasks.filter(t => t.assignedMemberId === userId);
+      if (view === 'mine') {
+        // Only deadlines assigned specifically to this manager
+        tasks = tasks.filter(t => isAssigned(t, userId));
+      } else {
+        // Department deadlines (all tasks belonging to this department or assigned to this manager)
+        tasks = tasks.filter(t => isDeptMatch(t, userDeptId) || isAssigned(t, userId));
+      }
+    } else if (!isCoordinator) {
+      tasks = tasks.filter(t => isAssigned(t, userId));
+    }
+
+    if (departmentId && (isCoordinator || departmentId === userDeptId)) {
+      tasks = tasks.filter(t => isDeptMatch(t, departmentId));
     }
 
     const enrich = (t) => {
-      const assignee = users.find(u => u.id === t.assignedMemberId);
-      const dept = departments.find(d => d.id === t.departmentId);
+      const assigneeIds = Array.isArray(t.assignedMemberIds) && t.assignedMemberIds.length > 0
+        ? t.assignedMemberIds
+        : (t.assignedMemberId ? [t.assignedMemberId] : []);
+      const deptIds = Array.isArray(t.departmentIds) && t.departmentIds.length > 0
+        ? t.departmentIds
+        : (t.departmentId ? [t.departmentId] : []);
+
+      const assignees = users.filter(u => assigneeIds.includes(u.id)).map(u => ({
+        id: u.id,
+        name: u.name,
+        avatarUrl: u.avatarUrl
+      }));
+      const deptList = departments.filter(d => deptIds.includes(d.id)).map(d => ({
+        id: d.id,
+        name: d.name,
+        color: d.color
+      }));
+
+      const primaryAssignee = assignees[0] || (t.assignedMemberId ? users.find(u => u.id === t.assignedMemberId) : null);
+      const primaryDept = deptList[0] || (t.departmentId ? departments.find(d => d.id === t.departmentId) : null);
+
       return {
         ...t,
-        assignee: assignee ? { id: assignee.id, name: assignee.name, avatarUrl: assignee.avatarUrl } : null,
-        department: dept ? { id: dept.id, name: dept.name, color: dept.color } : null
+        assignee: primaryAssignee ? { id: primaryAssignee.id, name: primaryAssignee.name, avatarUrl: primaryAssignee.avatarUrl } : null,
+        assignees,
+        department: primaryDept ? { id: primaryDept.id, name: primaryDept.name, color: primaryDept.color } : null,
+        departments: deptList
       };
     };
 
@@ -149,18 +234,42 @@ export const taskController = {
     if (!task) {
       return res.status(404).json({ success: false, message: 'Task not found' });
     }
-    const assignee = db.findById('users', task.assignedMemberId);
-    const creator = db.findById('users', task.createdById);
-    const dept = db.findById('departments', task.departmentId);
+    const users = db.find('users');
+    const departments = db.find('departments');
+
+    const assigneeIds = Array.isArray(task.assignedMemberIds) && task.assignedMemberIds.length > 0
+      ? task.assignedMemberIds
+      : (task.assignedMemberId ? [task.assignedMemberId] : []);
+    const deptIds = Array.isArray(task.departmentIds) && task.departmentIds.length > 0
+      ? task.departmentIds
+      : (task.departmentId ? [task.departmentId] : []);
+
+    const assignees = users.filter(u => assigneeIds.includes(u.id)).map(u => ({
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      avatarUrl: u.avatarUrl
+    }));
+    const deptList = departments.filter(d => deptIds.includes(d.id)).map(d => ({
+      id: d.id,
+      name: d.name,
+      color: d.color
+    }));
+
+    const primaryAssignee = assignees[0] || (task.assignedMemberId ? users.find(u => u.id === task.assignedMemberId) : null);
+    const creator = users.find(u => u.id === task.createdById);
+    const primaryDept = deptList[0] || (task.departmentId ? departments.find(d => d.id === task.departmentId) : null);
     const event = task.eventId ? db.findById('events', task.eventId) : null;
 
     res.json({
       success: true,
       data: {
         ...task,
-        assignee: assignee ? { id: assignee.id, name: assignee.name, email: assignee.email, avatarUrl: assignee.avatarUrl } : null,
+        assignee: primaryAssignee ? { id: primaryAssignee.id, name: primaryAssignee.name, email: primaryAssignee.email, avatarUrl: primaryAssignee.avatarUrl } : null,
+        assignees,
         creator: creator ? { id: creator.id, name: creator.name } : null,
-        department: dept ? { id: dept.id, name: dept.name, color: dept.color } : null,
+        department: primaryDept ? { id: primaryDept.id, name: primaryDept.name, color: primaryDept.color } : null,
+        departments: deptList,
         event: event ? { id: event.id, name: event.name } : null
       }
     });
@@ -172,7 +281,9 @@ export const taskController = {
         title,
         description,
         departmentId,
+        departmentIds: reqDeptIds,
         assignedMemberId,
+        assignedMemberIds: reqMemberIds,
         eventId,
         priority,
         status,
@@ -182,20 +293,36 @@ export const taskController = {
         attachments
       } = req.body;
 
-      if (!title || !departmentId || !deadline) {
+      const departmentIds = Array.isArray(reqDeptIds) && reqDeptIds.length > 0
+        ? reqDeptIds
+        : (departmentId ? [departmentId] : []);
+      const primaryDeptId = departmentIds[0] || departmentId;
+
+      if (!title || !primaryDeptId || !deadline) {
         return res.status(400).json({ success: false, message: 'Title, department, and deadline are required' });
       }
 
-      // Permission check: MANAGER/DEPARTMENT_LEADER can only create tasks for their own department
-      if ((req.user.role === 'DEPARTMENT_LEADER' || req.user.role === 'MANAGER') && req.user.departmentId !== departmentId) {
-        return res.status(403).json({ success: false, message: 'You can only create tasks within your own department' });
+      // Permission check: MANAGER/DEPARTMENT_LEADER can create tasks if their department is included
+      const userDeptId = req.user.departmentId;
+      if ((req.user.role === 'DEPARTMENT_LEADER' || req.user.role === 'MANAGER')) {
+        const hasDeptAccess = departmentIds.includes(userDeptId) || primaryDeptId === userDeptId;
+        if (!hasDeptAccess) {
+          return res.status(403).json({ success: false, message: 'You can only create tasks within your own department' });
+        }
       }
+
+      const assignedMemberIds = Array.isArray(reqMemberIds) && reqMemberIds.length > 0
+        ? reqMemberIds
+        : (assignedMemberId ? [assignedMemberId] : []);
+      const primaryAssigneeId = assignedMemberIds[0] || assignedMemberId || null;
 
       const newTask = db.insert('tasks', {
         title,
         description: description || '',
-        departmentId,
-        assignedMemberId: assignedMemberId || null,
+        departmentId: primaryDeptId,
+        departmentIds: departmentIds.length > 0 ? departmentIds : [primaryDeptId],
+        assignedMemberId: primaryAssigneeId,
+        assignedMemberIds,
         createdById: req.user.id,
         eventId: eventId || null,
         priority: priority || 'MEDIUM',
@@ -215,16 +342,16 @@ export const taskController = {
         details: `Created task "${title}" (Due: ${deadline})`
       });
 
-      if (assignedMemberId) {
+      assignedMemberIds.forEach(mId => {
         createNotification({
-          userId: assignedMemberId,
+          userId: mId,
           title: 'New Task Assigned',
           message: `You were assigned: "${title}" (Deadline: ${deadline})`,
           type: 'TASK',
           priority: priority === 'URGENT' ? 'URGENT' : 'INFO',
           linkUrl: '/tasks'
         });
-      }
+      });
 
       wsService.broadcast('TASK_CREATED', newTask);
       res.status(201).json({ success: true, data: newTask });
@@ -241,21 +368,31 @@ export const taskController = {
         return res.status(404).json({ success: false, message: 'Task not found' });
       }
 
-      // Role check: MANAGER sees their dept; non-coordinator non-manager can only update own tasks
-      const canEditFull = req.user.role === 'COORDINATOR' || req.user.role === 'DEPARTMENT_LEADER' || req.user.role === 'MANAGER';
-      if (!canEditFull && existing.assignedMemberId !== req.user.id) {
-        return res.status(403).json({ success: false, message: 'You can only update tasks assigned to you' });
-      }
-      // MANAGER/DEPARTMENT_LEADER: must belong to same department
-      if ((req.user.role === 'MANAGER' || req.user.role === 'DEPARTMENT_LEADER') && existing.departmentId !== req.user.departmentId) {
-        return res.status(403).json({ success: false, message: 'You can only update tasks in your department' });
+      const BOARD_ROLES = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'];
+      const isBoard = BOARD_ROLES.includes(req.user.role);
+
+      const existingAssigneeIds = Array.isArray(existing.assignedMemberIds) && existing.assignedMemberIds.length > 0
+        ? existing.assignedMemberIds
+        : (existing.assignedMemberId ? [existing.assignedMemberId] : []);
+      const existingDeptIds = Array.isArray(existing.departmentIds) && existing.departmentIds.length > 0
+        ? existing.departmentIds
+        : (existing.departmentId ? [existing.departmentId] : []);
+
+      const isUserAssigned = existingAssigneeIds.includes(req.user.id);
+      const isUserInDept = req.user.departmentId && existingDeptIds.includes(req.user.departmentId);
+
+      const canEditFull = isBoard || ((req.user.role === 'DEPARTMENT_LEADER' || req.user.role === 'MANAGER') && isUserInDept);
+      if (!canEditFull && !isUserAssigned) {
+        return res.status(403).json({ success: false, message: 'You can only update tasks assigned to you or in your department' });
       }
 
       const {
         title,
         description,
         departmentId,
+        departmentIds,
         assignedMemberId,
+        assignedMemberIds,
         eventId,
         priority,
         status,
@@ -266,19 +403,27 @@ export const taskController = {
         attachments
       } = req.body;
 
-      // Enforce: Non-coordinators (managers) can check/complete ONLY the tasks assigned to them
-      if (req.user.role !== 'COORDINATOR') {
-        if ((status !== undefined || progressPercent !== undefined) && existing.assignedMemberId !== req.user.id) {
+      // Enforce: Non-board managers can check/complete if they are assigned OR if they are manager of the task's department
+      if (!isBoard && !isUserInDept && !isUserAssigned) {
+        if (status !== undefined || progressPercent !== undefined) {
           return res.status(403).json({ success: false, message: 'You can only check or complete tasks assigned to you' });
         }
       }
 
       const updates = {};
-      if (req.user.role === 'COORDINATOR' || req.user.role === 'DEPARTMENT_LEADER' || req.user.role === 'MANAGER') {
+      if (canEditFull) {
         if (title !== undefined) updates.title = title;
         if (description !== undefined) updates.description = description;
         if (departmentId !== undefined) updates.departmentId = departmentId;
+        if (departmentIds !== undefined) {
+          updates.departmentIds = departmentIds;
+          if (departmentIds.length > 0 && !departmentId) updates.departmentId = departmentIds[0];
+        }
         if (assignedMemberId !== undefined) updates.assignedMemberId = assignedMemberId;
+        if (assignedMemberIds !== undefined) {
+          updates.assignedMemberIds = assignedMemberIds;
+          if (assignedMemberIds.length > 0 && !assignedMemberId) updates.assignedMemberId = assignedMemberIds[0];
+        }
         if (eventId !== undefined) updates.eventId = eventId;
         if (priority !== undefined) updates.priority = priority;
         if (startDate !== undefined) updates.startDate = startDate;

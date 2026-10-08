@@ -31,7 +31,7 @@ interface Meeting {
   actionItems?: ActionItem[];
 }
 
-export default function MeetingsPage() {
+function MeetingsPage() {
   const { user } = useAuth();
   const canManage = user?.role === 'COORDINATOR' || user?.role === 'DEPARTMENT_LEADER';
   const { data: meetingsData, loading, refetch } = useFetch<Meeting[]>('/meetings');
@@ -112,18 +112,13 @@ export default function MeetingsPage() {
         gap: 16
       }}>
         <div style={{ flex: '1 1 500px' }}>
-          <h2 style={{ margin: '0 0 8px', fontSize: 22, fontWeight: 800, color: '#FFFFFF' }}>
-            ByteCraft Syncs & Minutes
+          <h2 style={{ margin: '0 0 8px', fontSize: 22, fontWeight: 700, color: 'var(--text-primary)' }}>
+            Syncs & Minutes
           </h2>
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
-            Never lose track of meeting decisions. Every discussion item can be directly converted into an assigned ByteCraft task with deadlines.
+            Track meeting discussions, action items, and converted tasks with clear ownership and deadlines.
           </p>
         </div>
-        <img
-          src="/mascots/pr.png"
-          alt="ByteCraft Meetings Mascot"
-          style={{ width: 110, height: 110, objectFit: 'contain', filter: 'drop-shadow(0 6px 12px rgba(0, 212, 255, 0.3))' }}
-        />
       </div>
 
       {/* Meetings List */}
@@ -365,3 +360,5 @@ export default function MeetingsPage() {
     </AppLayout>
   );
 }
+
+export default MeetingsPage;

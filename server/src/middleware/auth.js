@@ -33,15 +33,29 @@ export function authenticate(req, res, next) {
   }
 }
 
+// Roles that have coordinator-level (full) access to the platform
+const BOARD_ROLES = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'];
+
+// For backward-compat: treat MANAGER the same as DEPARTMENT_LEADER
+export function normalizeRole(role) {
+  if (role === 'MANAGER') return 'DEPARTMENT_LEADER';
+  return role;
+}
+
 export function requireRole(...allowedRoles) {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({ success: false, message: 'Authentication required' });
     }
-    const userRole = req.user.role === 'MANAGER' ? 'DEPARTMENT_LEADER' : req.user.role;
-    const expandedAllowed = allowedRoles.flatMap(r => r === 'DEPARTMENT_LEADER' ? ['DEPARTMENT_LEADER', 'MANAGER'] : [r]);
+    const userRole = req.user.role;
+    // Expand allowed roles: DEPARTMENT_LEADER also matches MANAGER, and any board role matches COORDINATOR
+    const expandedAllowed = allowedRoles.flatMap(r => {
+      if (r === 'DEPARTMENT_LEADER') return ['DEPARTMENT_LEADER', 'MANAGER'];
+      if (r === 'COORDINATOR') return [...BOARD_ROLES];
+      return [r];
+    });
 
-    if (!expandedAllowed.includes(req.user.role) && !expandedAllowed.includes(userRole)) {
+    if (!expandedAllowed.includes(userRole)) {
       return res.status(403).json({
         success: false,
         message: `Forbidden: requires one of [${allowedRoles.join(', ')}] role`

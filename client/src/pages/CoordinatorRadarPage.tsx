@@ -106,28 +106,6 @@ export default function CoordinatorRadarPage() {
               Instant answers to who is working on what, approaching deadlines, event readiness, overload alerts, and pending club deliverables.
             </p>
           </div>
-
-          {/* Executive Mascot Visual */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'rgba(255, 255, 255, 0.03)',
-            borderRadius: 20,
-            padding: 12,
-            border: '1px solid rgba(139, 92, 246, 0.2)'
-          }}>
-            <img
-              src="/mascots/executive.png"
-              alt="ByteCraft Coordinator Mascot"
-              style={{
-                width: 120,
-                height: 120,
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 8px 16px rgba(139, 92, 246, 0.4))'
-              }}
-            />
-          </div>
         </div>
       </div>
 
@@ -135,7 +113,7 @@ export default function CoordinatorRadarPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20, marginBottom: 24 }}>
 
         {/* Question 1: What needs the coordinator's attention today? */}
-        <div className="glass-card" style={{ padding: 22, borderTop: '4px solid #EF4444' }}>
+        <div className="glass-card" style={{ padding: 22 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <AlertCircle size={20} style={{ color: '#EF4444' }} />
@@ -180,7 +158,7 @@ export default function CoordinatorRadarPage() {
         </div>
 
         {/* Question 2: Which department has highest workload? */}
-        <div className="glass-card" style={{ padding: 22, borderTop: '4px solid #F59E0B' }}>
+        <div className="glass-card" style={{ padding: 22 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <AlertTriangle size={20} style={{ color: '#F59E0B' }} />
@@ -220,7 +198,7 @@ export default function CoordinatorRadarPage() {
         </div>
 
         {/* Question 3: What deadlines are approaching? */}
-        <div className="glass-card" style={{ padding: 22, borderTop: '4px solid #38BDF8' }}>
+        <div className="glass-card" style={{ padding: 22 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Clock size={20} style={{ color: '#38BDF8' }} />

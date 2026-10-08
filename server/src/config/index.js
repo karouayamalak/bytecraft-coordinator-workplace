@@ -10,5 +10,5 @@ export const CONFIG = {
   JWT_EXPIRY: '7d',
   DB_FILE: path.join(__dirname, '../../data/db.json'),
   UPLOADS_DIR: path.join(__dirname, '../../uploads'),
-  DEMO_MODE: true,
+  DEMO_MODE: false,
 };

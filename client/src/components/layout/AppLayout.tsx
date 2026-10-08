@@ -1,231 +1,316 @@
 import React, { useState } from 'react';
-import { Navigate, Link } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import Topbar from './Topbar';
+import { Navigate, NavLink, Link, useLocation } from 'react-router-dom';
+import {
+  LayoutDashboard, CheckSquare, Building2, Calendar,
+  MessageSquare, Users, CalendarDays, Target, Menu, X,
+  Bell, Settings, LogOut
+} from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { ChevronRight, Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import NotificationBell from './NotificationBell';
 
-interface BreadcrumbItem {
-  label: string;
-  to?: string;
-}
-
+interface BreadcrumbItem { label: string; to?: string; }
 interface LayoutProps {
   children: React.ReactNode;
   title: string;
   subtitle?: string;
   breadcrumbs?: BreadcrumbItem[];
   actions?: React.ReactNode;
-  /** When true, wraps content in the sky/illustrated adventure layout without sidebar */
   fullPage?: boolean;
 }
 
-export default function AppLayout({ children, title, subtitle, breadcrumbs, actions, fullPage }: LayoutProps) {
-  const { user, isLoading } = useAuth();
+export default function AppLayout({ children, title, subtitle, actions, fullPage }: LayoutProps) {
+  const { user, department, logout, isLoading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const BOARD_ROLES = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'];
+  const isBoard = user ? BOARD_ROLES.includes(user.role) : false;
+
+  const mainNav = isBoard ? [
+    { label: 'Dashboard',  to: '/',              icon: LayoutDashboard },
+    { label: 'Tasks',      to: '/tasks',          icon: CheckSquare },
+    { label: 'Departments',to: '/departments',    icon: Building2 },
+    { label: 'Calendar',   to: '/calendar',       icon: Calendar },
+    { label: 'Comms',      to: '/communication',  icon: MessageSquare },
+    { label: 'Events',     to: '/events',         icon: CalendarDays },
+    { label: 'Team',       to: '/team',           icon: Users },
+    { label: 'Radar',      to: '/radar',          icon: Target },
+    { label: 'Settings',   to: '/settings',       icon: Settings },
+  ] : [
+    { label: 'Dashboard',  to: '/',              icon: LayoutDashboard },
+    { label: 'My Tasks',   to: '/tasks',         icon: CheckSquare },
+    {
+      label: department?.name ?? 'Dept',
+      to: user?.departmentId ? `/departments/${user.departmentId}` : '/departments',
+      icon: Building2
+    },
+    { label: 'Calendar',   to: '/calendar',      icon: Calendar },
+    { label: 'Comms',      to: '/communication', icon: MessageSquare },
+    { label: 'Events',     to: '/events',        icon: CalendarDays },
+    { label: 'Team',       to: '/team',          icon: Users },
+  ];
+
+  // Bottom nav shows 5 most important items (mobile)
+  const bottomNav = isBoard ? [
+    { label: 'Home',     to: '/',              icon: LayoutDashboard },
+    { label: 'Tasks',    to: '/tasks',         icon: CheckSquare },
+    { label: 'Depts',    to: '/departments',   icon: Building2 },
+    { label: 'Comms',    to: '/communication', icon: MessageSquare },
+    { label: 'Team',     to: '/team',          icon: Users },
+  ] : [
+    { label: 'Home',     to: '/',              icon: LayoutDashboard },
+    { label: 'My Tasks', to: '/tasks',         icon: CheckSquare },
+    {
+      label: 'Dept',
+      to: user?.departmentId ? `/departments/${user.departmentId}` : '/departments',
+      icon: Building2
+    },
+    { label: 'Comms',    to: '/communication', icon: MessageSquare },
+    { label: 'Team',     to: '/team',          icon: Users },
+  ];
+
+  const isActive = (to: string) => {
+    if (to === '/') return location.pathname === '/';
+    return location.pathname.startsWith(to);
+  };
 
   if (isLoading) {
     return (
       <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(180deg, #08476e 0%, #116c9e 35%, #2192cf 65%, #bfe8fa 100%)',
-        flexDirection: 'column',
-        gap: 20
+        minHeight: '100vh', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', background: '#0a0a0a', flexDirection: 'column', gap: 16
       }}>
-        <img src="/bytecraft-logo.png" alt="ByteCraft" style={{ width: 90, height: 90, objectFit: 'contain', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.3))' }} />
-        <div style={{
-          width: 36,
-          height: 36,
-          border: '4px solid rgba(255,255,255,0.3)',
-          borderTopColor: '#ffffff',
-          borderRadius: '50%',
-          animation: 'spin 0.8s linear infinite'
-        }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <img src="/bytecraft-logo.png" alt="ByteCraft" style={{ height: 44, opacity: 0.7 }} />
+        <div className="spinner" />
       </div>
     );
   }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  if (!user) return <Navigate to="/login" replace />;
+  if (fullPage) return <>{children}</>;
 
-  /* Full-page mode — no sidebar, handled by the page itself (e.g. Dashboard) */
-  if (fullPage) {
-    return <>{children}</>;
-  }
-
-  /* Standard inner pages — sidebar + topbar */
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-canvas)' }}>
-      {/* Mobile Overlay */}
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-app)' }}>
+
+      {/* Overlay (mobile) */}
       {sidebarOpen && (
         <div
-          style={{
-            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
-            zIndex: 99, display: 'none'
-          }}
           className="mobile-overlay"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Left Sidebar */}
+      {/* Sidebar */}
       <aside
-        className="app-sidebar"
+        className={`app-sidebar ${sidebarOpen ? 'open' : ''}`}
         style={{
-          width: 260,
-          background: 'linear-gradient(180deg, var(--sky-top) 0%, #0a2a40 100%)',
+          width: 240,
+          background: 'var(--bg-surface)',
+          borderRight: '1px solid var(--border-subtle)',
           display: 'flex',
           flexDirection: 'column',
-          position: 'fixed',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          zIndex: 100,
-          overflowY: 'auto',
-          boxShadow: '4px 0 20px rgba(0,0,0,0.2)',
-          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'transform 0.25s ease',
         }}
       >
-        {/* Sidebar Logo */}
-        <div style={{ padding: '20px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
-            <img src="/bytecraft-logo.png" alt="Logo" style={{ height: 46, width: 'auto', filter: 'drop-shadow(0 2px 8px rgba(91,184,232,0.4))' }} />
+        {/* Logo bar */}
+        <div style={{
+          height: 56,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 18px',
+          borderBottom: '1px solid var(--border-subtle)',
+          flexShrink: 0,
+        }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <img src="/bytecraft-logo.png" alt="ByteCraft" style={{ height: 38, width: 'auto', objectFit: 'contain', filter: 'brightness(1.15) drop-shadow(0 2px 6px rgba(0,0,0,0.4))' }} />
           </Link>
-          {/* Mobile close button */}
           <button
             className="mobile-only"
             onClick={() => setSidebarOpen(false)}
-            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.7)', cursor: 'pointer', padding: 4 }}
+            style={{
+              background: 'none', border: 'none',
+              color: 'var(--text-muted)', cursor: 'pointer',
+              padding: 4, display: 'none',
+              borderRadius: 6,
+            }}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
-        {/* Navigation */}
-        <Sidebar />
-
-        {/* Demo status footer */}
-        <div style={{ padding: '12px 14px', borderTop: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.1)', marginTop: 'auto' }}>
-          <div style={{ fontSize: 10, color: 'rgba(168,216,240,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-            Demo Mode Active
+        {/* Nav items */}
+        <nav style={{ flex: 1, padding: '10px 10px', overflowY: 'auto' }}>
+          <div style={{
+            fontSize: 10, fontWeight: 600, color: 'var(--text-muted)',
+            textTransform: 'uppercase', letterSpacing: '0.07em',
+            padding: '8px 8px 4px',
+          }}>
+            {isBoard ? 'Workspace' : 'Portal'}
           </div>
-          <div style={{ fontSize: 11, color: 'rgba(168,216,240,0.6)', marginTop: 2 }}>
-            Password: <code style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 5px', borderRadius: 4 }}>bytecraft2026</code>
+
+          {mainNav.map(item => {
+            const Icon = item.icon;
+            const active = isActive(item.to);
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === '/'}
+                onClick={() => setSidebarOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 9,
+                  padding: '7px 10px',
+                  borderRadius: 7,
+                  color: active ? 'var(--text-primary)' : 'var(--text-muted)',
+                  fontSize: 13,
+                  fontWeight: active ? 500 : 400,
+                  marginBottom: 1,
+                  background: active ? 'var(--bg-elevated)' : 'transparent',
+                  transition: 'all 0.12s ease',
+                }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'var(--bg-elevated)'; }}
+                onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent'; }}
+              >
+                <Icon size={15} />
+                <span>{item.label}</span>
+              </NavLink>
+            );
+          })}
+        </nav>
+
+        {/* User footer */}
+        <div style={{
+          padding: '10px 12px',
+          borderTop: '1px solid var(--border-subtle)',
+          flexShrink: 0,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: '50%',
+              background: 'var(--accent-primary)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 13, fontWeight: 600, color: '#fff', flexShrink: 0,
+              overflow: 'hidden',
+            }}>
+              {user.avatarUrl
+                ? <img src={user.avatarUrl} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : user.name?.[0]?.toUpperCase()}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {user.name}
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {user.position ?? user.role}
+              </div>
+            </div>
+            <button
+              onClick={() => { logout(); navigate('/login'); }}
+              title="Sign out"
+              style={{
+                background: 'none', border: 'none',
+                color: 'var(--text-muted)', cursor: 'pointer',
+                padding: 4, borderRadius: 6, flexShrink: 0,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.background = 'var(--bg-elevated)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'none'; }}
+            >
+              <LogOut size={15} />
+            </button>
           </div>
         </div>
       </aside>
 
-      {/* Main content area */}
-      <div className="main-content-area" style={{ flex: 1, marginLeft: 260, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        {/* Mobile topbar burger */}
-        <div className="mobile-topbar" style={{ display: 'none', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'linear-gradient(180deg, var(--sky-top) 0%, #0a2a40 100%)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+      {/* Main content */}
+      <div className="main-content-area" style={{ flex: 1, marginLeft: 240, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+
+        {/* Mobile topbar */}
+        <div className="mobile-topbar" style={{ display: 'none', alignItems: 'center', gap: 10, padding: '0 14px' }}>
           <button
             onClick={() => setSidebarOpen(true)}
-            style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: 4 }}
+            aria-label="Open menu"
+            style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: 5, borderRadius: 6, display: 'flex', alignItems: 'center' }}
           >
-            <Menu size={22} />
+            <Menu size={20} />
           </button>
-          <img src="/bytecraft-logo.png" alt="Logo" style={{ height: 32, width: 'auto' }} />
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', flex: 1 }}>{title}</span>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', flexShrink: 0 }}>
+            <img src="/bytecraft-logo.png" alt="ByteCraft" style={{ height: 34, width: 'auto', objectFit: 'contain', filter: 'brightness(1.1)' }} />
+          </Link>
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {title}
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+            <NotificationBell />
+            {actions}
+          </div>
         </div>
 
-        <Topbar title={title} subtitle={subtitle} />
+        {/* Desktop topbar */}
+        <header className="desktop-topbar" style={{
+          height: 56,
+          background: 'var(--bg-surface)',
+          borderBottom: '1px solid var(--border-subtle)',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 28px',
+          gap: 16,
+        }}>
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{title}</h1>
+            {subtitle && <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>{subtitle}</div>}
+          </div>
+          {actions && <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>{actions}</div>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <NotificationBell />
+            {isBoard && (
+              <button
+                onClick={() => navigate('/settings')}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 7, borderRadius: 6 }}
+                title="Settings"
+              >
+                <Settings size={16} />
+              </button>
+            )}
+          </div>
+        </header>
 
-        <main style={{ flex: 1, padding: '28px 32px' }} className="main-content">
-          {/* Breadcrumbs + actions header */}
-          {(breadcrumbs || actions) && (
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: 12,
-              marginBottom: 22
-            }}>
-              {breadcrumbs ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text-muted)' }}>
-                  <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontWeight: 600 }}>Home</Link>
-                  {breadcrumbs.map((b, idx) => (
-                    <React.Fragment key={idx}>
-                      <ChevronRight size={13} style={{ opacity: 0.5 }} />
-                      {b.to ? (
-                        <Link to={b.to} style={{ color: 'var(--text-sub)', textDecoration: 'none', fontWeight: 600 }}>
-                          {b.label}
-                        </Link>
-                      ) : (
-                        <span style={{ color: 'var(--text-dark)', fontWeight: 700 }}>{b.label}</span>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              ) : <div />}
-
-              {actions && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  {actions}
-                </div>
-              )}
-            </div>
-          )}
-
+        {/* Page content */}
+        <main className="main-content" style={{ flex: 1, padding: '24px 28px', overflowX: 'hidden' }}>
           {children}
         </main>
-
-        {/* Footer */}
-        <div style={{
-          padding: '10px 32px',
-          borderTop: '1px solid var(--border-subtle, #e7f3fa)',
-          background: 'rgba(255,255,255,0.5)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: 12,
-          color: 'var(--text-muted)',
-          fontWeight: 500,
-          flexWrap: 'wrap',
-          gap: 8
-        }}>
-          <span><strong>ByteCraft</strong> — Expedition & Ops Platform • 2026–2027 Season</span>
-          <span>Demo Mode • All accounts: <code style={{ background: '#f0f8fd', padding: '1px 6px', borderRadius: 4 }}>bytecraft2026</code></span>
-        </div>
       </div>
 
-      {/* Mobile responsive styles */}
-      <style>{`
-        @media (max-width: 768px) {
-          .app-sidebar {
-            transform: ${sidebarOpen ? 'translateX(0)' : 'translateX(-100%)'} !important;
-          }
-          .main-content-area {
-            margin-left: 0 !important;
-          }
-          .mobile-overlay {
-            display: ${sidebarOpen ? 'block' : 'none'} !important;
-          }
-          .mobile-topbar {
-            display: flex !important;
-          }
-          .main-content {
-            padding: 16px !important;
-          }
-          .mobile-only {
-            display: flex !important;
-          }
-        }
-        @media (min-width: 769px) {
-          .mobile-only {
-            display: none !important;
-          }
-          .mobile-topbar {
-            display: none !important;
-          }
-        }
-      `}</style>
+      {/* Mobile Bottom Navigation */}
+      <nav className="mobile-bottom-nav">
+        {bottomNav.map(item => {
+          const Icon = item.icon;
+          const active = isActive(item.to);
+          return (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === '/'}
+              style={{
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                gap: 3, flex: 1, padding: '8px 4px',
+                color: active ? 'var(--accent-primary)' : 'var(--text-muted)',
+                fontSize: 10, fontWeight: active ? 600 : 400,
+                textDecoration: 'none',
+                transition: 'color 0.12s',
+              }}
+            >
+              <Icon size={20} />
+              <span>{item.label}</span>
+            </NavLink>
+          );
+        })}
+      </nav>
     </div>
   );
 }

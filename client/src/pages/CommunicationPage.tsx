@@ -73,9 +73,9 @@ function getStatusConfig(status: string) {
 
 const CONTENT_TYPES = ['POST', 'STORY', 'REEL', 'VIDEO', 'EMAIL', 'POSTER', 'ANNOUNCEMENT', 'ARTICLE'];
 const PHASE_CONFIG = {
-  BEFORE: { label: 'Pre-Event', emoji: '📢', color: '#6366F1', bg: '#eef2ff' },
-  DURING: { label: 'During Event', emoji: '🎯', color: '#F59E0B', bg: '#fffbeb' },
-  AFTER:  { label: 'Post-Event', emoji: '📊', color: '#10B981', bg: '#ecfdf5' },
+  BEFORE: { label: 'Pre-Event', color: '#6366F1', bg: 'rgba(99,102,241,0.1)' },
+  DURING: { label: 'During Event', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+  AFTER:  { label: 'Post-Event', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
 };
 
 export default function CommunicationPage() {
@@ -200,25 +200,23 @@ export default function CommunicationPage() {
               onClick={() => setViewMode('list')}
               style={{
                 padding: '5px 12px', borderRadius: 7, border: 'none',
-                background: viewMode === 'list' ? '#ffffff' : 'transparent',
-                color: viewMode === 'list' ? '#0f172a' : '#64748b',
-                fontWeight: 700, fontSize: 12, cursor: 'pointer',
-                boxShadow: viewMode === 'list' ? '0 1px 4px rgba(0,0,0,0.08)' : 'none'
+                background: viewMode === 'list' ? 'var(--bg-elevated)' : 'transparent',
+                color: viewMode === 'list' ? 'var(--text-primary)' : 'var(--text-muted)',
+                fontWeight: 600, fontSize: 12, cursor: 'pointer',
               }}
             >
-              📋 By Phase
+              By Phase
             </button>
             <button
               onClick={() => setViewMode('timeline')}
               style={{
                 padding: '5px 12px', borderRadius: 7, border: 'none',
-                background: viewMode === 'timeline' ? '#ffffff' : 'transparent',
-                color: viewMode === 'timeline' ? '#0f172a' : '#64748b',
-                fontWeight: 700, fontSize: 12, cursor: 'pointer',
-                boxShadow: viewMode === 'timeline' ? '0 1px 4px rgba(0,0,0,0.08)' : 'none'
+                background: viewMode === 'timeline' ? 'var(--bg-elevated)' : 'transparent',
+                color: viewMode === 'timeline' ? 'var(--text-primary)' : 'var(--text-muted)',
+                fontWeight: 600, fontSize: 12, cursor: 'pointer',
               }}
             >
-              📅 Timeline
+              Timeline
             </button>
           </div>
 
@@ -288,13 +286,12 @@ export default function CommunicationPage() {
             <div style={{
               display: 'flex', alignItems: 'center', gap: 10,
               marginBottom: 12, padding: '8px 14px',
-              background: config.bg, borderRadius: 12,
-              border: `1.5px solid ${config.color}20`
+              background: config.bg, borderRadius: 10,
+              border: `1px solid ${config.color}30`
             }}>
-              <span style={{ fontSize: 18 }}>{config.emoji}</span>
               <div>
-                <div style={{ fontWeight: 800, fontSize: 14, color: config.color }}>{config.label}</div>
-                <div style={{ fontSize: 11, color: '#64748b' }}>{phaseItems.length} item{phaseItems.length !== 1 ? 's' : ''}</div>
+                <div style={{ fontWeight: 700, fontSize: 14, color: config.color }}>{config.label}</div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{phaseItems.length} item{phaseItems.length !== 1 ? 's' : ''}</div>
               </div>
             </div>
 
@@ -576,7 +573,7 @@ function CommItemCard({ item, canManage, onEdit, onDelete, showTime }: CommItemC
 
           {item.event && (
             <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              🎪 {item.event.name}
+              {item.event.name}
             </span>
           )}
 
@@ -593,8 +590,8 @@ function CommItemCard({ item, canManage, onEdit, onDelete, showTime }: CommItemC
           <div style={{
             fontSize: 12, color: '#94a3b8', marginTop: 6,
             fontStyle: 'italic',
-            background: '#f8fafc', borderRadius: 6, padding: '4px 8px',
-            borderLeft: `3px solid ${channelColor}40`
+            background: '#f8fafc', borderRadius: 6, padding: '6px 10px',
+            border: '1px solid var(--border-subtle)'
           }}>
             "{item.content.slice(0, 100)}{item.content.length > 100 ? '…' : ''}"
           </div>

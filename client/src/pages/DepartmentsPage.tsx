@@ -35,7 +35,7 @@ export default function DepartmentsPage() {
   const { data: departments, loading, refetch } = useFetch<Department[]>('/departments?includeArchived=true');
   const { data: members } = useFetch<User[]>('/users?status=active');
 
-  const isCoordinator = user?.role === 'COORDINATOR';
+  const isCoordinator = ['COORDINATOR', 'PRESIDENT', 'VICE_PRESIDENT', 'HR', 'SECRETARY'].includes(user?.role || '');
 
   const openCreate = () => {
     setEditDept(null);
@@ -94,24 +94,85 @@ export default function DepartmentsPage() {
   const active = deptList.filter(d => !d.isArchived);
   const archived = deptList.filter(d => d.isArchived);
 
+  const totalManagers = deptList.reduce((acc, d) => acc + (d.memberCount || 0), 0);
+  const totalTasks = deptList.reduce((acc, d) => acc + (d.activeTasksCount || 0), 0);
+  const totalOverdue = deptList.reduce((acc, d) => acc + (d.overdueTasksCount || 0), 0);
+
   return (
-    <AppLayout title="Departments" subtitle={`${active.length} active`}>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-5">
-        <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
-          Manage club departments, leaders, and responsibilities.
-        </p>
+    <AppLayout title="Departments" subtitle={`${active.length} active departments`}>
+      <style>{`
+        .dept-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 14px;
+        }
+        @media (max-width: 1024px) {
+          .dept-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+          .dept-grid { grid-template-columns: 1fr; gap: 12px; }
+        }
+        .dept-card {
+          background: #121214;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          padding: 16px 18px;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          transition: all 0.15s ease;
+          position: relative;
+        }
+        .dept-card:hover {
+          border-color: rgba(255, 255, 255, 0.18);
+          background: #161619;
+          transform: translateY(-1px);
+        }
+        .dept-stat-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 11.5px;
+          color: var(--text-muted);
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          padding: 3px 8px;
+          border-radius: 6px;
+        }
+      `}</style>
+
+      {/* Top Action & Overview */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <div className="dept-stat-pill">
+            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{active.length}</span> departments
+          </div>
+          <div className="dept-stat-pill">
+            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{totalManagers}</span> managers
+          </div>
+          <div className="dept-stat-pill">
+            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{totalTasks}</span> active tasks
+          </div>
+          {totalOverdue > 0 && (
+            <div className="dept-stat-pill" style={{ color: '#f87171', borderColor: 'rgba(239, 68, 68, 0.2)', background: 'rgba(239, 68, 68, 0.05)' }}>
+              <AlertCircle size={12} />
+              <span style={{ fontWeight: 600 }}>{totalOverdue}</span> overdue
+            </div>
+          )}
+        </div>
+
         {isCoordinator && (
-          <button id="create-dept-btn" className="btn btn-primary" onClick={openCreate}>
-            <Plus size={16} /> New Department
+          <button id="create-dept-btn" className="btn btn-primary" onClick={openCreate} style={{ padding: '7px 14px', fontSize: 13, gap: 6 }}>
+            <Plus size={15} /> New Department
           </button>
         )}
       </div>
 
       {loading && (
-        <div className="grid-auto">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="skeleton" style={{ height: 180, borderRadius: 14 }} />
+        <div className="dept-grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="skeleton" style={{ height: 160, borderRadius: 12 }} />
           ))}
         </div>
       )}
@@ -129,140 +190,134 @@ export default function DepartmentsPage() {
         </div>
       )}
 
-      <div className="grid-auto">
-        {active.map(dept => (
-          <div
-            key={dept.id}
-            className="card"
-            style={{
-              cursor: 'pointer',
-              borderLeft: `4px solid ${dept.color}`,
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-            onClick={() => navigate(`/departments/${dept.id}`)}
-          >
-            {/* Header with Mascot */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div className="mascot-sticker" style={{ width: 50, height: 50, borderRadius: 10, overflow: 'hidden', padding: 4 }}>
-                  <img
-                    src={
-                      dept.name.toLowerCase().includes('dev') || dept.name.toLowerCase().includes('tech') ? '/mascots/tech.png' :
-                      dept.name.toLowerCase().includes('com') || dept.name.toLowerCase().includes('pr') ? '/mascots/pr.png' :
-                      dept.name.toLowerCase().includes('media') || dept.name.toLowerCase().includes('design') ? '/mascots/media.png' :
-                      dept.name.toLowerCase().includes('logistics') || dept.name.toLowerCase().includes('op') ? '/mascots/logistics.png' :
-                      dept.name.toLowerCase().includes('content') || dept.name.toLowerCase().includes('acad') ? '/mascots/academic.png' :
-                      '/mascots/executive.png'
-                    }
-                    alt={dept.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                  />
+      <div className="dept-grid">
+        {active.map(dept => {
+          const deptColor = dept.color || '#3b82f6';
+          return (
+            <div
+              key={dept.id}
+              className="dept-card"
+              onClick={() => navigate(`/departments/${dept.id}`)}
+            >
+              {/* Card Top: Header & Actions */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+                  <div style={{
+                    width: 34, height: 34, borderRadius: 9,
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: deptColor }} />
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <h3 style={{ margin: 0, fontWeight: 600, fontSize: 14.5, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {dept.name}
+                    </h3>
+                    <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
+                      {dept.memberCount ?? 0} manager{dept.memberCount !== 1 ? 's' : ''}
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: 16, fontFamily: 'var(--font-pixel)' }}>{dept.name}</div>
-                  <span className="badge" style={{ background: `${dept.color}20`, color: dept.color, fontSize: 10, marginTop: 4 }}>
-                    Active Squad
-                  </span>
-                </div>
+
+                {isCoordinator && (
+                  <div style={{ display: 'flex', gap: 2, flexShrink: 0 }} onClick={e => e.stopPropagation()}>
+                    <button
+                      className="btn btn-ghost btn-icon btn-sm"
+                      onClick={() => openEdit(dept)}
+                      title="Edit department"
+                      style={{ padding: 4, width: 26, height: 26 }}
+                    >
+                      <Edit2 size={12} />
+                    </button>
+                    <button
+                      className="btn btn-ghost btn-icon btn-sm"
+                      onClick={() => handleArchive(dept)}
+                      title="Archive department"
+                      style={{ padding: 4, width: 26, height: 26, color: 'var(--text-muted)' }}
+                    >
+                      <Archive size={12} />
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {isCoordinator && (
-                <div style={{ display: 'flex', gap: 4 }}>
-                  <button
-                    className="btn btn-ghost btn-icon btn-sm"
-                    onClick={e => { e.stopPropagation(); openEdit(dept); }}
-                    title="Edit department"
-                  >
-                    <Edit2 size={14} />
-                  </button>
-                  <button
-                    className="btn btn-ghost btn-icon btn-sm"
-                    onClick={e => { e.stopPropagation(); handleArchive(dept); }}
-                    title="Archive department"
-                    style={{ color: 'var(--text-muted)' }}
-                  >
-                    <Archive size={14} />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Description */}
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 14, lineHeight: 1.5 }}>
-              {dept.description || 'No description yet.'}
-            </p>
-
-            {/* Stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
-              <div style={{ background: 'var(--bg-elevated)', borderRadius: 8, padding: '8px 12px' }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: dept.color }}>{dept.memberCount ?? 0}</div>
-                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Members</div>
-              </div>
-              <div style={{ background: 'var(--bg-elevated)', borderRadius: 8, padding: '8px 12px' }}>
-                <div style={{
-                  fontSize: 20, fontWeight: 800,
-                  color: (dept.overdueTasksCount ?? 0) > 0 ? '#F87171' : 'var(--text-primary)'
-                }}>
-                  {dept.activeTasksCount ?? 0}
-                </div>
-                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Active Tasks</div>
-              </div>
-            </div>
-
-            {/* Overdue warning */}
-            {(dept.overdueTasksCount ?? 0) > 0 && (
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                background: 'rgba(239,68,68,0.08)',
-                border: '1px solid rgba(239,68,68,0.2)',
-                borderRadius: 6, padding: '6px 10px',
-                marginBottom: 12, fontSize: 12, color: '#F87171'
+              {/* Description */}
+              <p style={{
+                fontSize: 12.5,
+                color: 'var(--text-secondary)',
+                lineHeight: 1.45,
+                margin: 0,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                minHeight: 36
               }}>
-                <AlertCircle size={13} />
-                {dept.overdueTasksCount} overdue task{dept.overdueTasksCount !== 1 ? 's' : ''}
-              </div>
-            )}
+                {dept.description || 'Department coordination unit handling deliverables and operations.'}
+              </p>
 
-            {/* Leader */}
-            {dept.leader ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Avatar src={dept.leader.avatarUrl} name={dept.leader.name} size="sm" />
-                <div>
-                  <div style={{ fontSize: 12, fontWeight: 600 }}>{dept.leader.name}</div>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Department Lead</div>
+              {/* Footer: Task count, overdue status, and enter arrow */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingTop: 10,
+                borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                marginTop: 'auto',
+                fontSize: 12,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ color: 'var(--text-muted)', fontSize: 11.5 }}>
+                    <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{dept.activeTasksCount ?? 0}</strong> active tasks
+                  </span>
+                  {(dept.overdueTasksCount ?? 0) > 0 && (
+                    <span style={{
+                      fontSize: 10.5,
+                      fontWeight: 600,
+                      color: '#f87171',
+                      background: 'rgba(239, 68, 68, 0.1)',
+                      border: '1px solid rgba(239, 68, 68, 0.2)',
+                      padding: '1px 6px',
+                      borderRadius: 4
+                    }}>
+                      {dept.overdueTasksCount} overdue
+                    </span>
+                  )}
                 </div>
-                <ChevronRight size={16} style={{ marginLeft: 'auto', color: 'var(--text-muted)' }} />
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--text-muted)', fontSize: 11.5 }}>
+                  <span>Open</span>
+                  <ChevronRight size={13} />
+                </div>
               </div>
-            ) : (
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' }}>
-                No leader assigned
-              </div>
-            )}
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
 
       {/* Archived */}
       {archived.length > 0 && (
-        <div style={{ marginTop: 36 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 12 }}>
-            Archived Departments
+        <div style={{ marginTop: 32 }}>
+          <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+            Archived Departments ({archived.length})
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {archived.map(dept => (
               <div key={dept.id} style={{
                 display: 'flex', alignItems: 'center', gap: 12,
-                padding: '10px 16px',
+                padding: '10px 14px',
                 background: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: 10, opacity: 0.6
+                borderRadius: 8, opacity: 0.6
               }}>
-                <div style={{ flex: 1, fontWeight: 600, fontSize: 14 }}>{dept.name}</div>
+                <div style={{ flex: 1, fontWeight: 500, fontSize: 13 }}>{dept.name}</div>
                 {isCoordinator && (
                   <button
                     className="btn btn-secondary btn-sm"
                     onClick={() => handleArchive(dept)}
+                    style={{ padding: '4px 10px', fontSize: 12 }}
                   >
                     Restore
                   </button>
@@ -311,7 +366,7 @@ export default function DepartmentsPage() {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="dept-leader">Department Leader</label>
+            <label className="form-label" htmlFor="dept-leader">Department Manager</label>
             <select
               id="dept-leader"
               className="form-select"

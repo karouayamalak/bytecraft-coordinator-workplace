@@ -157,6 +157,60 @@ export const dashboardController = {
       };
     });
 
+    // User-specific scoping (for Department Managers)
+    const userId = req.user?.id;
+    const userDeptId = req.user?.departmentId;
+    const isAssigned = (t, uId) => {
+      if (t.assignedMemberId === uId) return true;
+      if (Array.isArray(t.assignedMemberIds) && t.assignedMemberIds.includes(uId)) return true;
+      return false;
+    };
+    const isDeptMatch = (t, dId) => {
+      if (t.departmentId === dId) return true;
+      if (Array.isArray(t.departmentIds) && t.departmentIds.includes(dId)) return true;
+      return false;
+    };
+
+    let managerView = null;
+    if (userDeptId) {
+      const userDept = departments.find(d => d.id === userDeptId);
+      const deptManagers = users.filter(u => u.departmentId === userDeptId);
+      const myActive = activeTasks.filter(t => isAssigned(t, userId));
+      const myCompleted = completedTasks.filter(t => isAssigned(t, userId));
+      const myOverdue = overdueTasks.filter(t => isAssigned(t, userId));
+
+      const deptActive = activeTasks.filter(t => isDeptMatch(t, userDeptId));
+      const deptCompleted = completedTasks.filter(t => isDeptMatch(t, userDeptId));
+      const deptOverdue = overdueTasks.filter(t => isDeptMatch(t, userDeptId));
+
+      const deptDeadlines = deptActive
+        .slice()
+        .sort((a, b) => a.deadline.localeCompare(b.deadline))
+        .map(enrichTask);
+
+      const myDeadlines = myActive
+        .slice()
+        .sort((a, b) => a.deadline.localeCompare(b.deadline))
+        .map(enrichTask);
+
+      managerView = {
+        department: userDept ? { id: userDept.id, name: userDept.name, color: userDept.color, description: userDept.description } : null,
+        managers: deptManagers.map(m => ({ id: m.id, name: m.name, position: m.position, avatarUrl: m.avatarUrl, email: m.email })),
+        personal: {
+          activeCount: myActive.length,
+          completedCount: myCompleted.length,
+          overdueCount: myOverdue.length,
+          upcomingDeadlines: myDeadlines.slice(0, 5)
+        },
+        departmentStats: {
+          activeCount: deptActive.length,
+          completedCount: deptCompleted.length,
+          overdueCount: deptOverdue.length,
+          upcomingDeadlines: deptDeadlines.slice(0, 8)
+        }
+      };
+    }
+
     // Return the complete executive view answering 'What needs my attention right now?'
     res.json({
       success: true,
@@ -172,6 +226,7 @@ export const dashboardController = {
           tasksDueToday: tasksDueToday.length,
           upcomingPublications: pendingComms.length
         },
+        managerView,
         attention: {
           overdueTasks: overdueList,
           tasksDueToday: dueTodayList,

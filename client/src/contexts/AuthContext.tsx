@@ -8,6 +8,7 @@ interface AuthContextValue {
   token: string | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: (emailOrCredential: string) => Promise<void>;
   switchDemoUser: (userId: string) => Promise<void>;
   logout: () => void;
   updateUser: (updates: Partial<User>) => void;
@@ -15,19 +16,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const DEMO_USERS = [
-  { id: 'user-aya-karou', name: 'Aya Karou (Coordinator)', role: 'COORDINATOR', email: 'a_karou@estin.dz' },
-  { id: 'user-coord', name: 'Amine Benali (Coordinator)', role: 'COORDINATOR', email: 'coordinator@bytecraft.club' },
-  { id: 'user-elmouatez-ledjassa', name: 'Elmouatez Ledjassa (President)', role: 'COORDINATOR', email: 'e_ledjassa@estin.dz' },
-  { id: 'user-manel-lyazidi', name: 'Manel Lyazidi (PR Manager)', role: 'MANAGER', email: 'm_lyazidi@estin.dz' },
-  { id: 'user-imene-bouchareb', name: 'Imene Bouchareb (PR Manager)', role: 'MANAGER', email: 'i_bouchareb@estin.dz' },
-  { id: 'user-imene-bouzena', name: 'Imene Bouzena (Design Manager)', role: 'MANAGER', email: 'i_bouzena@estin.dz' },
-  { id: 'user-mohammed-benkerri', name: 'Mohammed Benkerri (Multimedia)', role: 'MANAGER', email: 'mbenkerri44@gmail.com' },
-  { id: 'user-lina-zaouani', name: 'Lina Zaouani (Multimedia Manager)', role: 'MANAGER', email: 'l_zaouani@estin.dz' },
-  { id: 'user-rayane-alem', name: 'Rayane Alem (Logistics Manager)', role: 'MANAGER', email: 'r_alem@estin.dz' },
-  { id: 'user-yassine-bouguerra', name: 'Yassine Bouguerra (Tech Manager)', role: 'MANAGER', email: 'y_bouguerra@estin.dz' },
-];
-
+const DEMO_USERS: any[] = [];
 export { DEMO_USERS };
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -107,6 +96,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     storeSession(newToken, newUser, dept);
   }, [storeSession]);
 
+  const loginWithGoogle = useCallback(async (emailOrCredential: string) => {
+    const isJwt = emailOrCredential.includes('.') && emailOrCredential.split('.').length === 3;
+    const payload = isJwt
+      ? { credential: emailOrCredential }
+      : { email: emailOrCredential.trim().toLowerCase() };
+
+    const response = await api.post<{ success: boolean; data: { token: string; user: User } }>(
+      '/auth/google',
+      payload
+    );
+    const { token: newToken, user: newUser } = response.data;
+    setAuthToken(newToken);
+    let dept: Department | null = null;
+    if (newUser.departmentId) {
+      try {
+        const res = await api.get<{ success: boolean; data: any }>(`/departments/${newUser.departmentId}`);
+        dept = res?.data?.department || res?.data || null;
+      } catch { dept = null; }
+    }
+    storeSession(newToken, newUser, dept);
+  }, [storeSession]);
+
   const switchDemoUser = useCallback(async (userId: string) => {
     const response = await api.post<{ success: boolean; data: { token: string; user: User } }>(
       '/auth/switch-demo',
@@ -144,7 +155,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, department, token, isLoading, login, switchDemoUser, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, department, token, isLoading, login, loginWithGoogle, switchDemoUser, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

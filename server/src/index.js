@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 
 import { CONFIG } from './config/index.js';
 import { wsService } from './services/wsService.js';
+import { reminderService } from './services/reminderService.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 // Route imports
@@ -27,8 +28,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
-// Initialize WebSocket server
+// Initialize WebSocket server and automated reminder service
 wsService.init(server);
+reminderService.init();
 
 // Middleware
 app.use(cors({
@@ -69,6 +71,6 @@ server.listen(CONFIG.PORT, () => {
   console.log(`=========================================`);
   console.log(`🚀 BYTECRAFT API Server running on port ${CONFIG.PORT}`);
   console.log(`📡 WebSocket ready at ws://localhost:${CONFIG.PORT}/ws`);
-  console.log(`⚡ Demo authentication ready for testing`);
+  console.log(`⚡ ByteCraft Coordinator Platform ready (v2 synced)`);
   console.log(`=========================================`);
 });

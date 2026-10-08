@@ -168,7 +168,7 @@ export default function WorkloadPage() {
               <div
                 key={row.dept.id}
                 className="card"
-                style={{ cursor: 'pointer', borderLeft: `4px solid ${row.dept.color}` }}
+                style={{ cursor: 'pointer' }}
                 onClick={() => navigate(`/departments/${row.dept.id}`)}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

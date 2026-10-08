@@ -30,22 +30,37 @@ export function PriorityBadge({ priority }: { priority: TaskPriority }) {
 
 export function RoleBadge({ role }: { role: UserRole | string }) {
   const normalized = (role || '').toUpperCase();
-  const labels: Record<string, string> = {
-    COORDINATOR: 'Coordinator',
-    DEPARTMENT_LEADER: 'Dept. Lead',
-    MANAGER: 'Dept. Lead',
-    MEMBER: 'Member',
+
+  const config: Record<string, { label: string; bg: string; color: string }> = {
+    PRESIDENT:       { label: 'President',      bg: '#7c3aed', color: '#fff' },
+    VICE_PRESIDENT:  { label: 'Vice President',  bg: '#4f46e5', color: '#fff' },
+    COORDINATOR:     { label: 'Coordinator',     bg: '#ea580c', color: '#fff' },
+    HR:              { label: 'HR',              bg: '#0891b2', color: '#fff' },
+    SECRETARY:       { label: 'Secretary',       bg: '#059669', color: '#fff' },
+    MANAGER:         { label: 'Manager',         bg: '#2563eb', color: '#fff' },
+    DEPARTMENT_LEADER: { label: 'Manager',       bg: '#2563eb', color: '#fff' },
+    MEMBER:          { label: 'Member',          bg: '#64748b', color: '#fff' },
   };
-  const key = normalized === 'COORDINATOR' ? 'coordinator'
-    : normalized === 'DEPARTMENT_LEADER' || normalized === 'MANAGER' ? 'department_leader'
-    : 'member';
+
+  const { label, bg, color } = config[normalized] || { label: role, bg: '#64748b', color: '#fff' };
 
   return (
-    <span className={`badge badge-${key}`}>
-      {labels[normalized] || role}
+    <span style={{
+      display: 'inline-block',
+      padding: '2px 8px',
+      borderRadius: 99,
+      fontSize: 10,
+      fontWeight: 800,
+      background: bg,
+      color,
+      letterSpacing: '0.03em',
+      textTransform: 'uppercase',
+    }}>
+      {label}
     </span>
   );
 }
+
 
 export function CommStatusBadge({ status }: { status: CommStatus }) {
   return (
