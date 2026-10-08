@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
+import { MongoClient } from 'mongodb';
 import { CONFIG } from '../config/index.js';
 import { realDepartments, realUsers } from './realClubSeeds.js';
 
@@ -23,16 +24,42 @@ class Database {
       attachments: [],
       settings: {}
     };
+
+    this.collections = [
+      'users',
+      'departments',
+      'tasks',
+      'responsibilities',
+      'events',
+      'agendaSections',
+      'agendaItems',
+      'communicationPlans',
+      'communicationItems',
+      'meetings',
+      'notifications',
+      'activityLogs',
+      'attachments'
+    ];
+
+    this.mongoClient = null;
+    this.mongoDb = null;
+    this.mongoConnected = false;
+    this.mongoConnecting = null;
+
     this.init();
   }
 
   init() {
-    const dir = path.dirname(CONFIG.DB_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    if (!fs.existsSync(CONFIG.UPLOADS_DIR)) {
-      fs.mkdirSync(CONFIG.UPLOADS_DIR, { recursive: true });
+    try {
+      const dir = path.dirname(CONFIG.DB_FILE);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      if (!fs.existsSync(CONFIG.UPLOADS_DIR)) {
+        fs.mkdirSync(CONFIG.UPLOADS_DIR, { recursive: true });
+      }
+    } catch {
+      // In read-only environments (e.g. Vercel), creating local folders can be skipped
     }
 
     if (fs.existsSync(CONFIG.DB_FILE)) {
@@ -46,6 +73,103 @@ class Database {
       }
     } else {
       this.seedDemoData();
+    }
+
+    // Connect to MongoDB if MONGODB_URI is provided
+    if (CONFIG.MONGODB_URI) {
+      this.connectMongo().catch(err => {
+        console.warn('Initial MongoDB connect warning (will retry on incoming request):', err.message);
+      });
+    }
+  }
+
+  async connectMongo() {
+    if (!CONFIG.MONGODB_URI) return null;
+    if (this.mongoConnected && this.mongoDb) return this.mongoDb;
+    if (this.mongoConnecting) return this.mongoConnecting;
+
+    this.mongoConnecting = (async () => {
+      try {
+        const client = new MongoClient(CONFIG.MONGODB_URI, {
+          serverSelectionTimeoutMS: 5000,
+        });
+        await client.connect();
+        this.mongoClient = client;
+        this.mongoDb = client.db(CONFIG.MONGODB_DB_NAME || 'bytecraft');
+        this.mongoConnected = true;
+        console.log(` Connected to MongoDB [Database: ${CONFIG.MONGODB_DB_NAME || 'bytecraft'}]`);
+
+        // Check if the users collection is already populated
+        const userCount = await this.mongoDb.collection('users').countDocuments();
+        if (userCount === 0) {
+          console.log('⚡ MongoDB is empty. Seeding initial ByteCraft collections into MongoDB...');
+          await this.seedToMongo();
+        } else {
+          await this.loadFromMongo();
+          console.log(' Synced application in-memory state from MongoDB collections.');
+        }
+
+        return this.mongoDb;
+      } catch (err) {
+        console.error(' MongoDB connection failed (using local JSON storage fallback):', err.message);
+        this.mongoConnected = false;
+        return null;
+      } finally {
+        this.mongoConnecting = null;
+      }
+    })();
+
+    return this.mongoConnecting;
+  }
+
+  async seedToMongo() {
+    if (!this.mongoConnected || !this.mongoDb) return;
+    try {
+      for (const col of this.collections) {
+        const items = this.data[col] || [];
+        if (items.length > 0) {
+          const ops = items.map(item => ({
+            replaceOne: {
+              filter: { _id: item.id },
+              replacement: { ...item, _id: item.id },
+              upsert: true
+            }
+          }));
+          await this.mongoDb.collection(col).bulkWrite(ops);
+        }
+      }
+      if (this.data.settings) {
+        await this.mongoDb.collection('settings').updateOne(
+          { _id: 'global' },
+          { $set: { ...this.data.settings, _id: 'global' } },
+          { upsert: true }
+        );
+      }
+      console.log(' All ByteCraft collections successfully seeded into MongoDB!');
+    } catch (err) {
+      console.error('Failed to seed collections to MongoDB:', err);
+    }
+  }
+
+  async loadFromMongo() {
+    if (!this.mongoConnected || !this.mongoDb) return;
+    try {
+      for (const col of this.collections) {
+        const docs = await this.mongoDb.collection(col).find({}).toArray();
+        if (docs && docs.length > 0) {
+          this.data[col] = docs.map(doc => {
+            const { _id, ...rest } = doc;
+            return { id: doc.id || _id, ...rest };
+          });
+        }
+      }
+      const settingsDoc = await this.mongoDb.collection('settings').findOne({ _id: 'global' });
+      if (settingsDoc) {
+        const { _id, ...rest } = settingsDoc;
+        this.data.settings = rest;
+      }
+    } catch (err) {
+      console.error('Failed to load collections from MongoDB:', err);
     }
   }
 
@@ -62,12 +186,22 @@ class Database {
   }
 
   save() {
+    // 1. Local file save (if environment allows write access)
     try {
       const tempPath = `${CONFIG.DB_FILE}.tmp`;
       fs.writeFileSync(tempPath, JSON.stringify(this.data, null, 2), 'utf-8');
       fs.renameSync(tempPath, CONFIG.DB_FILE);
-    } catch (err) {
-      console.error('Failed to persist database:', err);
+    } catch {
+      // In read-only serverless environments like Vercel, file save is gracefully bypassed
+    }
+
+    // 2. MongoDB sync for global settings
+    if (this.mongoConnected && this.mongoDb && this.data.settings) {
+      this.mongoDb.collection('settings').updateOne(
+        { _id: 'global' },
+        { $set: { ...this.data.settings, _id: 'global' } },
+        { upsert: true }
+      ).catch(e => console.error('MongoDB settings sync error:', e.message));
     }
   }
 
@@ -96,6 +230,16 @@ class Database {
     };
     this.data[collection].unshift(newItem);
     this.save();
+
+    // Persist immediately to MongoDB if connected
+    if (this.mongoConnected && this.mongoDb) {
+      this.mongoDb.collection(collection).replaceOne(
+        { _id: newItem.id },
+        { ...newItem, _id: newItem.id },
+        { upsert: true }
+      ).catch(e => console.error(`MongoDB insert error (${collection}):`, e.message));
+    }
+
     return newItem;
   }
 
@@ -110,6 +254,15 @@ class Database {
       updatedAt: new Date().toISOString()
     };
     this.save();
+
+    // Persist immediately to MongoDB if connected
+    if (this.mongoConnected && this.mongoDb) {
+      this.mongoDb.collection(collection).updateOne(
+        { $or: [{ id }, { _id: id }] },
+        { $set: updates }
+      ).catch(e => console.error(`MongoDB update error (${collection}):`, e.message));
+    }
+
     return list[index];
   }
 
@@ -119,8 +272,17 @@ class Database {
     if (index === -1) return false;
     list.splice(index, 1);
     this.save();
+
+    // Persist immediately to MongoDB if connected
+    if (this.mongoConnected && this.mongoDb) {
+      this.mongoDb.collection(collection).deleteOne(
+        { $or: [{ id }, { _id: id }] }
+      ).catch(e => console.error(`MongoDB delete error (${collection}):`, e.message));
+    }
+
     return true;
   }
+
 
   // --- DEMO SEEDING ---
   seedDemoData() {

@@ -4,7 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { CONFIG } from './config/index.js';
+import { db } from './store/database.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+
 
 // Route imports
 import authRoutes from './routes/authRoutes.js';
@@ -38,10 +40,28 @@ app.use('/uploads', express.static(CONFIG.UPLOADS_DIR));
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'ByteCraft Platform API', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'ok',
+    service: 'ByteCraft Platform API',
+    database: db.mongoConnected ? 'MongoDB' : 'Local JSON',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Ensure MongoDB is connected when MONGODB_URI is configured (vital for Vercel serverless cold starts)
+app.use(async (req, res, next) => {
+  if (CONFIG.MONGODB_URI && !db.mongoConnected) {
+    try {
+      await db.connectMongo();
+    } catch (err) {
+      console.error('Mongo connection error:', err);
+    }
+  }
+  next();
 });
 
 // API Routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/users', userRoutes);

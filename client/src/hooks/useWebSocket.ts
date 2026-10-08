@@ -4,9 +4,11 @@ const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:5000/ws';
 
 type WSMessage = {
   type: string;
-  payload?: unknown;
+  payload?: any;
+  data?: any;
   timestamp?: string;
 };
+
 
 interface UseWebSocketResult {
   lastMessage: WSMessage | null;

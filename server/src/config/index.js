@@ -11,4 +11,7 @@ export const CONFIG = {
   DB_FILE: path.join(__dirname, '../../data/db.json'),
   UPLOADS_DIR: path.join(__dirname, '../../uploads'),
   DEMO_MODE: false,
+  MONGODB_URI: process.env.MONGODB_URI || '',
+  MONGODB_DB_NAME: process.env.MONGODB_DB_NAME || 'bytecraft',
 };
+

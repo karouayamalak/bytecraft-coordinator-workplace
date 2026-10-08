@@ -515,9 +515,11 @@ export default function TasksPage() {
       {!loading && filteredList.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {filteredList.map(task => {
-            const isAssigned = task.assignedMemberId === user?.id || (Array.isArray(task.assignedMemberIds) && task.assignedMemberIds.includes(user?.id || ''));
-            const isManagerOfDept = isManager && user?.departmentId && (task.departmentId === user.departmentId || (Array.isArray(task.departmentIds) && task.departmentIds.includes(user.departmentId || '')));
-            const canCheck = isCoordinator || isAssigned || isManagerOfDept;
+            const isAssigned = Boolean(task.assignedMemberId === user?.id || (Array.isArray(task.assignedMemberIds) && task.assignedMemberIds.includes(user?.id || '')));
+            const isManagerOfDept = Boolean(isManager && user?.departmentId && (task.departmentId === user.departmentId || (Array.isArray(task.departmentIds) && task.departmentIds.includes(user.departmentId))));
+            const canCheck = Boolean(isCoordinator || isAssigned || isManagerOfDept);
+
+
 
             return (
               <TaskItem
