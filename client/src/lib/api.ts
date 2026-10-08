@@ -1,5 +1,7 @@
 // Central API client for ByteCraft Platform
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// In production (Vercel): same domain, use relative /api path
+// In development: VITE_API_URL points to localhost:5000
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 let _token: string | null = null;
 let _demoUserId: string | null = null;

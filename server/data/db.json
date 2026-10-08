@@ -1,0 +1,2425 @@
+{
+  "users": [
+    {
+      "id": "user-aya-karou",
+      "name": "Aya Malak Karou",
+      "email": "a_karou@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "COORDINATOR",
+      "position": "Club Coordinator",
+      "departmentId": null,
+      "phone": "0560386794",
+      "avatarUrl": "/avatars/aya-karou.jpg",
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/in/aya-malak-karou-15a527398",
+        "github": "https://github.com/karouayamalak",
+        "discord": "aya_karou"
+      },
+      "joinedDate": "2026-08-01",
+      "isActive": true
+    },
+    {
+      "id": "user-elmouatez-ledjassa",
+      "name": "Elmouatez Billah Ledjassa",
+      "email": "e_ledjassa@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "PRESIDENT",
+      "position": "President",
+      "departmentId": null,
+      "phone": "0540226970",
+      "avatarUrl": "/avatars/elmouatez-ledjassa.jpeg",
+      "socialLinks": {
+        "discord": "elmouatez_ledjassa"
+      },
+      "joinedDate": "2026-08-01",
+      "isActive": true
+    },
+    {
+      "id": "user-sadjed-louahouah",
+      "name": "Sadjed Louahouah",
+      "email": "s_louahouah@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "VICE_PRESIDENT",
+      "position": "Vice President",
+      "departmentId": null,
+      "phone": "0540596422",
+      "avatarUrl": "/avatars/sadjed-louahouah.jpeg",
+      "socialLinks": {
+        "github": "https://github.com/sadjedlou",
+        "discord": "1297665091386474546"
+      },
+      "joinedDate": "2026-08-01",
+      "isActive": true
+    },
+    {
+      "id": "user-abderrahim-zine",
+      "name": "Abderrahim Zine",
+      "email": "a_zine@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "VICE_PRESIDENT",
+      "position": "Vice President",
+      "departmentId": null,
+      "phone": "0558339334",
+      "avatarUrl": "/avatars/abderrahim-zine.jpg",
+      "socialLinks": {
+        "discord": "Rx7iiim.png"
+      },
+      "joinedDate": "2026-08-01",
+      "isActive": true
+    },
+    {
+      "id": "user-djihad-ladjeroud",
+      "name": "Djihad Ladjeroud",
+      "email": "d_ladjeroud@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "HR",
+      "position": "Human Resources",
+      "departmentId": null,
+      "phone": "0668238600",
+      "avatarUrl": "/avatars/djihad-ladjeroud.jpg",
+      "socialLinks": {
+        "discord": "Djihad0535"
+      },
+      "joinedDate": "2026-08-01",
+      "isActive": true
+    },
+    {
+      "id": "user-mohamed-telkhoukhe",
+      "name": "Mohamed Telkhoukhe",
+      "email": "m_telkhoukhe@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "HR",
+      "position": "Human Resources",
+      "departmentId": null,
+      "phone": "0553322168",
+      "avatarUrl": "/avatars/mohamed-telkhoukhe.jpg",
+      "socialLinks": {
+        "discord": "m0_h4_m3d"
+      },
+      "joinedDate": "2026-08-01",
+      "isActive": true
+    },
+    {
+      "id": "user-secretary",
+      "name": "Ines Ben Ferhat",
+      "email": "b_ines@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "SECRETARY",
+      "position": "General Secretary",
+      "departmentId": null,
+      "phone": "0559864850",
+      "avatarUrl": "/avatars/secretary-ines.jpeg",
+      "socialLinks": {
+        "discord": "probablyinesbnfh"
+      },
+      "joinedDate": "2026-09-09",
+      "isActive": true
+    },
+    {
+      "id": "user-coord",
+      "name": "Amine Benali",
+      "email": "coordinator@bytecraft.club",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "COORDINATOR",
+      "position": "Technical Coordinator",
+      "departmentId": "dept-dev-tech",
+      "phone": "+213 550 12 34 56",
+      "avatarUrl": "/avatars/aya-karou.jpg",
+      "joinedDate": "2026-08-01",
+      "isActive": true
+    },
+    {
+      "id": "user-manel-lyazidi",
+      "name": "Manel Lyazidi",
+      "email": "m_lyazidi@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Communication Manager",
+      "departmentId": "dept-com",
+      "phone": "0551393898",
+      "avatarUrl": "/avatars/manel-lyazidi.jpg",
+      "socialLinks": {
+        "discord": "manel258"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-imene-bouchareb",
+      "name": "Imene Bouchareb",
+      "email": "i_bouchareb@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Communication Manager",
+      "departmentId": "dept-com",
+      "phone": "0554009375",
+      "avatarUrl": "/avatars/imene-bouchareb.jpg",
+      "socialLinks": {
+        "discord": "alive_maybey.n"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-hadjer-regaz",
+      "name": "Hadjer Regaz",
+      "email": "ah_regaz@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Communication Manager",
+      "departmentId": "dept-com",
+      "phone": "0773847892",
+      "avatarUrl": "/avatars/hadjer-regaz.jpg",
+      "socialLinks": {
+        "discord": "hadjerregaz_14124"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-nourhane-belgacem",
+      "name": "Nourhane Belgacem",
+      "email": "an_belgacem@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Communication Manager",
+      "departmentId": "dept-com",
+      "phone": "0553303512",
+      "avatarUrl": "/avatars/nourhane-belgacem.jpeg",
+      "socialLinks": {
+        "discord": "1422916517925879808"
+      },
+      "joinedDate": "2026-08-23",
+      "isActive": true
+    },
+    {
+      "id": "user-tamer-khalfa",
+      "name": "Tamer Khalfa",
+      "email": "t_khalfa@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "External Relations Manager",
+      "departmentId": "dept-er",
+      "phone": "0699009780",
+      "avatarUrl": "/avatars/tamer-khalfa.jpeg",
+      "socialLinks": {
+        "discord": "tmr_kh"
+      },
+      "joinedDate": "2026-08-23",
+      "isActive": true
+    },
+    {
+      "id": "user-amani-bendjama",
+      "name": "Amani Bendjama",
+      "email": "am_bendjama@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "External Relations Manager",
+      "departmentId": "dept-er",
+      "phone": "0552699862",
+      "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      "socialLinks": {
+        "discord": "forgetfulmist"
+      },
+      "joinedDate": "2026-10-01",
+      "isActive": true
+    },
+    {
+      "id": "user-imene-bouzena",
+      "name": "Imene Bouzena",
+      "email": "i_bouzena@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Design Manager",
+      "departmentId": "dept-design",
+      "phone": "0561 78 35 31",
+      "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "socialLinks": {
+        "discord": "Imenebouzena"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-ahmed-boucharbat",
+      "name": "Ahmed Boucharbat",
+      "email": "aa_boucharbat@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Design Manager",
+      "departmentId": "dept-design",
+      "phone": "0778158674",
+      "avatarUrl": "/avatars/ahmed-boucharbat.png",
+      "socialLinks": {
+        "discord": "Its_torvin__20200"
+      },
+      "joinedDate": "2026-09-06",
+      "isActive": true
+    },
+    {
+      "id": "user-sonia-khereddine",
+      "name": "Sonia Khereddine",
+      "email": "s_khereddine@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Design Manager",
+      "departmentId": "dept-design",
+      "phone": "0667873361",
+      "avatarUrl": "/avatars/sonia-khereddine.jpg",
+      "socialLinks": {
+        "discord": "1295475637359870043"
+      },
+      "joinedDate": "2026-09-07",
+      "isActive": true
+    },
+    {
+      "id": "user-mohammed-benkerri",
+      "name": "Mohammed Benkerri",
+      "email": "mbenkerri44@gmail.com",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Multimedia Manager",
+      "departmentId": "dept-multimedia",
+      "phone": "0563239114",
+      "avatarUrl": "/avatars/mohammed-benkerri.jpg",
+      "socialLinks": {
+        "discord": "mohbnk"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-lina-zaouani",
+      "name": "Lina Zaouani",
+      "email": "l_zaouani@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Multimedia Manager",
+      "departmentId": "dept-multimedia",
+      "phone": "0541038481",
+      "avatarUrl": "/avatars/lina-zaouani.jpeg",
+      "socialLinks": {
+        "discord": "linazaouani_49706"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-ines-bessam",
+      "name": "Ines Malika Bessam",
+      "email": "i_bessam@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Multimedia Manager",
+      "departmentId": "dept-multimedia",
+      "phone": "0770390756",
+      "avatarUrl": "/avatars/ines-bessam.webp",
+      "socialLinks": {
+        "discord": "ines_54826"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-iyad-sebti",
+      "name": "Iyad Sebti",
+      "email": "i_sebti@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Multimedia Manager",
+      "departmentId": "dept-multimedia",
+      "phone": "0698042720",
+      "avatarUrl": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80",
+      "socialLinks": {
+        "discord": "uyadsb"
+      },
+      "joinedDate": "2026-08-23",
+      "isActive": true
+    },
+    {
+      "id": "user-rayane-alem",
+      "name": "Rayane Alem",
+      "email": "r_alem@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Activities & Logistics Manager",
+      "departmentId": "dept-logistics",
+      "phone": "+213563809022",
+      "avatarUrl": "/avatars/rayane-alem.jpg",
+      "socialLinks": {
+        "discord": "rayane00.0"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-meryem-feghrour",
+      "name": "Meryem Feghrour",
+      "email": "m_feghour@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Logistics & Activities Manager",
+      "departmentId": "dept-logistics",
+      "phone": "0556279114",
+      "avatarUrl": "/avatars/meryem-feghrour.jpg",
+      "socialLinks": {
+        "discord": "https://discord.gg/SheypEVg"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-yasser-boucherir",
+      "name": "Yasser Boucherir",
+      "email": "y_boucherir@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Logistics & Activities Manager",
+      "departmentId": "dept-logistics",
+      "phone": "0557213734",
+      "avatarUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
+      "socialLinks": {
+        "discord": "zadiow"
+      },
+      "joinedDate": "2026-10-01",
+      "isActive": true
+    },
+    {
+      "id": "user-israa-chiheb",
+      "name": "Israa Chiheb",
+      "email": "i_chiheb@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Development & Tech Manager",
+      "departmentId": "dept-dev-tech",
+      "phone": "0555139182",
+      "avatarUrl": "/avatars/israa-chiheb.jpeg",
+      "socialLinks": {
+        "discord": "itsmeisraa"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-ahmed-belmehnouf",
+      "name": "Ahmed Belmehnouf",
+      "email": "a_belmehnouf@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Development & Tech Manager",
+      "departmentId": "dept-dev-tech",
+      "phone": "0551750148",
+      "avatarUrl": "/avatars/ahmed-belmehnouf.jpg",
+      "socialLinks": {
+        "discord": "poincre01"
+      },
+      "joinedDate": "2026-08-23",
+      "isActive": true
+    },
+    {
+      "id": "user-yassine-bouguerra",
+      "name": "Yassine Bouguerra",
+      "email": "y_bouguerra@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Development & Tech Manager",
+      "departmentId": "dept-dev-tech",
+      "phone": "0774807887",
+      "avatarUrl": "/avatars/yassine-bouguerra.jpg",
+      "socialLinks": {
+        "discord": "dYMRMeux"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-zohir-hakmi",
+      "name": "Zohir Hakmi",
+      "email": "z_hakmi@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "Development & Tech Manager",
+      "departmentId": "dept-dev-tech",
+      "phone": "0672568581",
+      "avatarUrl": "/avatars/zohir-hakmi.png",
+      "socialLinks": {
+        "github": "https://github.com/ZX41R",
+        "discord": "@y_2i9"
+      },
+      "joinedDate": "2026-08-22",
+      "isActive": true
+    },
+    {
+      "id": "user-chanez-nouioua",
+      "name": "Chanez Nouioua",
+      "email": "c_nouioua@estin.dz",
+      "passwordHash": "$2a$10$To/sFtH6ioBI5ZshJZ6zP.aXcHagg56GV8BnDIneljjgvKH07TcyO",
+      "role": "MANAGER",
+      "position": "External Relations Manager",
+      "departmentId": "dept-er",
+      "phone": "0540194485",
+      "avatarUrl": "/avatars/chanez-nouioua.png",
+      "socialLinks": {
+        "discord": "chanez_nouioua_53801"
+      },
+      "joinedDate": "2026-08-23",
+      "isActive": true
+    }
+  ],
+  "departments": [
+    {
+      "id": "dept-design",
+      "name": "Design",
+      "description": "Visual branding, UI/UX design, flyers, badges, 3D graphics, and presentation assets.",
+      "leaderId": "user-imene-bouzena",
+      "color": "#EC4899",
+      "icon": "Palette",
+      "isArchived": false,
+      "createdAt": "2026-08-01"
+    },
+    {
+      "id": "dept-multimedia",
+      "name": "Multimedia",
+      "description": "Video recording, podcast production, photography, montage, and audio engineering.",
+      "leaderId": "user-mohammed-benkerri",
+      "color": "#F43F5E",
+      "icon": "Camera",
+      "isArchived": false,
+      "createdAt": "2026-08-01"
+    },
+    {
+      "id": "dept-com",
+      "name": "Communication",
+      "description": "Social media management, Instagram campaigns, public announcements, and community engagement.",
+      "leaderId": "user-manel-lyazidi",
+      "color": "#8B5CF6",
+      "icon": "Megaphone",
+      "isArchived": false,
+      "createdAt": "2026-08-01"
+    },
+    {
+      "id": "dept-er",
+      "name": "External Relations",
+      "description": "PR, partnerships, sponsorships, university administration, and external media relations.",
+      "leaderId": "user-tamer-khalfa",
+      "color": "#F59E0B",
+      "icon": "Handshake",
+      "isArchived": false,
+      "createdAt": "2026-08-01"
+    },
+    {
+      "id": "dept-dev-tech",
+      "name": "Development & Tech",
+      "description": "Web & mobile app development, internal platforms, tooling, competitive programming, and AI/Cloud infrastructure.",
+      "leaderId": "user-israa-chiheb",
+      "color": "#0284c7",
+      "icon": "Code2",
+      "isArchived": false,
+      "createdAt": "2026-08-01"
+    },
+    {
+      "id": "dept-logistics",
+      "name": "Logistics & Activities",
+      "description": "Event operations, venue booking, hardware setup, catering, on-site activities, and club logistics.",
+      "leaderId": "user-rayane-alem",
+      "color": "#10B981",
+      "icon": "PackageCheck",
+      "isArchived": false,
+      "createdAt": "2026-08-01"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-overdue-1",
+      "title": "Design Workshop Hero Poster & Social Banners",
+      "description": "Create high-res 4K teaser graphics and story banners matching the official ByteCraft neon palette.",
+      "departmentId": "dept-design",
+      "assignedMemberId": "user-imene-bouzena",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "URGENT",
+      "status": "COMPLETED",
+      "startDate": "2026-09-29",
+      "deadline": "2026-10-03",
+      "progressPercent": 100,
+      "notes": "Awaiting revised copy from Communication department before exporting final PNGs.",
+      "attachments": [
+        {
+          "id": "att-poster-draft",
+          "name": "Workshop_Poster_v2_Draft.png",
+          "size": "3.2 MB",
+          "type": "image/png",
+          "url": "#"
+        }
+      ],
+      "updatedAt": "2026-10-05T20:03:45.977Z",
+      "departmentIds": [
+        "dept-design"
+      ],
+      "assignedMemberIds": [
+        "user-imene-bouzena"
+      ]
+    },
+    {
+      "id": "task-overdue-2",
+      "title": "Reserve Tech Amphitheater Sound & Projection System",
+      "description": "Submit administrative reservation stamp to university logistics office and test audio mixer.",
+      "departmentId": "dept-logistics",
+      "assignedMemberId": "user-rayane-alem",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "HIGH",
+      "status": "COMPLETED",
+      "startDate": "2026-09-30",
+      "deadline": "2026-10-04",
+      "progressPercent": 100,
+      "notes": "Faculty dean approved request; pending security badge clearance.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-logistics"
+      ],
+      "assignedMemberIds": [
+        "user-rayane-alem"
+      ],
+      "updatedAt": "2026-10-06T19:26:40.086Z"
+    },
+    {
+      "id": "task-today-1",
+      "title": "Deploy Workshop Registration Form & Live Dashboard",
+      "description": "Verify Google Form / Webhook integration, generate QR codes, and stress-test server load.",
+      "departmentId": "dept-dev-tech",
+      "assignedMemberId": "user-yassine-bouguerra",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "URGENT",
+      "status": "COMPLETED",
+      "startDate": "2026-10-02",
+      "deadline": "2026-10-05",
+      "progressPercent": 100,
+      "notes": "Database schema confirmed. Adding automatic confirmation email trigger.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-dev-tech"
+      ],
+      "assignedMemberIds": [
+        "user-yassine-bouguerra"
+      ],
+      "updatedAt": "2026-10-06T19:26:45.075Z"
+    },
+    {
+      "id": "task-today-2",
+      "title": "Publish Speaker Announcement & Topic Teaser on Instagram",
+      "description": "Post the verified speaker slide carousel and launch interactive poll on Instagram stories.",
+      "departmentId": "dept-com",
+      "assignedMemberId": "user-manel-lyazidi",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "HIGH",
+      "status": "COMPLETED",
+      "startDate": "2026-10-03",
+      "deadline": "2026-10-05",
+      "progressPercent": 100,
+      "notes": "Copy reviewed. Scheduled for 18:00 peak engagement time.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-com"
+      ],
+      "assignedMemberIds": [
+        "user-manel-lyazidi"
+      ],
+      "updatedAt": "2026-10-08T13:29:27.785Z"
+    },
+    {
+      "id": "task-today-3",
+      "title": "Produce 30s Animated Video Teaser for Socials",
+      "description": "Edit motion graphics and club highlights for the workshop launch reel.",
+      "departmentId": "dept-multimedia",
+      "assignedMemberId": "user-mohammed-benkerri",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "HIGH",
+      "status": "COMPLETED",
+      "startDate": "2026-10-01",
+      "deadline": "2026-10-05",
+      "progressPercent": 100,
+      "notes": "Render in 9:16 vertical format for Instagram Reels.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-multimedia"
+      ],
+      "assignedMemberIds": [
+        "user-mohammed-benkerri"
+      ],
+      "updatedAt": "2026-10-08T13:29:34.774Z"
+    },
+    {
+      "id": "task-tomorrow-1",
+      "title": "Prepare Badge Lanyards, Welcome Folders & Stickers",
+      "description": "Count and pack 150 ByteCraft holographic sticker packs and print attendee lanyards.",
+      "departmentId": "dept-logistics",
+      "assignedMemberId": "user-rayane-alem",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "MEDIUM",
+      "status": "COMPLETED",
+      "startDate": "2026-10-04",
+      "deadline": "2026-10-06",
+      "progressPercent": 100,
+      "notes": "Boxes stored in Club Room 402.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-logistics"
+      ],
+      "assignedMemberIds": [
+        "user-rayane-alem"
+      ],
+      "updatedAt": "2026-10-08T14:07:35.081Z"
+    },
+    {
+      "id": "task-week-1",
+      "title": "Send Workshop Logistics Email to Confirmed Attendees",
+      "description": "Broadcast email containing arrival time, parking instructions, WiFi guidelines, and prerequisites.",
+      "departmentId": "dept-com",
+      "assignedMemberId": "user-imene-bouchareb",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "MEDIUM",
+      "status": "COMPLETED",
+      "startDate": "2026-10-05",
+      "deadline": "2026-10-07",
+      "progressPercent": 100,
+      "notes": "Draft ready in Mailchimp / Resend dashboard.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-com"
+      ],
+      "assignedMemberIds": [
+        "user-imene-bouchareb"
+      ],
+      "updatedAt": "2026-10-08T14:07:41.075Z"
+    },
+    {
+      "id": "task-week-2",
+      "title": "Setup Camera Equipment & Stage Lighting for Recording",
+      "description": "Configure 2 Sony 4K mirrorless cameras on tripods and wireless lavalier microphones.",
+      "departmentId": "dept-multimedia",
+      "assignedMemberId": "user-lina-zaouani",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "MEDIUM",
+      "status": "TODO",
+      "startDate": "2026-10-06",
+      "deadline": "2026-10-08",
+      "progressPercent": 0,
+      "notes": "Batteries fully charged; SD cards formatted.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-multimedia"
+      ],
+      "assignedMemberIds": [
+        "user-lina-zaouani"
+      ]
+    },
+    {
+      "id": "task-comp-1",
+      "title": "Finalize Hackathon Keynote Slides & Brand Assets",
+      "description": "Keynote presentation slides, keynote deck, and sponsor branding templates.",
+      "departmentId": "dept-design",
+      "assignedMemberId": "user-imene-bouzena",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "HIGH",
+      "status": "COMPLETED",
+      "startDate": "2026-09-23",
+      "deadline": "2026-09-29",
+      "progressPercent": 100,
+      "notes": "Approved by board.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-design"
+      ],
+      "assignedMemberIds": [
+        "user-imene-bouzena"
+      ]
+    },
+    {
+      "id": "task-comp-2",
+      "title": "Confirm Tech Amphitheater Date with Faculty Administration",
+      "description": "Official confirmation letter signed by faculty dean.",
+      "departmentId": "dept-logistics",
+      "assignedMemberId": "user-rayane-alem",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "URGENT",
+      "status": "COMPLETED",
+      "startDate": "2026-09-21",
+      "deadline": "2026-09-28",
+      "progressPercent": 100,
+      "notes": "Official permission stamped and filed.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-logistics"
+      ],
+      "assignedMemberIds": [
+        "user-rayane-alem"
+      ]
+    },
+    {
+      "id": "task-comp-3",
+      "title": "Launch Workshop Pre-registration Teaser",
+      "description": "Published countdown reel on Instagram and invited Discord members to save the date.",
+      "departmentId": "dept-com",
+      "assignedMemberId": "user-manel-lyazidi",
+      "createdById": "user-coord",
+      "eventId": "event-workshop",
+      "priority": "MEDIUM",
+      "status": "COMPLETED",
+      "startDate": "2026-09-25",
+      "deadline": "2026-09-30",
+      "progressPercent": 100,
+      "notes": "Reached 3,400 impressions in the first 48 hours.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-com"
+      ],
+      "assignedMemberIds": [
+        "user-manel-lyazidi"
+      ]
+    },
+    {
+      "id": "task-extra-1",
+      "title": "Draft Hackathon Sponsorship Pitch Deck",
+      "description": "Complete 12-slide PDF showcasing sponsor tiers, club reach, and previous edition metrics.",
+      "departmentId": "dept-com",
+      "assignedMemberId": "user-manel-lyazidi",
+      "createdById": "user-coord",
+      "eventId": "event-hackathon",
+      "priority": "HIGH",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-10-02",
+      "deadline": "2026-10-09",
+      "progressPercent": 50,
+      "notes": "Need updated photo assets from Media team.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-com"
+      ],
+      "assignedMemberIds": [
+        "user-manel-lyazidi"
+      ]
+    },
+    {
+      "id": "task-extra-2",
+      "title": "Coordinate Hackathon Catering & Midnight Snacks",
+      "description": "Contact 3 local catering providers for 400 meal boxes and coffee urns.",
+      "departmentId": "dept-logistics",
+      "assignedMemberId": "user-rayane-alem",
+      "createdById": "user-coord",
+      "eventId": "event-hackathon",
+      "priority": "MEDIUM",
+      "status": "TODO",
+      "startDate": "2026-10-03",
+      "deadline": "2026-10-10",
+      "progressPercent": 15,
+      "notes": "Quotes received from 2 vendors.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-logistics"
+      ],
+      "assignedMemberIds": [
+        "user-rayane-alem"
+      ]
+    },
+    {
+      "id": "task-extra-3",
+      "title": "Implement Hackathon Team Formation Portal",
+      "description": "Allow registered participants to find teammates and pitch project ideas online.",
+      "departmentId": "dept-dev-tech",
+      "assignedMemberId": "user-yassine-bouguerra",
+      "createdById": "user-coord",
+      "eventId": "event-hackathon",
+      "priority": "HIGH",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-09-30",
+      "deadline": "2026-10-12",
+      "progressPercent": 40,
+      "notes": "Integrated with Discord webhook.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-dev-tech"
+      ],
+      "assignedMemberIds": [
+        "user-yassine-bouguerra"
+      ]
+    },
+    {
+      "id": "task-extra-4",
+      "title": "Review Discord Bot Moderation & Verification Hooks",
+      "description": "Automate role assignments when new university students join the ByteCraft Discord server.",
+      "departmentId": "dept-dev-tech",
+      "assignedMemberId": "user-israa-chiheb",
+      "createdById": "user-amine-lead",
+      "eventId": null,
+      "priority": "LOW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-10-02",
+      "deadline": "2026-10-11",
+      "progressPercent": 60,
+      "notes": "Node.js Discord.js v14 bot deployed on server.",
+      "attachments": [],
+      "departmentIds": [
+        "dept-dev-tech"
+      ],
+      "assignedMemberIds": [
+        "user-israa-chiheb"
+      ]
+    },
+    {
+      "id": "task-design-hackathon-poster",
+      "title": "Hackathon Official Poster & Visual Identity",
+      "description": "Design the primary master poster and color palette for ByteCraft Hackathon 2026.",
+      "status": "IN_PROGRESS",
+      "priority": "HIGH",
+      "departmentId": "dept-design",
+      "departmentIds": [
+        "dept-design"
+      ],
+      "assignedMemberId": "user-imene-bouzena",
+      "assignedMemberIds": [
+        "user-imene-bouzena"
+      ],
+      "deadline": "2026-10-12",
+      "eventId": "event-hackathon-2026",
+      "estimatedHours": 12,
+      "actualHours": 6,
+      "tags": [
+        "Design",
+        "Poster",
+        "Hackathon"
+      ],
+      "isPrivate": false,
+      "createdAt": "2026-10-01T10:00:00.000Z",
+      "updatedAt": "2026-10-05T12:00:00.000Z"
+    },
+    {
+      "id": "task-design-insta-stories",
+      "title": "Instagram Story Series & Countdown Graphics",
+      "description": "Create engaging story motion templates and 5-day countdown teaser graphics.",
+      "status": "TODO",
+      "priority": "MEDIUM",
+      "departmentId": "dept-design",
+      "departmentIds": [
+        "dept-design"
+      ],
+      "assignedMemberId": "user-ahmed-boucharbat",
+      "assignedMemberIds": [
+        "user-ahmed-boucharbat"
+      ],
+      "deadline": "2026-10-14",
+      "eventId": "event-hackathon-2026",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "Design",
+        "Social",
+        "Instagram"
+      ],
+      "isPrivate": false,
+      "createdAt": "2026-10-02T11:00:00.000Z",
+      "updatedAt": "2026-10-05T12:00:00.000Z"
+    },
+    {
+      "id": "task-design-rollup-banner",
+      "title": "Event Roll-Up Banners & Stage Backdrops",
+      "description": "Design physical print banners and high-res stage projection backdrops.",
+      "status": "IN_PROGRESS",
+      "priority": "HIGH",
+      "departmentId": "dept-design",
+      "departmentIds": [
+        "dept-design"
+      ],
+      "assignedMemberId": "user-imene-bouzena",
+      "assignedMemberIds": [
+        "user-imene-bouzena",
+        "user-ahmed-boucharbat"
+      ],
+      "deadline": "2026-10-16",
+      "eventId": "event-hackathon-2026",
+      "estimatedHours": 14,
+      "actualHours": 5,
+      "tags": [
+        "Design",
+        "Print",
+        "Stage"
+      ],
+      "isPrivate": false,
+      "createdAt": "2026-10-03T09:00:00.000Z",
+      "updatedAt": "2026-10-05T15:00:00.000Z"
+    },
+    {
+      "id": "task-design-certificates",
+      "title": "Participant & Speaker Certificate Templates",
+      "description": "Design official ESTIN-approved certificate vectors with customizable name fields.",
+      "status": "TODO",
+      "priority": "LOW",
+      "departmentId": "dept-design",
+      "departmentIds": [
+        "dept-design"
+      ],
+      "assignedMemberId": "user-sonia-khereddine",
+      "assignedMemberIds": [
+        "user-sonia-khereddine"
+      ],
+      "deadline": "2026-10-18",
+      "eventId": "event-hackathon-2026",
+      "estimatedHours": 6,
+      "actualHours": 0,
+      "tags": [
+        "Design",
+        "Certificates"
+      ],
+      "isPrivate": false,
+      "createdAt": "2026-10-04T14:00:00.000Z",
+      "updatedAt": "2026-10-05T14:00:00.000Z"
+    },
+    {
+      "id": "task-cross-promo-campaign",
+      "title": "Prepare Hackathon Promotional Campaign",
+      "description": "Cross-department synchronization for visual assets, copy write-ups, and teaser video.",
+      "status": "IN_PROGRESS",
+      "priority": "URGENT",
+      "departmentId": "dept-design",
+      "departmentIds": [
+        "dept-design",
+        "dept-com",
+        "dept-multimedia"
+      ],
+      "assignedMemberId": "user-imene-bouzena",
+      "assignedMemberIds": [
+        "user-imene-bouzena",
+        "user-manel-lyazidi",
+        "user-mohammed-benkerri"
+      ],
+      "deadline": "2026-10-15",
+      "eventId": "event-hackathon-2026",
+      "estimatedHours": 20,
+      "actualHours": 8,
+      "tags": [
+        "Cross-Dept",
+        "Campaign",
+        "Hackathon"
+      ],
+      "isPrivate": false,
+      "createdAt": "2026-10-02T10:00:00.000Z",
+      "updatedAt": "2026-10-05T16:00:00.000Z"
+    },
+    {
+      "id": "task-logistics-amphi-catering",
+      "title": "Coordinate Amphitheater Logistics & Catering",
+      "description": "Finalize auditorium reservations, technician soundchecks, and snack catering.",
+      "status": "IN_PROGRESS",
+      "priority": "HIGH",
+      "departmentId": "dept-logistics",
+      "departmentIds": [
+        "dept-logistics"
+      ],
+      "assignedMemberId": "user-rayane-alem",
+      "assignedMemberIds": [
+        "user-rayane-alem",
+        "user-meryem-feghrour",
+        "user-yasser-boucherir"
+      ],
+      "deadline": "2026-10-13",
+      "eventId": "event-hackathon-2026",
+      "estimatedHours": 16,
+      "actualHours": 7,
+      "tags": [
+        "Logistics & Activities",
+        "Venue"
+      ],
+      "isPrivate": false,
+      "createdAt": "2026-10-02T10:00:00.000Z",
+      "updatedAt": "2026-10-05T16:00:00.000Z"
+    }
+  ],
+  "responsibilities": [
+    {
+      "id": "resp-1",
+      "memberId": "user-manel-lyazidi",
+      "departmentId": "dept-com",
+      "title": "External Relations & PR Partnerships",
+      "description": "Managing partnerships, press releases, and club sponsorships."
+    },
+    {
+      "id": "resp-2",
+      "memberId": "user-imene-bouchareb",
+      "departmentId": "dept-com",
+      "title": "Social Media Strategy & Publications",
+      "description": "Executing communication plans, Instagram releases, and community announcements."
+    },
+    {
+      "id": "resp-3",
+      "memberId": "user-imene-bouzena",
+      "departmentId": "dept-design",
+      "title": "Brand Visual Identity & Creative Direction",
+      "description": "Designing posters, branding assets, event UI, and presentation templates."
+    },
+    {
+      "id": "resp-4",
+      "memberId": "user-mohammed-benkerri",
+      "departmentId": "dept-multimedia",
+      "title": "Video Teaser & Motion Graphics Direction",
+      "description": "Directing video productions, teaser drops, and dynamic animations."
+    },
+    {
+      "id": "resp-5",
+      "memberId": "user-lina-zaouani",
+      "departmentId": "dept-multimedia",
+      "title": "Event Photography & Post-Production",
+      "description": "Live event camera coverage, photo sorting, and social reels."
+    },
+    {
+      "id": "resp-6",
+      "memberId": "user-rayane-alem",
+      "departmentId": "dept-logistics",
+      "title": "Logistics, Venue & Audio Setup",
+      "description": "Equipment reservation, audio mixer testing, and stage readiness."
+    },
+    {
+      "id": "resp-7",
+      "memberId": "user-yassine-bouguerra",
+      "departmentId": "dept-dev-tech",
+      "title": "Tech Lead & Platform Infrastructure",
+      "description": "Managing web platforms, club APIs, registration forms, and deployment pipelines."
+    }
+  ],
+  "events": [
+    {
+      "id": "event-workshop",
+      "name": "ByteCraft Modern Web & AI Workshop",
+      "description": "Hands-on 3-hour masterclass exploring full-stack engineering, agentic development, and club onboarding.",
+      "eventType": "WORKSHOP",
+      "date": "2026-10-08",
+      "startTime": "14:00",
+      "endTime": "17:30",
+      "location": "University Tech Amphitheater B",
+      "organizerId": "user-coord",
+      "responsibleDepartmentId": "dept-dev-tech",
+      "responsibleMemberIds": [
+        "user-amine-lead",
+        "user-tarek",
+        "user-sarah-lead"
+      ],
+      "status": "ACTIVE",
+      "expectedParticipants": 120,
+      "notes": "Projector HDMI adapter and 2 wireless mics needed. Livestream to Discord stage.",
+      "attachments": [
+        {
+          "id": "att-1",
+          "name": "Workshop_Syllabus_2026.pdf",
+          "size": "2.4 MB",
+          "type": "application/pdf",
+          "url": "#"
+        },
+        {
+          "id": "att-2",
+          "name": "Hall_Layout_Tech_Amphi.png",
+          "size": "1.1 MB",
+          "type": "image/png",
+          "url": "#"
+        }
+      ],
+      "createdAt": "2026-09-21"
+    },
+    {
+      "id": "event-hackathon",
+      "name": "ByteCraft Annual 36H Hackathon",
+      "description": "Our flagship university hackathon bringing 40 teams together to solve real-world community challenges.",
+      "eventType": "HACKATHON",
+      "date": "2026-10-23",
+      "startTime": "09:00",
+      "endTime": "21:00",
+      "location": "Main University Innovation Hub & Open Atrium",
+      "organizerId": "user-coord",
+      "responsibleDepartmentId": "dept-logistics",
+      "responsibleMemberIds": [
+        "user-yacine-lead",
+        "user-karim-lead",
+        "user-sarah-lead",
+        "user-amine-lead"
+      ],
+      "status": "PLANNED",
+      "expectedParticipants": 200,
+      "notes": "Sponsor banners arrived. 10Gbps fiber switch requested from university IT.",
+      "attachments": [
+        {
+          "id": "att-3",
+          "name": "Hackathon_Rulebook_2026.pdf",
+          "size": "3.8 MB",
+          "type": "application/pdf",
+          "url": "#"
+        }
+      ],
+      "createdAt": "2026-09-10"
+    },
+    {
+      "id": "event-meetup",
+      "name": "ByteCraft Tech Talk: Future of Cloud & Edge",
+      "description": "Evening panel discussion with ByteCraft alumni and guest industry engineers.",
+      "eventType": "MEETUP",
+      "date": "2026-11-02",
+      "startTime": "17:00",
+      "endTime": "19:30",
+      "location": "Cyber Lounge 101",
+      "organizerId": "user-meriem-lead",
+      "responsibleDepartmentId": "dept-content",
+      "responsibleMemberIds": [
+        "user-meriem-lead",
+        "user-nour"
+      ],
+      "status": "PLANNED",
+      "expectedParticipants": 60,
+      "notes": "Q&A session followed by coffee and networking.",
+      "attachments": [],
+      "createdAt": "2026-09-25"
+    }
+  ],
+  "agendaSections": [
+    {
+      "id": "sec-1",
+      "eventId": "event-workshop",
+      "title": "Morning / Welcome Session",
+      "startTime": "13:30",
+      "endTime": "14:25",
+      "order": 1
+    },
+    {
+      "id": "sec-2",
+      "eventId": "event-workshop",
+      "title": "Main Keynotes & Technical Workshops",
+      "startTime": "14:30",
+      "endTime": "17:45",
+      "order": 2
+    }
+  ],
+  "agendaItems": [
+    {
+      "id": "ag-1",
+      "eventId": "event-workshop",
+      "sectionId": "sec-1",
+      "title": "Check-in & Badge Distribution",
+      "description": "Verify registration QR codes and provide ByteCraft stickers.",
+      "startTime": "13:30",
+      "endTime": "14:00",
+      "responsiblePerson": "Sarah Khelifi",
+      "location": "Hall Entrance",
+      "order": 1,
+      "notes": "Have printed list ready for backup."
+    },
+    {
+      "id": "ag-2",
+      "eventId": "event-workshop",
+      "sectionId": "sec-1",
+      "title": "Opening Remarks & ByteCraft Vision",
+      "description": "Welcome by the Coordinator and overview of the new academic season.",
+      "startTime": "14:00",
+      "endTime": "14:25",
+      "responsiblePerson": "Amine Benali",
+      "location": "Main Stage",
+      "order": 2,
+      "notes": "Display keynote slide deck on the big screen."
+    },
+    {
+      "id": "ag-3",
+      "eventId": "event-workshop",
+      "sectionId": "sec-2",
+      "title": "Technical Session: Building Agentic Web Apps",
+      "description": "Live coding session demonstrating modern architecture and real-time APIs.",
+      "startTime": "14:30",
+      "endTime": "15:45",
+      "responsiblePerson": "Yanis Mahrez & Tarek Cherif",
+      "location": "Main Stage",
+      "order": 3,
+      "notes": "Ensure live screen mirroring has high resolution."
+    },
+    {
+      "id": "ag-4",
+      "eventId": "event-workshop",
+      "sectionId": "sec-2",
+      "title": "Coffee Break & Interactive Demo Booths",
+      "description": "Refreshments, networking, and mini-booths for each department.",
+      "startTime": "15:45",
+      "endTime": "16:15",
+      "responsiblePerson": "Yacine Belkacem",
+      "location": "Atrium",
+      "order": 4,
+      "notes": "Coordinate with cafeteria staff 30 mins prior."
+    },
+    {
+      "id": "ag-5",
+      "eventId": "event-workshop",
+      "sectionId": "sec-2",
+      "title": "Hands-on Challenge & Mentorship",
+      "description": "Attendees build and test their own reactive microservice with team support.",
+      "startTime": "16:15",
+      "endTime": "17:15",
+      "responsiblePerson": "Imen Saidi & Meriem Haddad",
+      "location": "Lab Room 3 & 4",
+      "order": 5,
+      "notes": "WiFi credentials printed on desks."
+    },
+    {
+      "id": "ag-6",
+      "eventId": "event-workshop",
+      "sectionId": "sec-2",
+      "title": "Showcase, Q&A & Next Steps",
+      "description": "Student project spotlight, award distribution, and group photo.",
+      "startTime": "17:15",
+      "endTime": "17:45",
+      "responsiblePerson": "Amine Benali",
+      "location": "Main Stage",
+      "order": 6,
+      "notes": "Media team must capture official club photo."
+    }
+  ],
+  "communicationPlans": [
+    {
+      "id": "complan-workshop",
+      "eventId": "event-workshop",
+      "title": "ByteCraft AI & Web Workshop 2026 Com Plan",
+      "targetAudience": "University CS & Engineering students, self-taught coders, tech enthusiasts",
+      "createdAt": "2026-09-25"
+    },
+    {
+      "id": "complan-hackathon",
+      "eventId": "event-hackathon",
+      "title": "Annual 36H Hackathon Multi-Channel Campaign",
+      "targetAudience": "All engineering faculties, designers, startups, club alumni",
+      "createdAt": "2026-09-15"
+    }
+  ],
+  "communicationItems": [
+    {
+      "id": "com-1",
+      "communicationPlanId": "complan-workshop",
+      "eventId": "event-workshop",
+      "phase": "BEFORE",
+      "title": "Speaker Reveal Carousel & Highlights",
+      "channel": "INSTAGRAM",
+      "content": "Unveiling our guest speakers and live interactive agenda! Swipe right to see the topics.",
+      "responsiblePersonId": "user-ahmed",
+      "publicationDate": "2026-10-05",
+      "status": "READY",
+      "notes": "Approved by Sarah. Waiting for prime evening posting slot."
+    },
+    {
+      "id": "com-2",
+      "communicationPlanId": "complan-workshop",
+      "eventId": "event-workshop",
+      "phase": "BEFORE",
+      "title": "Registration Closing in 24 Hours Alert",
+      "channel": "WHATSAPP",
+      "content": "Reminder to all community members: only 15 seats remaining for Thursday's workshop. Register now!",
+      "responsiblePersonId": "user-sarah-lead",
+      "publicationDate": "2026-10-06",
+      "status": "PLANNED",
+      "notes": "Send to ByteCraft Official Announcement Community."
+    },
+    {
+      "id": "com-3",
+      "communicationPlanId": "complan-workshop",
+      "eventId": "event-workshop",
+      "phase": "BEFORE",
+      "title": "Prerequisites & Laptop Setup Guide",
+      "channel": "DISCORD",
+      "content": "Please make sure Node.js >= 20 and VSCode are pre-installed before coming to Amphitheater B.",
+      "responsiblePersonId": "user-tarek",
+      "publicationDate": "2026-10-07",
+      "status": "PLANNED",
+      "notes": "Pin message in #workshop-general channel."
+    },
+    {
+      "id": "com-4",
+      "communicationPlanId": "complan-workshop",
+      "eventId": "event-workshop",
+      "phase": "DURING",
+      "title": "Live Workshop Coverage & Backstage Stories",
+      "channel": "INSTAGRAM",
+      "content": "Live stories from check-in, keynotes, live coding questions, and coffee break vibes.",
+      "responsiblePersonId": "user-ahmed",
+      "publicationDate": "2026-10-08",
+      "status": "PLANNED",
+      "notes": "Coordinate with Karim for high-res instant snaps."
+    },
+    {
+      "id": "com-comp-1",
+      "communicationPlanId": "complan-workshop",
+      "eventId": "event-workshop",
+      "phase": "BEFORE",
+      "title": "Official Workshop Date & Teaser Launch",
+      "channel": "INSTAGRAM",
+      "content": "Mark your calendars! ByteCraft returns with our first hands-on technical workshop of the season.",
+      "responsiblePersonId": "user-sarah-lead",
+      "publicationDate": "2026-09-28",
+      "status": "PUBLISHED",
+      "notes": "Post live and pinned to club profile."
+    },
+    {
+      "id": "com-comp-2",
+      "communicationPlanId": "complan-workshop",
+      "eventId": "event-workshop",
+      "phase": "BEFORE",
+      "title": "Registration Form Opening Announcement",
+      "channel": "LINKEDIN",
+      "content": "ByteCraft Club is proud to announce registrations are officially open for our upcoming developer workshop.",
+      "responsiblePersonId": "user-sarah-lead",
+      "publicationDate": "2026-10-01",
+      "status": "PUBLISHED",
+      "notes": "Achieved 45 reposts across university circles."
+    }
+  ],
+  "meetings": [
+    {
+      "id": "meet-1",
+      "title": "Weekly Executive Coordination & Workshop Readiness",
+      "date": "2026-10-03",
+      "startTime": "18:00",
+      "endTime": "19:30",
+      "location": "Discord Executive Voice + Club Room 402",
+      "participantIds": [
+        "user-coord",
+        "user-sarah-lead",
+        "user-amine-lead",
+        "user-karim-lead",
+        "user-yacine-lead",
+        "user-meriem-lead"
+      ],
+      "agenda": "1. Review Amphitheater reservation status\n2. Inspect workshop presentation deck\n3. Finalize social media promotion schedule\n4. Allocate volunteer check-in roles",
+      "notes": "All department heads present. Logistics confirmed dean approval. Design needs 24h extension for final stage banners.",
+      "decisions": [
+        "Approved budget for 150 holographic stickers and guest refreshments.",
+        "Shifted registration deadline to Wednesday midnight to accommodate late engineering exams.",
+        "Confirmed live Discord stage stream for remote club members."
+      ],
+      "actionItems": [
+        {
+          "id": "act-1",
+          "title": "Verify audio mixer and microphone batteries in Amphitheater B",
+          "departmentId": "dept-logistics",
+          "responsibleId": "user-yacine-lead",
+          "deadline": "2026-10-06",
+          "taskCreated": true,
+          "taskId": "task-overdue-2"
+        },
+        {
+          "id": "act-2",
+          "title": "Create and print VIP guest badges",
+          "departmentId": "dept-design",
+          "responsibleId": "user-lina",
+          "deadline": "2026-10-07",
+          "taskCreated": false
+        }
+      ]
+    },
+    {
+      "id": "meet-2",
+      "title": "Hackathon 2026 Core Planning Committee",
+      "date": "2026-10-10",
+      "startTime": "16:00",
+      "endTime": "17:30",
+      "location": "Innovation Hub Room A",
+      "participantIds": [
+        "user-coord",
+        "user-amine-lead",
+        "user-sarah-lead",
+        "user-yacine-lead"
+      ],
+      "agenda": "Review sponsor packages, problem tracks, jury nominations, and hardware lab inventory.",
+      "notes": "Upcoming meeting agenda prepared.",
+      "decisions": [],
+      "actionItems": []
+    }
+  ],
+  "notifications": [
+    {
+      "id": "0c76ae84-9bb9-4061-9eae-7bf650fa8d8f",
+      "createdAt": "2026-10-08T16:08:02.323Z",
+      "updatedAt": "2026-10-08T16:08:02.323Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "9f9d1f70-5c43-49c4-bd5d-b8237c066581",
+      "createdAt": "2026-10-08T16:08:02.321Z",
+      "updatedAt": "2026-10-08T16:08:02.321Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "e40b932f-5fb1-4a6e-a666-5e6f48a2b813",
+      "createdAt": "2026-10-08T16:08:02.318Z",
+      "updatedAt": "2026-10-08T16:08:02.318Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "bda01f30-1638-4644-9ef3-c256efe48410",
+      "createdAt": "2026-10-08T15:56:16.274Z",
+      "updatedAt": "2026-10-08T15:56:16.275Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "6e6abcea-f3ac-418b-a879-60f889cd099b",
+      "createdAt": "2026-10-08T15:56:16.254Z",
+      "updatedAt": "2026-10-08T15:56:16.255Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "5f0d149e-70f3-41c7-a5a3-18b48d626af2",
+      "createdAt": "2026-10-08T15:56:16.242Z",
+      "updatedAt": "2026-10-08T15:56:16.242Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "5fbb49fd-7f77-42c4-9816-702c3fc15d8a",
+      "createdAt": "2026-10-08T15:31:10.824Z",
+      "updatedAt": "2026-10-08T15:31:10.825Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "cf0c1912-e963-4835-801e-7e579f1e40eb",
+      "createdAt": "2026-10-08T15:31:10.821Z",
+      "updatedAt": "2026-10-08T15:31:10.822Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "872495a1-b68e-48c8-abac-82857635242d",
+      "createdAt": "2026-10-08T15:31:10.797Z",
+      "updatedAt": "2026-10-08T15:31:10.798Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "bce99925-90ce-4ed5-8603-850f54bbc917",
+      "createdAt": "2026-10-08T15:01:10.920Z",
+      "updatedAt": "2026-10-08T15:01:10.920Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "70b3866f-be53-4a05-bbd6-fd124857078f",
+      "createdAt": "2026-10-08T15:01:10.912Z",
+      "updatedAt": "2026-10-08T15:01:10.913Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "59798988-7b2c-4b13-9d47-6bd54f07d53d",
+      "createdAt": "2026-10-08T15:01:10.838Z",
+      "updatedAt": "2026-10-08T15:01:10.847Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "5e0ef471-e154-414b-8f97-e5bc212d50ad",
+      "createdAt": "2026-10-08T14:33:33.638Z",
+      "updatedAt": "2026-10-08T14:33:33.638Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "ebdbb4ff-1c04-4efa-8098-271c9702d938",
+      "createdAt": "2026-10-08T14:33:33.630Z",
+      "updatedAt": "2026-10-08T14:33:33.630Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "982db406-3e6e-4654-889b-24f9636fe672",
+      "createdAt": "2026-10-08T14:33:33.621Z",
+      "updatedAt": "2026-10-08T14:33:33.621Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "3ce06795-0005-4b55-895b-e181a2fbe043",
+      "createdAt": "2026-10-08T14:31:14.035Z",
+      "updatedAt": "2026-10-08T14:31:14.035Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "7a6cca4b-0b08-4d5d-adc3-3a1ca9c5d0e1",
+      "createdAt": "2026-10-08T14:31:13.883Z",
+      "updatedAt": "2026-10-08T14:31:13.884Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "f8f719e6-64cc-4aee-8d08-0de9cd456cee",
+      "createdAt": "2026-10-08T14:31:13.769Z",
+      "updatedAt": "2026-10-08T14:31:13.769Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "16720b95-2fc9-473a-b0d4-bc69e911fbab",
+      "createdAt": "2026-10-08T14:31:09.421Z",
+      "updatedAt": "2026-10-08T14:31:09.421Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "798c6b76-f9c9-42d3-af89-73d786164ae2",
+      "createdAt": "2026-10-08T14:31:09.413Z",
+      "updatedAt": "2026-10-08T14:31:09.413Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "542d3f45-3391-4dc1-8289-8de856a3bb62",
+      "createdAt": "2026-10-08T14:31:09.407Z",
+      "updatedAt": "2026-10-08T14:31:09.407Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "691357e1-3ed9-4659-a5a6-33b55aeda623",
+      "createdAt": "2026-10-08T14:30:32.544Z",
+      "updatedAt": "2026-10-08T14:30:32.544Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Action: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "874c51da-b752-4998-a07e-47ef47df5a50",
+      "createdAt": "2026-10-08T14:30:32.495Z",
+      "updatedAt": "2026-10-08T14:30:32.495Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "68a064a6-4099-4bc5-8572-458b0a5acc84",
+      "createdAt": "2026-10-08T14:30:32.473Z",
+      "updatedAt": "2026-10-08T14:30:32.474Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "54b84c80-b60b-40ce-8280-ab34f560d142",
+      "createdAt": "2026-10-08T14:29:37.466Z",
+      "updatedAt": "2026-10-08T14:29:37.466Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Plan: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "8a6958b4-8f94-4a2e-ae1f-f508196e7f2b",
+      "createdAt": "2026-10-08T14:29:37.449Z",
+      "updatedAt": "2026-10-08T14:29:37.449Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "c7157e93-3212-48ed-a609-376e175b2a07",
+      "createdAt": "2026-10-08T14:29:37.385Z",
+      "updatedAt": "2026-10-08T14:29:37.385Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "9943801a-5704-48ba-beaa-113c66bc72a9",
+      "createdAt": "2026-10-08T14:29:14.200Z",
+      "updatedAt": "2026-10-08T14:29:14.200Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Plan: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "0f738ceb-ed83-4a5f-85fb-db24952c7925",
+      "createdAt": "2026-10-08T14:29:14.133Z",
+      "updatedAt": "2026-10-08T14:29:14.133Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "76b710a3-aad3-4a42-b094-9388ace8eebe",
+      "createdAt": "2026-10-08T14:29:14.112Z",
+      "updatedAt": "2026-10-08T14:29:14.112Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "c1f3667b-c7a8-4911-82c1-1f63fda6f1dd",
+      "createdAt": "2026-10-08T14:23:38.241Z",
+      "updatedAt": "2026-10-08T14:23:38.241Z",
+      "userId": "user-ahmed",
+      "title": "Com Action Due Today",
+      "message": "📢 Com Plan: \"Live Workshop Coverage & Backstage Stories\" (INSTAGRAM) is scheduled for today at 18:00",
+      "type": "COMMUNICATION",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/communication"
+    },
+    {
+      "id": "10cd89ef-5734-4878-8e52-600c1f9da8b4",
+      "createdAt": "2026-10-08T14:23:38.231Z",
+      "updatedAt": "2026-10-08T14:23:38.231Z",
+      "userId": "user-manel-lyazidi",
+      "title": "Task Due Tomorrow",
+      "message": "⏳ Reminder: \"Draft Hackathon Sponsorship Pitch Deck\" is due tomorrow.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "1dfb5092-71fa-42a4-ad08-e911e7768c3b",
+      "createdAt": "2026-10-08T14:23:38.221Z",
+      "updatedAt": "2026-10-08T14:23:38.221Z",
+      "userId": "user-lina-zaouani",
+      "title": "Task Due Today",
+      "message": "⏰ Reminder: \"Setup Camera Equipment & Stage Lighting for Recording\" is due today!",
+      "type": "TASK",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "99dd0533-25b3-4a7a-a4f1-de1c2e176ad5",
+      "createdAt": "2026-10-08T14:07:41.085Z",
+      "updatedAt": "2026-10-08T14:07:41.085Z",
+      "userId": "user-coord",
+      "title": "Task Finished",
+      "message": "Aya Malak Karou completed \"Send Workshop Logistics Email to Confirmed Attendees\"",
+      "type": "TASK",
+      "priority": "INFO",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "b65ba59c-f20a-44a4-aa71-87fd7b5ac885",
+      "createdAt": "2026-10-08T14:07:35.115Z",
+      "updatedAt": "2026-10-08T14:07:35.119Z",
+      "userId": "user-coord",
+      "title": "Task Finished",
+      "message": "Aya Malak Karou completed \"Prepare Badge Lanyards, Welcome Folders & Stickers\"",
+      "type": "TASK",
+      "priority": "INFO",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "023751ac-50d0-48d3-baee-f57b624c8d7c",
+      "createdAt": "2026-10-08T13:29:34.787Z",
+      "updatedAt": "2026-10-08T13:29:34.787Z",
+      "userId": "user-coord",
+      "title": "Task Finished",
+      "message": "Aya Malak Karou completed \"Produce 30s Animated Video Teaser for Socials\"",
+      "type": "TASK",
+      "priority": "INFO",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "33be74f4-443f-4b8e-9ff2-535320d96703",
+      "createdAt": "2026-10-08T13:29:27.822Z",
+      "updatedAt": "2026-10-08T13:29:27.822Z",
+      "userId": "user-coord",
+      "title": "Task Finished",
+      "message": "Aya Malak Karou completed \"Publish Speaker Announcement & Topic Teaser on Instagram\"",
+      "type": "TASK",
+      "priority": "INFO",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "2719c766-7072-4305-b82b-3143411dd818",
+      "createdAt": "2026-10-06T19:26:45.101Z",
+      "updatedAt": "2026-10-06T19:26:45.101Z",
+      "userId": "user-coord",
+      "title": "Task Finished",
+      "message": "Aya Malak Karou completed \"Deploy Workshop Registration Form & Live Dashboard\"",
+      "type": "TASK",
+      "priority": "INFO",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "c1f2dce1-9d30-4a6c-a958-a2037888b6e4",
+      "createdAt": "2026-10-06T19:26:40.140Z",
+      "updatedAt": "2026-10-06T19:26:40.140Z",
+      "userId": "user-coord",
+      "title": "Task Finished",
+      "message": "Aya Malak Karou completed \"Reserve Tech Amphitheater Sound & Projection System\"",
+      "type": "TASK",
+      "priority": "INFO",
+      "isRead": false,
+      "linkUrl": "/tasks"
+    },
+    {
+      "id": "notif-1",
+      "userId": "user-coord",
+      "title": "Urgent: Overdue Task Alert",
+      "message": "Task \"Design Workshop Hero Poster\" assigned to Lina Ait-Ali is 2 days overdue.",
+      "type": "DEADLINE",
+      "priority": "URGENT",
+      "isRead": false,
+      "linkUrl": "/tasks",
+      "createdAt": "2026-10-05T08:30:00Z"
+    },
+    {
+      "id": "notif-2",
+      "userId": "user-coord",
+      "title": "Upcoming Event in 3 Days",
+      "message": "ByteCraft Modern Web & AI Workshop takes place in 3 days. Preparation currently at 78%.",
+      "type": "EVENT",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/events/event-workshop",
+      "createdAt": "2026-10-05T09:15:00Z"
+    },
+    {
+      "id": "notif-3",
+      "userId": "user-coord",
+      "title": "Team Workload Warning",
+      "message": "Ahmed Mansouri and Yacine Belkacem have crossed the threshold of 4+ concurrent high-priority tasks.",
+      "type": "TASK",
+      "priority": "WARNING",
+      "isRead": false,
+      "linkUrl": "/workload",
+      "createdAt": "2026-10-05T10:00:00Z"
+    },
+    {
+      "id": "notif-4",
+      "userId": "user-coord",
+      "title": "Communication Action Ready for Review",
+      "message": "Sarah Khelifi marked \"Speaker Reveal Carousel & Highlights\" as READY for publication.",
+      "type": "COMMUNICATION",
+      "priority": "INFO",
+      "isRead": true,
+      "linkUrl": "/communication",
+      "createdAt": "2026-10-04T14:20:00Z"
+    },
+    {
+      "id": "notif-5",
+      "userId": "user-coord",
+      "title": "Task Completed",
+      "message": "Sarah Khelifi completed \"Launch Workshop Pre-registration Teaser\".",
+      "type": "TASK",
+      "priority": "INFO",
+      "isRead": true,
+      "linkUrl": "/tasks",
+      "createdAt": "2026-10-03T16:45:00Z"
+    }
+  ],
+  "activityLogs": [
+    {
+      "id": "df14f426-c30d-4c4f-99e1-5a16da05b61e",
+      "createdAt": "2026-10-08T14:33:56.643Z",
+      "updatedAt": "2026-10-08T14:33:56.643Z",
+      "actorId": "user-manel-lyazidi",
+      "actorName": "Manel Lyazidi",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-manel-lyazidi",
+      "details": "Signed in via Google (m_lyazidi@estin.dz)",
+      "timestamp": "2026-10-08T14:33:56.643Z"
+    },
+    {
+      "id": "bd359384-87d2-431d-aae7-534c1fb75023",
+      "createdAt": "2026-10-08T14:33:33.585Z",
+      "updatedAt": "2026-10-08T14:33:33.585Z",
+      "actorId": "user-lina-zaouani",
+      "actorName": "Lina Zaouani",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-lina-zaouani",
+      "details": "Signed in via Google (l_zaouani@estin.dz)",
+      "timestamp": "2026-10-08T14:33:33.584Z"
+    },
+    {
+      "id": "cbeef99d-6331-4689-9b6e-a8b7e1eb0784",
+      "createdAt": "2026-10-08T14:31:09.377Z",
+      "updatedAt": "2026-10-08T14:31:09.377Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Signed in via Google (i_bouzena@estin.dz)",
+      "timestamp": "2026-10-08T14:31:09.377Z"
+    },
+    {
+      "id": "ced60de9-f85f-4190-9165-2545d45777dc",
+      "createdAt": "2026-10-08T14:29:37.303Z",
+      "updatedAt": "2026-10-08T14:29:37.303Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Signed in via Google (i_bouzena@estin.dz)",
+      "timestamp": "2026-10-08T14:29:37.303Z"
+    },
+    {
+      "id": "8fe6b4ec-ab53-44fb-90ad-216d5b0e3056",
+      "createdAt": "2026-10-08T14:29:26.038Z",
+      "updatedAt": "2026-10-08T14:29:26.038Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Signed in via Google (a_karou@estin.dz)",
+      "timestamp": "2026-10-08T14:29:26.038Z"
+    },
+    {
+      "id": "5b73657f-8be6-4498-9ed6-d1ddc0e1d410",
+      "createdAt": "2026-10-08T14:29:14.038Z",
+      "updatedAt": "2026-10-08T14:29:14.038Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Signed in via Google (a_karou@estin.dz)",
+      "timestamp": "2026-10-08T14:29:14.037Z"
+    },
+    {
+      "id": "64325fcd-f8e4-4d28-8b8e-fdf7eca312dc",
+      "createdAt": "2026-10-08T14:14:08.440Z",
+      "updatedAt": "2026-10-08T14:14:08.440Z",
+      "actorId": "user-israa-chiheb",
+      "actorName": "Israa Chiheb",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-israa-chiheb",
+      "details": "Signed in via Google (i_chiheb@estin.dz)",
+      "timestamp": "2026-10-08T14:14:08.440Z"
+    },
+    {
+      "id": "0d06b3f9-c20e-431a-97c8-23378509c0f3",
+      "createdAt": "2026-10-08T14:13:28.099Z",
+      "updatedAt": "2026-10-08T14:13:28.099Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Signed in via Google (a_karou@estin.dz)",
+      "timestamp": "2026-10-08T14:13:28.099Z"
+    },
+    {
+      "id": "5f5922ff-e26d-433d-867a-e13b916e5615",
+      "createdAt": "2026-10-08T14:12:41.343Z",
+      "updatedAt": "2026-10-08T14:12:41.343Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Signed in via Google (a_karou@estin.dz)",
+      "timestamp": "2026-10-08T14:12:41.343Z"
+    },
+    {
+      "id": "bf5f4bc6-79c1-428a-af07-4066c100cfd1",
+      "createdAt": "2026-10-08T14:12:33.861Z",
+      "updatedAt": "2026-10-08T14:12:33.861Z",
+      "actorId": "user-secretary",
+      "actorName": "Ines Ben Ferhat",
+      "action": "USER_LOGIN_GOOGLE",
+      "entityType": "USER",
+      "entityId": "user-secretary",
+      "details": "Signed in via Google (b_ines@estin.dz)",
+      "timestamp": "2026-10-08T14:12:33.856Z"
+    },
+    {
+      "id": "58199a56-1223-434e-b5f8-cc6326533406",
+      "createdAt": "2026-10-08T14:07:41.080Z",
+      "updatedAt": "2026-10-08T14:07:41.080Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "TASK_COMPLETED",
+      "entityType": "TASK",
+      "entityId": "task-week-1",
+      "details": "Aya Malak Karou marked task \"Send Workshop Logistics Email to Confirmed Attendees\" as COMPLETED",
+      "timestamp": "2026-10-08T14:07:41.080Z"
+    },
+    {
+      "id": "a1d4fead-30e0-41c6-8e35-ab2dc8923ed5",
+      "createdAt": "2026-10-08T14:07:35.101Z",
+      "updatedAt": "2026-10-08T14:07:35.101Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "TASK_COMPLETED",
+      "entityType": "TASK",
+      "entityId": "task-tomorrow-1",
+      "details": "Aya Malak Karou marked task \"Prepare Badge Lanyards, Welcome Folders & Stickers\" as COMPLETED",
+      "timestamp": "2026-10-08T14:07:35.092Z"
+    },
+    {
+      "id": "5410d2c4-8d3b-4305-8a9b-ce55498decc6",
+      "createdAt": "2026-10-08T13:29:34.781Z",
+      "updatedAt": "2026-10-08T13:29:34.781Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "TASK_COMPLETED",
+      "entityType": "TASK",
+      "entityId": "task-today-3",
+      "details": "Aya Malak Karou marked task \"Produce 30s Animated Video Teaser for Socials\" as COMPLETED",
+      "timestamp": "2026-10-08T13:29:34.780Z"
+    },
+    {
+      "id": "f3b5dd23-238e-45a1-8d44-8c1f43fe072d",
+      "createdAt": "2026-10-08T13:29:27.812Z",
+      "updatedAt": "2026-10-08T13:29:27.812Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "TASK_COMPLETED",
+      "entityType": "TASK",
+      "entityId": "task-today-2",
+      "details": "Aya Malak Karou marked task \"Publish Speaker Announcement & Topic Teaser on Instagram\" as COMPLETED",
+      "timestamp": "2026-10-08T13:29:27.799Z"
+    },
+    {
+      "id": "08cc1634-82e0-4671-b3da-769bb2ab1635",
+      "createdAt": "2026-10-06T19:26:45.091Z",
+      "updatedAt": "2026-10-06T19:26:45.091Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "TASK_COMPLETED",
+      "entityType": "TASK",
+      "entityId": "task-today-1",
+      "details": "Aya Malak Karou marked task \"Deploy Workshop Registration Form & Live Dashboard\" as COMPLETED",
+      "timestamp": "2026-10-06T19:26:45.091Z"
+    },
+    {
+      "id": "6ef17004-d369-401a-8e82-cb6d1a14cacc",
+      "createdAt": "2026-10-06T19:26:40.109Z",
+      "updatedAt": "2026-10-06T19:26:40.109Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "TASK_COMPLETED",
+      "entityType": "TASK",
+      "entityId": "task-overdue-2",
+      "details": "Aya Malak Karou marked task \"Reserve Tech Amphitheater Sound & Projection System\" as COMPLETED",
+      "timestamp": "2026-10-06T19:26:40.109Z"
+    },
+    {
+      "id": "ae3eaeac-b51c-4e31-a6df-48edea04fd0e",
+      "createdAt": "2026-10-06T19:26:32.732Z",
+      "updatedAt": "2026-10-06T19:26:32.732Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T19:26:32.732Z"
+    },
+    {
+      "id": "9490e2e3-a4be-4a3d-9077-dc552491ec2c",
+      "createdAt": "2026-10-06T19:19:48.148Z",
+      "updatedAt": "2026-10-06T19:19:48.148Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T19:19:48.146Z"
+    },
+    {
+      "id": "01c936bb-86ba-442b-a3ec-e791d164c322",
+      "createdAt": "2026-10-06T19:10:37.925Z",
+      "updatedAt": "2026-10-06T19:10:37.925Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T19:10:37.925Z"
+    },
+    {
+      "id": "aba1917d-afb5-464f-a249-cf74e1711fb4",
+      "createdAt": "2026-10-06T19:07:52.461Z",
+      "updatedAt": "2026-10-06T19:07:52.461Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T19:07:52.461Z"
+    },
+    {
+      "id": "0c9e9c2f-0f64-4501-8452-afaee27d1a6e",
+      "createdAt": "2026-10-06T19:00:00.324Z",
+      "updatedAt": "2026-10-06T19:00:00.324Z",
+      "actorId": "user-secretary",
+      "actorName": "Ines Ben Ferhat",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-secretary",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T19:00:00.324Z"
+    },
+    {
+      "id": "ba8f7e62-2dcf-4fa7-92a9-77074f7dfac3",
+      "createdAt": "2026-10-06T18:59:12.501Z",
+      "updatedAt": "2026-10-06T18:59:12.501Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:59:12.500Z"
+    },
+    {
+      "id": "1b6013f0-5e59-45eb-9722-7ae6500ae4da",
+      "createdAt": "2026-10-06T18:53:40.783Z",
+      "updatedAt": "2026-10-06T18:53:40.783Z",
+      "actorId": "user-aya-karou",
+      "actorName": "Aya Malak Karou",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-aya-karou",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:53:40.782Z"
+    },
+    {
+      "id": "8479533e-2b2b-43a8-8f1f-1117fcd0ed1a",
+      "createdAt": "2026-10-06T18:47:54.385Z",
+      "updatedAt": "2026-10-06T18:47:54.385Z",
+      "actorId": "user-sonia-khereddine",
+      "actorName": "Sonia Khereddine",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-sonia-khereddine",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:47:54.385Z"
+    },
+    {
+      "id": "c61e8bf2-0e98-48ee-8e49-1a0fe98b57af",
+      "createdAt": "2026-10-06T18:47:42.162Z",
+      "updatedAt": "2026-10-06T18:47:42.162Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:47:42.162Z"
+    },
+    {
+      "id": "873711d4-51c4-4227-9508-5e623cc0ea8c",
+      "createdAt": "2026-10-06T18:45:55.595Z",
+      "updatedAt": "2026-10-06T18:45:55.595Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:45:55.595Z"
+    },
+    {
+      "id": "21c7bcd6-6f3d-4343-8dc5-6ca76d559408",
+      "createdAt": "2026-10-06T18:45:44.078Z",
+      "updatedAt": "2026-10-06T18:45:44.078Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:45:44.078Z"
+    },
+    {
+      "id": "70578598-54b1-44b8-bf4d-29a7b320a397",
+      "createdAt": "2026-10-06T18:44:29.982Z",
+      "updatedAt": "2026-10-06T18:44:29.982Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:44:29.982Z"
+    },
+    {
+      "id": "1bf6f036-3c04-4f92-ad8b-9f55fae96214",
+      "createdAt": "2026-10-06T18:43:02.293Z",
+      "updatedAt": "2026-10-06T18:43:02.293Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:43:02.293Z"
+    },
+    {
+      "id": "89223bc8-600c-47d0-82cc-5b690f67efa4",
+      "createdAt": "2026-10-06T18:42:12.653Z",
+      "updatedAt": "2026-10-06T18:42:12.653Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:42:12.653Z"
+    },
+    {
+      "id": "a801827b-fea2-46b4-94b5-e2ea400641cf",
+      "createdAt": "2026-10-06T18:42:05.362Z",
+      "updatedAt": "2026-10-06T18:42:05.362Z",
+      "actorId": "user-imene-bouzena",
+      "actorName": "Imene Bouzena",
+      "action": "USER_LOGIN",
+      "entityType": "USER",
+      "entityId": "user-imene-bouzena",
+      "details": "Logged in to ByteCraft platform",
+      "timestamp": "2026-10-06T18:42:05.361Z"
+    },
+    {
+      "id": "587935ec-2ad4-42bb-8b28-8c81571f3cac",
+      "createdAt": "2026-10-05T18:15:19.175Z",
+      "updatedAt": "2026-10-05T18:15:19.175Z",
+      "actorId": "user-coord",
+      "actorName": "Amine Benali",
+      "action": "DEMO_DATA_RESET",
+      "entityType": "SYSTEM",
+      "entityId": "system",
+      "details": "Reset ByteCraft demo data to baseline state",
+      "timestamp": "2026-10-05T18:15:19.175Z"
+    },
+    {
+      "id": "act-log-1",
+      "actorId": "user-sarah-lead",
+      "actorName": "Sarah Khelifi",
+      "action": "STATUS_UPDATED",
+      "entityType": "COMMUNICATION",
+      "entityId": "com-1",
+      "details": "Changed status of \"Speaker Reveal Carousel & Highlights\" to READY",
+      "timestamp": "2026-10-05T10:15:00Z"
+    },
+    {
+      "id": "act-log-2",
+      "actorId": "user-tarek",
+      "actorName": "Tarek Cherif",
+      "action": "PROGRESS_UPDATED",
+      "entityType": "TASK",
+      "entityId": "task-today-1",
+      "details": "Updated progress on \"Deploy Workshop Registration Form\" to 85%",
+      "timestamp": "2026-10-05T09:40:00Z"
+    },
+    {
+      "id": "act-log-3",
+      "actorId": "user-coord",
+      "actorName": "Amine Benali (Coordinator)",
+      "action": "TASK_ASSIGNED",
+      "entityType": "TASK",
+      "entityId": "task-extra-1",
+      "details": "Assigned \"Draft Hackathon Sponsorship Pitch Deck\" to Ahmed Mansouri",
+      "timestamp": "2026-10-04T15:20:00Z"
+    },
+    {
+      "id": "act-log-4",
+      "actorId": "user-meriem-lead",
+      "actorName": "Meriem Haddad",
+      "action": "PROGRESS_UPDATED",
+      "entityType": "TASK",
+      "entityId": "task-today-3",
+      "details": "Pushed starter code and set progress to 75%",
+      "timestamp": "2026-10-04T14:10:00Z"
+    },
+    {
+      "id": "act-log-5",
+      "actorId": "user-sarah-lead",
+      "actorName": "Sarah Khelifi",
+      "action": "TASK_COMPLETED",
+      "entityType": "TASK",
+      "entityId": "task-comp-3",
+      "details": "Completed \"Launch Workshop Pre-registration Teaser\"",
+      "timestamp": "2026-10-03T17:00:00Z"
+    },
+    {
+      "id": "act-log-6",
+      "actorId": "user-coord",
+      "actorName": "Amine Benali (Coordinator)",
+      "action": "EVENT_CREATED",
+      "entityType": "EVENT",
+      "entityId": "event-workshop",
+      "details": "Created \"ByteCraft Modern Web & AI Workshop\" scheduled for 2026-10-08",
+      "timestamp": "2026-09-21T11:00:00Z"
+    }
+  ],
+  "attachments": [],
+  "settings": {
+    "clubName": "ByteCraft Club",
+    "tagline": "Crafting the Future of Code, Hardware & Digital Innovation",
+    "academicYear": "2026 - 2027",
+    "primaryContact": "contact@bytecraft.club",
+    "logoUrl": "/bytecraft-logo.png",
+    "demoMode": true,
+    "overloadThreshold": 4,
+    "notificationsEnabled": true
+  }
+}

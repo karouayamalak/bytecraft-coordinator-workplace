@@ -31,7 +31,7 @@ Thumbs.db
 *.swp
 *.swo
 
-# Runtime database (auto-generated and seeded at startup)
-server/data/db.json
+# Runtime database — committed as seed snapshot for Vercel deployment
+# server/data/db.json   ← KEEP this committed
 server/data/*.tmp
 server/uploads/

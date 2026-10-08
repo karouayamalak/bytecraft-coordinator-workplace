@@ -1,70 +1,15 @@
+// Local development entry point — imports the shared app + adds WS + starts HTTP server
 import http from 'http';
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
+import app from './app.js';
 import { CONFIG } from './config/index.js';
 import { wsService } from './services/wsService.js';
 import { reminderService } from './services/reminderService.js';
-import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
-// Route imports
-import authRoutes from './routes/authRoutes.js';
-import dashboardRoutes from './routes/dashboardRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import deptRoutes from './routes/deptRoutes.js';
-import taskRoutes from './routes/taskRoutes.js';
-import eventRoutes from './routes/eventRoutes.js';
-import comPlanRoutes from './routes/comPlanRoutes.js';
-import meetingRoutes from './routes/meetingRoutes.js';
-import notificationRoutes from './routes/notificationRoutes.js';
-import reportRoutes from './routes/reportRoutes.js';
-import systemRoutes from './routes/systemRoutes.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const app = express();
 const server = http.createServer(app);
 
-// Initialize WebSocket server and automated reminder service
+// Initialize WebSocket server and automated reminder service (local dev only)
 wsService.init(server);
 reminderService.init();
-
-// Middleware
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-demo-user-id']
-}));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// Static uploads folder
-app.use('/uploads', express.static(CONFIG.UPLOADS_DIR));
-
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'ByteCraft Platform API', timestamp: new Date().toISOString() });
-});
-
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/departments', deptRoutes);
-app.use('/api/tasks', taskRoutes);
-app.use('/api/events', eventRoutes);
-app.use('/api/communication', comPlanRoutes);
-app.use('/api/meetings', meetingRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/reports', reportRoutes);
-app.use('/api/system', systemRoutes);
-
-// Error Handling
-app.use(notFoundHandler);
-app.use(errorHandler);
 
 // Start HTTP + WS Server
 server.listen(CONFIG.PORT, () => {

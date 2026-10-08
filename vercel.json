@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server/api/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "server/src/**",
+          "server/data/**"
+        ]
+      }
+    },
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/server/api/index.js" },
+    { "src": "/health", "dest": "/server/api/index.js" },
+    { "src": "/uploads/(.*)", "dest": "/server/api/index.js" },
+    { "src": "/(.*)", "dest": "/client/dist/$1" }
+  ]
+}
