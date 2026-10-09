@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { Mail, ArrowRight, AlertCircle, Search, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Avatar from '../components/ui/Avatar';
@@ -112,6 +113,74 @@ export default function LoginPage() {
   const [showManualPassword, setShowManualPassword] = useState(false);
   const [manualPassword, setManualPassword] = useState('');
 
+  const googleBtnRef = useRef<HTMLDivElement>(null);
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '984879669682-vodr62fs5glbipbka5q0nteo1s6b08du.apps.googleusercontent.com';
+
+  useEffect(() => {
+    let unmounted = false;
+
+    const renderGoogleBtn = () => {
+      const google = (window as any).google;
+      if (!google?.accounts?.id || !googleBtnRef.current || unmounted) return;
+
+      try {
+        google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: async (response: any) => {
+            if (response?.credential) {
+              setLoadingEmail('Google');
+              setError('');
+              try {
+                await loginWithGoogle(response.credential);
+                navigate('/');
+              } catch (err: any) {
+                setError(
+                  err?.response?.data?.message ||
+                  err?.message ||
+                  'Your Google account is not registered in ByteCraft.'
+                );
+              } finally {
+                setLoadingEmail(null);
+              }
+            }
+          },
+          auto_select: false,
+        });
+
+        google.accounts.id.renderButton(googleBtnRef.current, {
+          theme: 'filled_black',
+          size: 'large',
+          text: 'continue_with',
+          shape: 'rectangular',
+          width: '100%',
+          logo_alignment: 'left',
+        });
+      } catch (err) {
+        console.warn('Google Identity button initialization:', err);
+      }
+    };
+
+    if ((window as any).google?.accounts?.id) {
+      renderGoogleBtn();
+    } else {
+      const interval = setInterval(() => {
+        if ((window as any).google?.accounts?.id) {
+          clearInterval(interval);
+          renderGoogleBtn();
+        }
+      }, 300);
+      return () => {
+        unmounted = true;
+        clearInterval(interval);
+      };
+    }
+
+    return () => {
+      unmounted = true;
+    };
+  }, [googleClientId, loginWithGoogle, navigate]);
+
+
   const handleGoogleLogin = async (email: string) => {
     if (!email) {
       setError('Please enter or select your Google account email.');
@@ -216,11 +285,31 @@ export default function LoginPage() {
           boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
         }}>
 
+          {/* Official Google Sign-In Button */}
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 12, fontWeight: 500, color: '#a1a1aa', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <GoogleIcon />
+              <span>Sign in with your Google account</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%', minHeight: 44 }}>
+              <div ref={googleBtnRef} style={{ width: '100%' }} />
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '16px 0 14px' }}>
+            <div style={{ flex: 1, height: 1, background: 'rgba(255, 255, 255, 0.08)' }} />
+            <span style={{ fontSize: 11, fontWeight: 500, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Or enter club email directly
+            </span>
+            <div style={{ flex: 1, height: 1, background: 'rgba(255, 255, 255, 0.08)' }} />
+          </div>
+
           {/* Quick Email Entry */}
           <div style={{ marginBottom: 16 }}>
             <label style={{ display: 'block', fontSize: 12, fontWeight: 500, color: '#a1a1aa', marginBottom: 8 }}>
               Google Account Email
             </label>
+
             <div style={{ display: 'flex', gap: 8 }}>
               <div style={{ position: 'relative', flex: 1 }}>
                 <Mail size={15} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#71717a', pointerEvents: 'none' }} />

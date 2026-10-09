@@ -19,9 +19,14 @@ pnpm-debug.log*
 # Environment files — keep local secrets ignored, allow production/dev URL configs
 .env
 .env.local
+server/.env
+server/.env.local
+client/.env
+client/.env.local
 !.env.example
 !.env.production
 !.env.development
+
 
 # OS / Editor files
 .DS_Store
